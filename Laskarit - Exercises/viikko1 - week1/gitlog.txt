@@ -1,4 +1,5 @@
 $ git log --stat | cat
+
 commit 53d7a85e98f8f416eaebc7c71dba85fb3af7cc78
 Author: Jessica Sarlin <jessica.sarlin@gmail.com>
 Date:   Mon Mar 15 15:37:54 2021 +0200
