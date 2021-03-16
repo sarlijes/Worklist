@@ -18,7 +18,7 @@ public class Main extends Application {
         Label teksti = new Label("Työlista");
 
         FlowPane buttonGroup = new FlowPane();
-        
+
         buttonGroup.getChildren().add(teksti);
 
 
@@ -28,9 +28,9 @@ public class Main extends Application {
             System.out.println(name);
             Button b = new Button(name);
             buttonGroup.getChildren().add(b);
-            
+
         }
-        
+
         connection.close();
         Scene nakyma = new Scene(buttonGroup);
         ikkuna.setScene(nakyma);
