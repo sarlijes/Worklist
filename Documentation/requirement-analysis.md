@@ -71,7 +71,12 @@ details VARCHAR(2048)
 );
 `
 `
-insert into job (name) values ('eka');
-insert into job (name) values ('toka');
-insert into job (name) values ('kolmas');
+insert into job (name, created, duedate, quantity, material, workloadestimate, details) values 
+('Injector plates', now(), '2021-04-04', 5.0, 'Stainless steel', 4.0, 'details');
+insert into job (name, created, duedate, quantity, material, workloadestimate, details) values 
+('Rods', now(), '2021-03-01', 45.0, 'AlNiCo', 2.0, 'M2');
+insert into job (name, created, duedate, quantity, material, workloadestimate, details) values 
+('Plates', now(), '2021-04-04', 100.0, '0.3 mm aluminium', 8.0, 'details');
+insert into job (name, created, duedate, quantity, material, workloadestimate, details) values 
+('Thermalization plates', now(), '2021-04-28', 2.0, 'CU-OF', 1.0, '');
 `
