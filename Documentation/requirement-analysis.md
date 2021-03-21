@@ -1,10 +1,10 @@
-#Requirement analysis
+# Requirement analysis
 
-##Purpose
+## Purpose
 
 The purpose of the app is to provide a simple tool for a machinery workshop to keep track of and manage their work list. The workshop employs 5 people, so it's important to keep everyone up to date.
 
-##Roles
+## Roles
 
 There is only one user group -  all users have equal user rights.
 
@@ -27,7 +27,7 @@ As an user...
   * Save user as "created by" on a job
   * Save user as "deleted by" on a job
   * Save user as "marked as finished by" on a job
-  
+* Allow using the software from multiple computers in the local network
 * Allow undo on marking a job as done
 * Allow undo on marking a job as deleted
 * Hide old finished jobs after a certain period
@@ -55,28 +55,3 @@ As an user...
 |Work load estimate   |double   |
 |Actual work load   |double   |
 |Details   |string   |
-
-`
-CREATE TABLE Job (id INT PRIMARY KEY AUTO_INCREMENT,
-created TIMESTAMP,
-finished TIMESTAMP,
-deleted TIMESTAMP,
-duedate TIMESTAMP,
-name VARCHAR(1024),
-quantity INTEGER,
-material VARCHAR(1024),
-workloadestimate FLOAT,
-workloadactual FLOAT,
-details VARCHAR(2048)
-);
-`
-`
-insert into job (name, created, duedate, quantity, material, workloadestimate, details) values 
-('Injector plates', now(), '2021-04-04', 5.0, 'Stainless steel', 4.0, 'details');
-insert into job (name, created, duedate, quantity, material, workloadestimate, details) values 
-('Rods', now(), '2021-03-01', 45.0, 'AlNiCo', 2.0, 'M2');
-insert into job (name, created, duedate, quantity, material, workloadestimate, details) values 
-('Plates', now(), '2021-04-04', 100.0, '0.3 mm aluminium', 8.0, 'details');
-insert into job (name, created, duedate, quantity, material, workloadestimate, details) values 
-('Thermalization plates', now(), '2021-04-28', 2.0, 'CU-OF', 1.0, '');
-`

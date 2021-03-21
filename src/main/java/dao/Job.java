@@ -15,9 +15,13 @@ public class Job {
     private String material;
     private Double workloadEstimate;
     private Double workloadActual;
+    private String details;
+    private String customer;
+
 
     public Job(int id, String name, LocalDateTime created, Date duedate, Date finished, Date deleted,
-               int quantity, String material, Double workloadEstimate, Double workloadActual) {
+               int quantity, String material, Double workloadEstimate, Double workloadActual,
+               String details, String customer) {
         this.id = id;
         this.name = name;
         this.created = created;
@@ -28,6 +32,8 @@ public class Job {
         this.material = material;
         this.workloadEstimate = workloadEstimate;
         this.workloadActual = workloadActual;
+        this.details = details;
+        this.customer = customer;
     }
 
     public String getName() {
@@ -109,6 +115,23 @@ public class Job {
     public void setWorkloadActual(Double workloadActual) {
         this.workloadActual = workloadActual;
     }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
 }
 
 

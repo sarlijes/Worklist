@@ -50,8 +50,11 @@ public class JobDao implements Dao<Job, Integer>  {
             String material = resultSet.getString("material");
             Double workloadEstimate =  resultSet.getDouble("workloadEstimate");
             Double workloadActual =  resultSet.getDouble("workloadActual");
+            String details = resultSet.getString("details");
+            String customer = resultSet.getString("customer");
 
-            Job j = new Job(id, name, created, dueDate, finished, deleted, quantity, material, workloadEstimate, workloadActual);
+            Job j = new Job(id, name, created, dueDate, finished, deleted, quantity, material,
+                    workloadEstimate, workloadActual, details, customer);
             jobs.add(j);
         }
         connection.close();
