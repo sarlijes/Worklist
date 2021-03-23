@@ -1,5 +1,6 @@
 package dao;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -8,9 +9,9 @@ public class Job {
     private int id;
     private String name;
     private LocalDateTime created;
-    private Date dueDate;
-    private Date finished;
-    private Date deleted;
+    private LocalDate dueDate;
+    private LocalDate finished;
+    private LocalDate deleted;
     private int quantity;
     private String material;
     private Double workloadEstimate;
@@ -19,7 +20,7 @@ public class Job {
     private String customer;
 
 
-    public Job(int id, String name, LocalDateTime created, Date duedate, Date finished, Date deleted,
+    public Job(int id, String name, LocalDateTime created, LocalDate duedate, LocalDate finished, LocalDate deleted,
                int quantity, String material, Double workloadEstimate, Double workloadActual,
                String details, String customer) {
         this.id = id;
@@ -60,27 +61,27 @@ public class Job {
         this.created = created;
     }
 
-    public Date getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
-    public Date getFinished() {
+    public LocalDate getFinished() {
         return finished;
     }
 
-    public void setFinished(Date finished) {
+    public void setFinished(LocalDate finished) {
         this.finished = finished;
     }
 
-    public Date getDeleted() {
+    public LocalDate getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Date deleted) {
+    public void setDeleted(LocalDate deleted) {
         this.deleted = deleted;
     }
 

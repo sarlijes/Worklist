@@ -31,6 +31,33 @@ public class JobDao implements Dao<Job, Integer>  {
         // TODO
     }
 
+    private Job parseJobFromResult(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        String name = resultSet.getString("name");
+
+        LocalDateTime created = resultSet.getTimestamp("created") != null ?
+                resultSet.getTimestamp("created").toLocalDateTime() : null;
+        LocalDate dueDate = resultSet.getTimestamp("dueDate") != null ?
+                resultSet.getTimestamp("dueDate").toLocalDateTime().toLocalDate() : null;
+        LocalDate finished = resultSet.getTimestamp("finished") != null ?
+                resultSet.getTimestamp("finished").toLocalDateTime().toLocalDate() : null;
+        LocalDate deleted = resultSet.getTimestamp("deleted") != null ?
+                resultSet.getTimestamp("deleted").toLocalDateTime().toLocalDate() : null;
+
+        int quantity = resultSet.getInt("quantity");
+        String material = resultSet.getString("material");
+        Double workloadEstimate =  resultSet.getDouble("workloadEstimate");
+        Double workloadActual =  resultSet.getDouble("workloadActual");
+        String details = resultSet.getString("details");
+        String customer = resultSet.getString("customer");
+
+        Job j = new Job(id, name, created, dueDate, finished, deleted, quantity, material,
+                workloadEstimate, workloadActual, details, customer);
+
+        return j;
+
+    }
+
     @Override
     public List<Job> list() throws SQLException {
 
@@ -40,23 +67,9 @@ public class JobDao implements Dao<Job, Integer>  {
         List<Job> jobs = new ArrayList<>();
 
         while (resultSet.next()) {
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            LocalDateTime created = LocalDateTime.now();;
-            Date dueDate = resultSet.getDate("dueDate");
-            Date finished = resultSet.getDate("finished");
-            Date deleted = resultSet.getDate("deleted");
-            int quantity = resultSet.getInt("quantity");
-            String material = resultSet.getString("material");
-            Double workloadEstimate =  resultSet.getDouble("workloadEstimate");
-            Double workloadActual =  resultSet.getDouble("workloadActual");
-            String details = resultSet.getString("details");
-            String customer = resultSet.getString("customer");
-
-            Job j = new Job(id, name, created, dueDate, finished, deleted, quantity, material,
-                    workloadEstimate, workloadActual, details, customer);
-            jobs.add(j);
+            jobs.add(parseJobFromResult(resultSet));
         }
+
         connection.close();
         return jobs;
     }
