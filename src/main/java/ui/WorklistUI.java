@@ -36,6 +36,13 @@ public class WorklistUI extends Application {
         final Label label = new Label("Worklist");
         label.setFont(new Font(20));
 
+        Button addNewJobButton = new Button("Add new job");
+
+        addNewJobButton.setOnAction((ActionEvent event) -> {
+            CreateNewJobDialog dialog = new CreateNewJobDialog();
+            dialog.start(new Stage());
+        });
+
         JobDao jobDao = new JobDao();
         data = FXCollections.observableArrayList(jobDao.list());
         table.setEditable(true);
@@ -84,7 +91,7 @@ public class WorklistUI extends Application {
 
         vbox.setSpacing(20);
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label, table);
+        vbox.getChildren().addAll(label,addNewJobButton, table);
 
         ((Group) scene.getRoot()).getChildren().addAll(vbox);
 
