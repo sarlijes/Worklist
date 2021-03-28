@@ -2,7 +2,6 @@ package dao;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Job {
 
@@ -19,14 +18,26 @@ public class Job {
     private String details;
     private String customer;
 
+    public Job(String name, LocalDate dueDate, int quantity, String material,
+               Double workloadEstimate, String details, String customer) {
+        this.name = name;
+        this.created = LocalDateTime.now();
+        this.dueDate = dueDate;
+        this.quantity = quantity;
+        this.material = material;
+        this.workloadEstimate = workloadEstimate;
+        this.details = details;
+        this.customer = customer;
+    }
 
-    public Job(int id, String name, LocalDateTime created, LocalDate duedate, LocalDate finished, LocalDate deleted,
+
+    public Job(int id, String name, LocalDateTime created, LocalDate dueDate, LocalDate finished, LocalDate deleted,
                int quantity, String material, Double workloadEstimate, Double workloadActual,
                String details, String customer) {
         this.id = id;
         this.name = name;
         this.created = created;
-        this.dueDate = duedate;
+        this.dueDate = dueDate;
         this.finished = finished;
         this.deleted = deleted;
         this.quantity = quantity;

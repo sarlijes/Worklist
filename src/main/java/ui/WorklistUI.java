@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,10 +22,18 @@ import javafx.util.Callback;
 
 public class WorklistUI extends Application {
 
+    private JobDao jobDao;
+
     private TableView<Job> table = new TableView<>();
     private ObservableList<Job> data = FXCollections.observableArrayList(new ArrayList<>());
     Scene scene = new Scene(new Group());
     final VBox vbox = new VBox();
+
+
+    public void refreshTableData() throws SQLException {
+        data.clear();
+        data = FXCollections.observableArrayList(jobDao.list());
+    }
 
     @Override
     public void start(Stage stage) throws SQLException {
@@ -33,19 +42,29 @@ public class WorklistUI extends Application {
         stage.setHeight(600);
         stage.setWidth(1100);
 
-        final Label label = new Label("Worklist");
-        label.setFont(new Font(20));
+        jobDao = new JobDao();
+        refreshTableData();
+        
+        table.setEditable(true);
 
-        Button addNewJobButton = new Button("Add new job");
+        final Label label = new Label("Worklist");
+        label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+
+        Button addNewJobButton = new Button("Insert new job");
 
         addNewJobButton.setOnAction((ActionEvent event) -> {
-            CreateNewJobDialog dialog = new CreateNewJobDialog();
+            CreateNewJobDialog dialog = new CreateNewJobDialog(jobDao);
+
             dialog.start(new Stage());
+
+            try {
+                refreshTableData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         });
 
-        JobDao jobDao = new JobDao();
-        data = FXCollections.observableArrayList(jobDao.list());
-        table.setEditable(true);
 
         TableColumn idColumn = new TableColumn("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("id"));

@@ -10,8 +10,24 @@ import java.util.List;
 public class JobDao implements Dao<Job, Integer>  {
 
     @Override
-    public void create(Job object) throws SQLException {
-        // TODO
+    public void create(Job job) throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:h2:./db", "sa", "");
+
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Job"
+                + " (name, created, duedate, quantity, material, workloadestimate, details, customer)"
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        stmt.setString(1, job.getName());
+        stmt.setTimestamp(2, Timestamp.valueOf(job.getCreated()));
+        stmt.setTimestamp(3, Timestamp.valueOf(job.getDueDate().atTime(23,59)));
+        stmt.setInt(4, job.getQuantity());
+        stmt.setString(5, job.getMaterial());
+        stmt.setDouble(6, job.getWorkloadEstimate());
+        stmt.setString(7, job.getDetails());
+        stmt.setString(8, job.getCustomer());
+
+        stmt.executeUpdate();
+        stmt.close();
+        connection.close();
     }
 
     @Override
