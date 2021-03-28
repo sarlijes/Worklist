@@ -31,8 +31,8 @@ public class WorklistUI extends Application {
 
 
     public void refreshTableData() throws SQLException {
-        data.clear();
         data = FXCollections.observableArrayList(jobDao.list());
+        table.refresh();
     }
 
     @Override
@@ -55,13 +55,22 @@ public class WorklistUI extends Application {
         addNewJobButton.setOnAction((ActionEvent event) -> {
             CreateNewJobDialog dialog = new CreateNewJobDialog(jobDao);
 
-            dialog.start(new Stage());
+            Stage s = new Stage();
 
-            try {
-                refreshTableData();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            s.setOnHiding( ev -> {
+                try {
+
+                    System.out.println("setOnHiding");
+
+                    // TODO this doesn't work
+
+                    refreshTableData();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            dialog.start(s);
 
         });
 

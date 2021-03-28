@@ -108,6 +108,9 @@ public class CreateNewJobDialog extends Application {
         grid.add(saveButton, 0, 8);
 
         saveButton.setOnAction((ActionEvent e) -> {
+
+            // TODO add validation
+
             Job job = new Job(nameTextField.getText(), dueDatePicker.getValue(), quantitySpinner.getValue(),
                     materialTextField.getText(), workloadEstimateSpinner.getValue(), detailsTextField.getText(),
                     customerTextField.getText());
