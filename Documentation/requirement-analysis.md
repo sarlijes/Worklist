@@ -6,11 +6,11 @@ The purpose of the app is to provide a simple tool for a machinery workshop to k
 
 ## Roles
 
-There is only one user group -  all users have equal user rights.
+There is only one user group, so all users have equal user rights.
 
 ## Basic features
 
-As an user...
+As a user...
  
 * I can view the list of jobs
 * I can add a new job to the list
@@ -39,7 +39,7 @@ As an user...
 * More states for payments of the jobs ("invoiced", "partially paid", "paid")
 
 
-## Preliminary database plan for Job class
+## Preliminary plan for Job class
 
 |Attribute |Data type   |
 |---|---|
