@@ -1,0 +1,35 @@
+03-23 19:29:25 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "JOB" not found; SQL statement:
+SELECT * FROM Job [42102-166]
+2021-03-23 19:59:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "TRUNCATE JOB[*] "; expected "TABLE"; SQL statement:
+truncate job [42001-197]
+2021-03-23 19:59:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) values 
+('Injector plates', '2021-02-23 00:00:00.0, '2021-04-04T00:00:00.0', 5.0, 'Stainless steel', 4.0, 'details', 'Customer X[*]');"; SQL statement:
+insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) values 
+('Injector plates', '2021-02-23 00:00:00.0, '2021-04-04T00:00:00.0', 5.0, 'Stainless steel', 4.0, 'details', 'Customer X'); [42000-197]
+03-23 20:24:36 database: close
+org.h2.message.DbException: IO Exception: "java.io.IOException: The process cannot access the file because another process has locked a portion of the file"; "C:/Koodi/Git/Worklist/db.h2.db" [90031-166]
+	at org.h2.message.DbException.get(DbException.java:158)
+	at org.h2.message.DbException.convertIOException(DbException.java:315)
+	at org.h2.store.FileStore.write(FileStore.java:330)
+	at org.h2.store.PageStore.writePage(PageStore.java:1323)
+	at org.h2.store.PageStreamData.write(PageStreamData.java:105)
+	at org.h2.store.PageOutputStream.storePage(PageOutputStream.java:146)
+	at org.h2.store.PageOutputStream.flush(PageOutputStream.java:154)
+	at org.h2.store.PageLog.checkpoint(PageLog.java:677)
+	at org.h2.store.PageStore.checkpoint(PageStore.java:425)
+	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1195)
+	at org.h2.engine.Database.close(Database.java:1148)
+	at org.h2.engine.DatabaseCloser.run(DatabaseCloser.java:80)
+Caused by: org.h2.jdbc.JdbcSQLException: IO Exception: "java.io.IOException: The process cannot access the file because another process has locked a portion of the file"; "C:/Koodi/Git/Worklist/db.h2.db" [90031-166]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+	... 12 more
+Caused by: java.io.IOException: The process cannot access the file because another process has locked a portion of the file
+	at java.base/java.io.RandomAccessFile.writeBytes(Native Method)
+	at java.base/java.io.RandomAccessFile.write(RandomAccessFile.java:559)
+	at org.h2.store.fs.FileDisk.write(FilePathDisk.java:436)
+	at org.h2.store.fs.FileUtils.writeFully(FileUtils.java:372)
+	at org.h2.store.FileStore.write(FileStore.java:327)
+	... 9 more
