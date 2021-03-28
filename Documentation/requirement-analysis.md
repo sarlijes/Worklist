@@ -31,7 +31,7 @@ As a user...
 * Allow undo on marking a job as done
 * Allow undo on marking a job as deleted
 * Hide old finished jobs after a certain period
-* Separate lsit views for pending and completed jobs
+* Separate list views for pending and completed jobs
 * Move materials to database (instead of saving them as strings)
 * Language selection
 * Reports (for example all jobs done during one week)

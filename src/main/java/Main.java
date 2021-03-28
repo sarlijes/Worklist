@@ -1,5 +1,3 @@
-//package todoapp;
-
 import ui.WorklistUI;
 
 public class Main {
