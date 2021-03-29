@@ -4,7 +4,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class JobDao implements Dao<Job, Integer>  {
@@ -31,14 +30,45 @@ public class JobDao implements Dao<Job, Integer>  {
     }
 
     @Override
-    public Job read(Integer key) throws SQLException {
-        // TODO
-        return null;
+    public Job read(Integer id) throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:h2:./db", "sa", "");
+
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Job WHERE id = ?");
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+
+        if (!rs.next()) return null;
+
+        Job j = parseJobFromResult(rs);
+
+        stmt.close();
+        rs.close();
+        connection.close();
+
+        return j;
     }
 
     @Override
-    public Job update(Job object) throws SQLException {
-        // TODO
+    public Job update(Job job, Integer id) throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:h2:./db", "sa", "");
+
+        PreparedStatement stmt = connection.prepareStatement("UPDATE Job set"
+                + " name = ?, duedate = ?, quantity = ?, material = ?, workloadestimate = ?, details = ?, customer = ?"
+                + " where id = ?;");
+        stmt.setString(1, job.getName());
+        stmt.setTimestamp(2, Timestamp.valueOf(job.getDueDate().atTime(23,59)));
+        stmt.setInt(3, job.getQuantity());
+        stmt.setString(4, job.getMaterial());
+        stmt.setDouble(5, job.getWorkloadEstimate());
+        stmt.setString(6, job.getDetails());
+        stmt.setString(7, job.getCustomer());
+
+        stmt.setInt(8, id);
+
+        stmt.executeUpdate();
+        stmt.close();
+        connection.close();
+
         return null;
     }
 

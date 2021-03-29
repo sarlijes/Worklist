@@ -13,36 +13,46 @@ import javafx.scene.text.Font;
 
 import java.sql.SQLException;
 
-public class CreateNewJobDialog extends JobDialog {
+public class EditJobDialog extends JobDialog {
 
     private JobDao jobDao;
+    private Job job;
 
-    public CreateNewJobDialog(JobDao jobDao, Stage stage, GridPane grid) {
+    public EditJobDialog(JobDao jobDao, Stage stage, GridPane grid, Job job) {
         super(stage, grid);
         this.jobDao = jobDao;
+        this.job = job;
     }
 
     public void start(Stage stage) {
 
-        stage.setTitle("Insert new job");
+        stage.setTitle("Edit job");
 
-        Text inputLabel = new Text("Insert new job");
+        Text inputLabel = new Text("Edit job " + job.getId() + " (" + job.getName() + ")");
         inputLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(inputLabel, 0, 0);
 
-        Button saveButton = new Button("Save");
+        customerTextField.setText(job.getCustomer());
+        nameTextField.setText(job.getName());
+        materialTextField.setText(job.getMaterial());
+        detailsTextField.setText(job.getDetails());
+        dueDatePicker.setValue(job.getDueDate());
+        quantitySpinner.getValueFactory().setValue(job.getQuantity());
+        workloadEstimateSpinner.getValueFactory().setValue(job.getWorkloadEstimate());
+
+        Button saveButton = new Button("Save changes");
         grid.add(saveButton, 0, 8);
 
         saveButton.setOnAction((ActionEvent e) -> {
 
             // TODO add validation
 
-            Job job = new Job(nameTextField.getText(), dueDatePicker.getValue(), quantitySpinner.getValue(),
+            Job newJob = new Job(nameTextField.getText(), dueDatePicker.getValue(), quantitySpinner.getValue(),
                     materialTextField.getText(), workloadEstimateSpinner.getValue(), detailsTextField.getText(),
                     customerTextField.getText());
 
             try {
-                jobDao.create(job);
+                jobDao.update(newJob, job.getId());
                 stage.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();

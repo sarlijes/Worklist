@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
@@ -52,9 +53,8 @@ public class WorklistUI extends Application {
         Button addNewJobButton = new Button("Insert new job");
 
         addNewJobButton.setOnAction((ActionEvent event) -> {
-            CreateNewJobDialog dialog = new CreateNewJobDialog(jobDao);
-
             Stage s = new Stage();
+            CreateNewJobDialog dialog = new CreateNewJobDialog(jobDao, s, new GridPane());
 
             s.setOnHiding(ev -> {
                 try {
@@ -64,7 +64,6 @@ public class WorklistUI extends Application {
                 }
             });
             dialog.start(s);
-
         });
 
         TableColumn idColumn = new TableColumn("ID");
@@ -96,12 +95,12 @@ public class WorklistUI extends Application {
         dueDateColumn.setMinWidth(100);
 
         TableColumn workLoadEstimateColumn = new TableColumn("Work load estimate");
-        dueDateColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("workLoadEstimate"));
+        dueDateColumn.setCellValueFactory(new PropertyValueFactory<Job, Double>("workLoadEstimate"));
         dueDateColumn.setMinWidth(100);
 
         TableColumn detailsColumn = new TableColumn("Details");
         dueDateColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("details"));
-        dueDateColumn.setMinWidth(200);
+        dueDateColumn.setMinWidth(100);
 
         table.setItems(data);
         table.getColumns().addAll(idColumn, createdColumn, customerColumn, nameColumn, materialColumn,
@@ -120,17 +119,29 @@ public class WorklistUI extends Application {
     }
 
     private void addButtonToTable() {
-        TableColumn<Job, Void> markAsDoneButton = new TableColumn("Mark as done");
+        TableColumn<Job, Void> markAsDoneButton = new TableColumn("");
 
         Callback<TableColumn<Job, Void>, TableCell<Job, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Job, Void> call(final TableColumn<Job, Void> param) {
                 final TableCell<Job, Void> cell = new TableCell<>() {
-                    private final Button button = new Button("Action");
+                    private final Button button = new Button("Edit");
                     {
                         button.setOnAction((ActionEvent event) -> {
-                            Job data = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + data.getName());
+                            Job chosenJob = getTableView().getItems().get(getIndex());
+
+                            Stage s = new Stage();
+                            EditJobDialog editJobDialog = new EditJobDialog(jobDao, s, new GridPane(), chosenJob);
+
+                            s.setOnHiding(ev -> {
+                                try {
+                                    refreshTableData();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                            editJobDialog.start(s);
+
                         });
                     }
 
@@ -146,7 +157,7 @@ public class WorklistUI extends Application {
         };
 
         markAsDoneButton.setCellFactory(cellFactory);
-        table.getColumns().add(markAsDoneButton);
+        //table.getColumns().add(markAsDoneButton);
 
     }
 
