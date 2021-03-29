@@ -36,8 +36,6 @@ customer VARCHAR(1024)
 insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) values 
 ('Injector plates', '2021-02-23T00:00:00.0', '2021-04-04T00:00:00.0', 5.0, 'Stainless steel', 4.0, 'details', 'Customer X');
 
-
-
 insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) values 
 ('Rods', now(), '2021-08-08T00:00:00.0', 45.0, 'AlNiCo', 2.0, 'M2', 'Customer Y');
 

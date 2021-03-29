@@ -2,6 +2,7 @@ package dao;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Job {
 
@@ -62,6 +63,10 @@ public class Job {
 
     public LocalDateTime getCreated() {
         return created;
+    }
+
+    public String getCreatedString() {
+        return created.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
     }
 
     public void setCreated(LocalDateTime created) {

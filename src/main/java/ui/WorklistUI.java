@@ -71,7 +71,7 @@ public class WorklistUI extends Application {
         idColumn.setMinWidth(30);
 
         TableColumn createdColumn = new TableColumn("Created");
-        createdColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("created"));
+        createdColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("createdString"));
         createdColumn.setMinWidth(100);
 
         TableColumn customerColumn = new TableColumn("Customer");
@@ -95,12 +95,12 @@ public class WorklistUI extends Application {
         dueDateColumn.setMinWidth(100);
 
         TableColumn workLoadEstimateColumn = new TableColumn("Work load estimate");
-        dueDateColumn.setCellValueFactory(new PropertyValueFactory<Job, Double>("workLoadEstimate"));
-        dueDateColumn.setMinWidth(100);
+        workLoadEstimateColumn.setCellValueFactory(new PropertyValueFactory<Job, Double>("workloadEstimate"));
+        workLoadEstimateColumn.setMinWidth(100);
 
         TableColumn detailsColumn = new TableColumn("Details");
-        dueDateColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("details"));
-        dueDateColumn.setMinWidth(100);
+        detailsColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("details"));
+        detailsColumn.setMinWidth(100);
 
         table.setItems(data);
         table.getColumns().addAll(idColumn, createdColumn, customerColumn, nameColumn, materialColumn,
@@ -119,7 +119,7 @@ public class WorklistUI extends Application {
     }
 
     private void addButtonToTable() {
-        TableColumn<Job, Void> markAsDoneButton = new TableColumn("");
+        TableColumn<Job, Void> editButton = new TableColumn("");
 
         Callback<TableColumn<Job, Void>, TableCell<Job, Void>> cellFactory = new Callback<>() {
             @Override
@@ -156,9 +156,8 @@ public class WorklistUI extends Application {
             }
         };
 
-        markAsDoneButton.setCellFactory(cellFactory);
-        //table.getColumns().add(markAsDoneButton);
-
+        editButton.setCellFactory(cellFactory);
+        table.getColumns().add(editButton);
     }
 
     public static void main(String[] args) {
