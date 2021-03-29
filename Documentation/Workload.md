@@ -11,5 +11,6 @@
 |21.3.2021   | 2  |Separate UI to its own class. Extend Job to include details and customer attributes. Extend job table view, add buttons to table for each job for marking them as done (logic to be implemented) |
 |23.3.2021   | 3  |Initial UI implementation to add new jobs. Add first test.  |
 |28.3.2021   | 4  |Implement creating new Jobs, update documentation  |
+|29.3.2021   | 1  |Attend workshop (paja) to fix issue with re-rendering the view after adding new job  |
 |   |   |   |
 |total   |?   |   |

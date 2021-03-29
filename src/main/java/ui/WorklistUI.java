@@ -29,10 +29,9 @@ public class WorklistUI extends Application {
     Scene scene = new Scene(new Group());
     final VBox vbox = new VBox();
 
-
     public void refreshTableData() throws SQLException {
         data = FXCollections.observableArrayList(jobDao.list());
-        table.refresh();
+        table.setItems(data);
     }
 
     @Override
@@ -57,23 +56,16 @@ public class WorklistUI extends Application {
 
             Stage s = new Stage();
 
-            s.setOnHiding( ev -> {
+            s.setOnHiding(ev -> {
                 try {
-
-                    System.out.println("setOnHiding");
-
-                    // TODO this doesn't work
-
                     refreshTableData();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             });
-
             dialog.start(s);
 
         });
-
 
         TableColumn idColumn = new TableColumn("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("id"));
