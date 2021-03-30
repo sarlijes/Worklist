@@ -14,5 +14,6 @@
 |29.3.2021   | 1  |Attend workshop (paja) to fix issue with re-rendering the view after adding new job  |
 |29.3.2021   | 2  |Refactored UI Dialog to use inheritance. Add dialog to edit Jobs. Extend JobDao to include implementations on reading and updating jobs  |
 |29.3.2021   | 1  |Bug fixes + format timestamps in a better way, demonstrate app to customer |
+|30.3.2021   | 2  | Implement JobDao.delete to actually delete the job instead or marking it as deleted. Show the completed jobs with a different color in the UI |
 |   |   |   |
 |total   |?   |   |
