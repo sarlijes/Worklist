@@ -72,9 +72,34 @@ public class JobDao implements Dao<Job, Integer>  {
         return null;
     }
 
+    public Job markAsDone(Integer id, Double workloadActual) throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:h2:./db", "sa", "");
+
+        PreparedStatement stmt = connection.prepareStatement("UPDATE Job set"
+                + " workloadactual = ?, finished = ?"
+                + " where id = ?;");
+        stmt.setDouble(1, workloadActual);
+        stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+        stmt.setInt(3, id);
+
+        stmt.executeUpdate();
+        stmt.close();
+        connection.close();
+
+        return null;
+    }
+
     @Override
-    public void delete(Integer key) throws SQLException {
-        // TODO
+    public void delete(Integer id) throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:h2:./db", "sa", "");
+
+        PreparedStatement stmt = connection.prepareStatement("UPDATE Job set deleted = ? where id = ?;");
+        stmt.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+        stmt.setInt(2, id);
+
+        stmt.executeUpdate();
+        stmt.close();
+        connection.close();
     }
 
     private Job parseJobFromResult(ResultSet resultSet) throws SQLException {

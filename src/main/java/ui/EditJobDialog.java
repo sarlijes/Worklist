@@ -26,9 +26,9 @@ public class EditJobDialog extends JobDialog {
 
     public void start(Stage stage) {
 
-        stage.setTitle("Edit job");
+        stage.setTitle("Edit job " + job.getId() + " (" + job.getName() + ")");
 
-        Text inputLabel = new Text("Edit job " + job.getId() + " (" + job.getName() + ")");
+        Text inputLabel = new Text("Edit job");
         inputLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(inputLabel, 0, 0);
 
@@ -53,6 +53,44 @@ public class EditJobDialog extends JobDialog {
 
             try {
                 jobDao.update(newJob, job.getId());
+                stage.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        Text markAsDoneLabel = new Text("Mark job as done");
+        markAsDoneLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(markAsDoneLabel, 0, 9);
+
+        Label workloadActualLabel = new Label("Actual work load");
+        Spinner<Double> workloadActualSpinner = new Spinner<>(job.getWorkloadEstimate(), 1000.0, 0.5, 0.5);
+
+        grid.add(workloadActualLabel, 0, 10);
+        grid.add(workloadActualSpinner, 1, 10);
+
+        Button markAsDoneButton = new Button("Save changes");
+        grid.add(markAsDoneButton, 0, 11);
+
+        markAsDoneButton.setOnAction((ActionEvent e) -> {
+            try {
+                jobDao.markAsDone(job.getId(), workloadActualSpinner.getValue());
+                stage.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        Text deleteLabel = new Text("Delete job");
+        deleteLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(deleteLabel, 0, 12);
+
+        Button deleteButton = new Button("Save changes");
+        grid.add(deleteButton, 0, 13);
+
+        deleteButton.setOnAction((ActionEvent e) -> {
+            try {
+                jobDao.delete(job.getId());
                 stage.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();
