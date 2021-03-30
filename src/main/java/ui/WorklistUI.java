@@ -44,8 +44,21 @@ public class WorklistUI extends Application {
 
         jobDao = new JobDao();
         refreshTableData();
-        
+
         table.setEditable(true);
+
+        table.setRowFactory(tv -> new TableRow<Job>() {
+            @Override
+            protected void updateItem(Job job, boolean empty) {
+                super.updateItem(job, empty);
+                if (job == null)
+                    return;
+                else if (job.getFinished() != null)
+                    setStyle("-fx-background-color: rgba(179, 228, 96, .4);");
+                else
+                    setStyle("");
+            }
+        });
 
         final Label label = new Label("Worklist");
         label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -106,11 +119,17 @@ public class WorklistUI extends Application {
         table.getColumns().addAll(idColumn, createdColumn, customerColumn, nameColumn, materialColumn,
                 quantityColumn, dueDateColumn, workLoadEstimateColumn, detailsColumn);
 
+        TableColumn workLoadActualColumn = new TableColumn("Actual work load");
+        workLoadActualColumn.setCellValueFactory(new PropertyValueFactory<Job, Double>("workloadActual"));
+        workLoadActualColumn.setMinWidth(100);
+
         addButtonToTable();
+
+        table.getColumns().add(workLoadActualColumn);
 
         vbox.setSpacing(20);
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label,addNewJobButton, table);
+        vbox.getChildren().addAll(label, addNewJobButton, table);
 
         ((Group) scene.getRoot()).getChildren().addAll(vbox);
 

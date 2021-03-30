@@ -93,9 +93,8 @@ public class JobDao implements Dao<Job, Integer>  {
     public void delete(Integer id) throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:h2:./db", "sa", "");
 
-        PreparedStatement stmt = connection.prepareStatement("UPDATE Job set deleted = ? where id = ?;");
-        stmt.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
-        stmt.setInt(2, id);
+        PreparedStatement stmt = connection.prepareStatement("DELETE from Job where id = ?;");
+        stmt.setInt(1, id);
 
         stmt.executeUpdate();
         stmt.close();
@@ -133,7 +132,7 @@ public class JobDao implements Dao<Job, Integer>  {
     public List<Job> list() throws SQLException {
 
         Connection connection = DriverManager.getConnection("jdbc:h2:./db", "sa", "");
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Job");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Job ORDER BY finished");
         ResultSet resultSet = statement.executeQuery();
         List<Job> jobs = new ArrayList<>();
 
