@@ -89,6 +89,10 @@ public class Job {
         this.finished = finished;
     }
 
+    public boolean isFinished() {
+        return finished != null;
+    }
+
     public LocalDate getDeleted() {
         return deleted;
     }

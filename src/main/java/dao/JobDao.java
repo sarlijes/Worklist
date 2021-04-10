@@ -79,7 +79,7 @@ public class JobDao implements Dao<Job, Integer> {
         PreparedStatement stmt = connection.prepareStatement("UPDATE Job set"
                 + " workloadactual = ?, finished = ?"
                 + " where id = ?;");
-        stmt.setDouble(1, workloadActual);
+        stmt.setDouble(1, workloadActual != null ? workloadActual : null);
         stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
         stmt.setInt(3, id);
 
@@ -89,6 +89,21 @@ public class JobDao implements Dao<Job, Integer> {
 
         return null;
     }
+
+    public Job markAsNotDone(Integer id) throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:h2:./db", "sa", "");
+
+        PreparedStatement stmt = connection.prepareStatement("UPDATE Job set finished = null, workloadactual = null"
+                + " where id = ?;");
+        stmt.setInt(1, id);
+
+        stmt.executeUpdate();
+        stmt.close();
+        connection.close();
+
+        return null;
+    }
+
 
     @Override
     public void delete(Integer id) throws SQLException {

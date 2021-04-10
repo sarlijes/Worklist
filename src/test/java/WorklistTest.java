@@ -47,6 +47,7 @@ public class WorklistTest {
         assertEquals(LocalDateTime.parse("2021-02-20T06:30:00"), job.getCreated());
         assertEquals(LocalDate.parse("2021-04-04"), job.getDueDate());
         assertEquals(null , job.getFinished());
+        assertFalse(job.isFinished());
         assertEquals(null , job.getDeleted());
         assertEquals(12 , job.getQuantity());
         assertEquals("material" , job.getMaterial());

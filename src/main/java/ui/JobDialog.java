@@ -6,7 +6,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class JobDialog {
+public abstract class JobDialog {
+
+    public void start(Stage stage) {
+        // This will be overridden
+    }
 
     Stage s;
     GridPane grid;
@@ -29,7 +33,6 @@ public class JobDialog {
     Label workloadEstimateLabel = new Label("Work load estimate");
     Spinner<Double> workloadEstimateSpinner = new Spinner<>(0.5, 1000.0, 0.5, 0.5);
 
-
     public JobDialog(Stage stage, GridPane grid) {
         this.s = stage;
         this.grid = grid;
@@ -39,7 +42,6 @@ public class JobDialog {
 
         // Customer
 
-        // grid.add(customerLabel, 0, 1);
         grid.add(customerTextField, 0, 1);
 
         // Name

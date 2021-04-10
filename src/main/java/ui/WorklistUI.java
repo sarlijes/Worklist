@@ -53,7 +53,7 @@ public class WorklistUI extends Application {
                 super.updateItem(job, empty);
                 if (job == null)
                     return;
-                else if (job.getFinished() != null)
+                else if (job.isFinished())
                     setStyle("-fx-background-color: rgba(146,146,146,0.4);");
                 else
                     setStyle("");
@@ -144,24 +144,26 @@ public class WorklistUI extends Application {
             @Override
             public TableCell<Job, Void> call(final TableColumn<Job, Void> param) {
                 final TableCell<Job, Void> cell = new TableCell<>() {
-                    private final Button button = new Button("Edit");
+                    private final Button button = new Button("Open");
 
                     {
                         button.setOnAction((ActionEvent event) -> {
                             Job chosenJob = getTableView().getItems().get(getIndex());
 
-                            Stage s = new Stage();
-                            EditJobDialog editJobDialog = new EditJobDialog(jobDao, s, new GridPane(), chosenJob);
+                            Stage stage = new Stage();
+                            JobDialog jobDialog;
 
-                            s.setOnHiding(ev -> {
+                           if (chosenJob.isFinished()) jobDialog = new ViewFinishedJobDialog(jobDao, stage, new GridPane(), chosenJob);
+                           else jobDialog = new EditJobDialog(jobDao, stage, new GridPane(), chosenJob);
+
+                            stage.setOnHiding(ev -> {
                                 try {
                                     refreshTableData();
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
                             });
-                            editJobDialog.start(s);
-
+                            jobDialog.start(stage);
                         });
                     }
 

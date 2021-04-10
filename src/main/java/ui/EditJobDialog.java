@@ -24,6 +24,7 @@ public class EditJobDialog extends JobDialog {
         this.job = job;
     }
 
+    @Override
     public void start(Stage stage) {
 
         stage.setTitle("Edit job " + job.getId() + " (" + job.getName() + ")");
@@ -74,8 +75,6 @@ public class EditJobDialog extends JobDialog {
         Button markAsDoneButton = new Button("Mark as done");
         grid.add(markAsDoneButton, 0, 11);
 
-        // TODO hide button for jobs that are already marked as done, or add logic to revert marking
-
         markAsDoneButton.setOnAction((ActionEvent e) -> {
             try {
                 jobDao.markAsDone(job.getId(), workloadActualSpinner.getValue());
@@ -91,8 +90,6 @@ public class EditJobDialog extends JobDialog {
 
         Button deleteButton = new Button("Delete job");
         grid.add(deleteButton, 0, 13);
-
-        // TODO hide button for jobs that are already deleted or add logic to revert marking
 
         deleteButton.setOnAction((ActionEvent e) -> {
             try {
