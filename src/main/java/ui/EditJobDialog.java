@@ -52,8 +52,10 @@ public class EditJobDialog extends JobDialog {
                     customerTextField.getText());
 
             try {
-                jobDao.update(newJob, job.getId());
-                stage.close();
+                if (customerTextField.validate() && nameTextField.validate() && materialTextField.validate()) {
+                    jobDao.update(newJob, job.getId());
+                    stage.close();
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -69,7 +71,7 @@ public class EditJobDialog extends JobDialog {
         grid.add(workloadActualLabel, 0, 10);
         grid.add(workloadActualSpinner, 1, 10);
 
-        Button markAsDoneButton = new Button("Save changes");
+        Button markAsDoneButton = new Button("Mark as done");
         grid.add(markAsDoneButton, 0, 11);
 
         // TODO hide button for jobs that are already marked as done, or add logic to revert marking
@@ -87,7 +89,7 @@ public class EditJobDialog extends JobDialog {
         deleteLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(deleteLabel, 0, 12);
 
-        Button deleteButton = new Button("Save changes");
+        Button deleteButton = new Button("Delete job");
         grid.add(deleteButton, 0, 13);
 
         // TODO hide button for jobs that are already deleted or add logic to revert marking

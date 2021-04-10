@@ -40,7 +40,7 @@ public class CreateNewJobDialog extends JobDialog {
                     customerTextField.getText());
 
             try {
-                if (customerTextField.validate()) {
+                if (customerTextField.validate() && nameTextField.validate() && materialTextField.validate()) {
                     jobDao.create(job);
                     stage.close();
                 }

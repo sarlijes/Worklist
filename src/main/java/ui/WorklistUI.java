@@ -3,9 +3,6 @@ package ui;
 import java.sql.*;
 import java.util.ArrayList;
 
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RequiredFieldValidator;
 import dao.Job;
 import dao.JobDao;
 import javafx.application.Application;
@@ -13,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
@@ -58,7 +54,7 @@ public class WorklistUI extends Application {
                 if (job == null)
                     return;
                 else if (job.getFinished() != null)
-                    setStyle("-fx-background-color: rgba(179, 228, 96, .4);");
+                    setStyle("-fx-background-color: rgba(146,146,146,0.4);");
                 else
                     setStyle("");
             }
@@ -149,6 +145,7 @@ public class WorklistUI extends Application {
             public TableCell<Job, Void> call(final TableColumn<Job, Void> param) {
                 final TableCell<Job, Void> cell = new TableCell<>() {
                     private final Button button = new Button("Edit");
+
                     {
                         button.setOnAction((ActionEvent event) -> {
                             Job chosenJob = getTableView().getItems().get(getIndex());

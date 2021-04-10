@@ -11,16 +11,13 @@ public class JobDialog {
     Stage s;
     GridPane grid;
 
-    JobJFXTextField customerTextField = new JobJFXTextField("Customer", "error", true);
+    JobJFXTextField customerTextField = new JobJFXTextField("Customer", "field cannot be empty", true);
 
-    Label name = new Label("Name:");
-    TextField nameTextField = new TextField();
+    JobJFXTextField nameTextField = new JobJFXTextField("Name", "field cannot be empty", true);
 
-    Label material = new Label("Material:");
-    TextField materialTextField = new TextField();
+    JobJFXTextField materialTextField = new JobJFXTextField("Material", "field cannot be empty", true);
 
-    Label details = new Label("Details:");
-    TextField detailsTextField = new TextField();
+    JobJFXTextField detailsTextField = new JobJFXTextField("Details");
 
     Label dueDateLabel = new Label("Due date:");
     Label dueDateSelection = new Label("");
@@ -42,23 +39,20 @@ public class JobDialog {
 
         // Customer
 
-       // grid.add(customerLabel, 0, 1);
+        // grid.add(customerLabel, 0, 1);
         grid.add(customerTextField, 0, 1);
 
         // Name
 
-        grid.add(name, 0, 2);
-        grid.add(nameTextField, 1, 2);
+        grid.add(nameTextField, 0, 2);
 
         // Material
 
-        grid.add(material, 0, 3);
-        grid.add(materialTextField, 1, 3);
+        grid.add(materialTextField, 0, 3);
 
         // Details
 
-        grid.add(details, 0, 4);
-        grid.add(detailsTextField, 1, 4);
+        grid.add(detailsTextField, 0, 4);
 
         // Due date
 
@@ -66,6 +60,8 @@ public class JobDialog {
         dueDatePicker.setShowWeekNumbers(true);
         dueDatePicker.setOnAction(e -> dueDateSelection.setText(String.valueOf(dueDatePicker.getValue())));
         grid.add(dueDatePicker, 1, 5);
+
+        // TODO add validator so that due date cannot be in the past
 
         // Quantity
 
@@ -79,6 +75,7 @@ public class JobDialog {
         // Work load estimate
 
         grid.add(workloadEstimateLabel, 0, 7);
+
         SpinnerValueFactory<Double> workloadEstimateValueFactory = workloadEstimateSpinner.getValueFactory();
 
         workloadEstimateSpinner.setValueFactory(workloadEstimateValueFactory);

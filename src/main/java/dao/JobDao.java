@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JobDao implements Dao<Job, Integer>  {
+public class JobDao implements Dao<Job, Integer> {
 
     @Override
     public void create(Job job) throws SQLException {
@@ -17,7 +17,8 @@ public class JobDao implements Dao<Job, Integer>  {
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         stmt.setString(1, job.getName());
         stmt.setTimestamp(2, Timestamp.valueOf(job.getCreated()));
-        stmt.setTimestamp(3, Timestamp.valueOf(job.getDueDate().atTime(23,59)));
+        stmt.setTimestamp(3, job.getDueDate() != null ?
+                Timestamp.valueOf(job.getDueDate().atTime(23, 59)) : null);
         stmt.setInt(4, job.getQuantity());
         stmt.setString(5, job.getMaterial());
         stmt.setDouble(6, job.getWorkloadEstimate());
@@ -56,7 +57,7 @@ public class JobDao implements Dao<Job, Integer>  {
                 + " name = ?, duedate = ?, quantity = ?, material = ?, workloadestimate = ?, details = ?, customer = ?"
                 + " where id = ?;");
         stmt.setString(1, job.getName());
-        stmt.setTimestamp(2, Timestamp.valueOf(job.getDueDate().atTime(23,59)));
+        stmt.setTimestamp(2, Timestamp.valueOf(job.getDueDate().atTime(23, 59)));
         stmt.setInt(3, job.getQuantity());
         stmt.setString(4, job.getMaterial());
         stmt.setDouble(5, job.getWorkloadEstimate());
@@ -116,8 +117,8 @@ public class JobDao implements Dao<Job, Integer>  {
 
         int quantity = resultSet.getInt("quantity");
         String material = resultSet.getString("material");
-        Double workloadEstimate =  resultSet.getDouble("workloadEstimate");
-        Double workloadActual =  resultSet.getDouble("workloadActual");
+        Double workloadEstimate = resultSet.getDouble("workloadEstimate");
+        Double workloadActual = resultSet.getDouble("workloadActual");
         String details = resultSet.getString("details");
         String customer = resultSet.getString("customer");
 

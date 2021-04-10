@@ -2,15 +2,18 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 import dao.Job;
+import dao.JobDao;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class WorklistTest {
 
     private Job job;
+    private JobDao dao;
 
     @Before
     public void setUp() {
@@ -27,6 +30,8 @@ public class WorklistTest {
                 null,
                 "details",
                 "customer");
+
+        dao = new JobDao();
     }
 
     @Test
@@ -50,6 +55,16 @@ public class WorklistTest {
         assertEquals("customer" , job.getCustomer() );
 
         assertThat(job.getWorkloadEstimate(), is(2.0));
+    }
+
+    @Test
+    public void canMarkJobAsDone() throws SQLException {
+        assertTrue(job.getFinished() == null);
+
+        // TODO mock database
+
+        //dao.markAsDone(job.getId(), 5.0);
+        //assertTrue(job.getFinished() != null);
     }
 
 }
