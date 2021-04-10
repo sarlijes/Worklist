@@ -3,6 +3,9 @@ package ui;
 import java.sql.*;
 import java.util.ArrayList;
 
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 import dao.Job;
 import dao.JobDao;
 import javafx.application.Application;
@@ -10,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;

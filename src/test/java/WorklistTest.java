@@ -1,5 +1,4 @@
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
 
 import dao.Job;
@@ -32,23 +31,25 @@ public class WorklistTest {
 
     @Test
     public void createdJobExists() {
-        assertTrue(job != null);
+        assert(job != null);
     }
 
     @Test
     public void createdJobHasTheAttributesItWasCreatedWith() {
-        assertThat(job.getId(), is(1));
-        assertThat(job.getName(), is("name"));
-        assertThat(job.getCreated(), is(LocalDateTime.parse("2021-02-20T06:30:00")));
-        assertThat(job.getDueDate(), is(LocalDate.parse("2021-04-04")));
-        assertThat(job.getFinished(), is(equalTo(null)));
-        assertThat(job.getDeleted(), is(equalTo(null)));
-        assertThat(job.getQuantity(), is(12));
-        assertThat(job.getMaterial(), is("material"));
+
+        assertEquals(1, job.getId());
+        assertEquals("name", job.getName());
+        assertEquals(LocalDateTime.parse("2021-02-20T06:30:00"), job.getCreated());
+        assertEquals(LocalDate.parse("2021-04-04"), job.getDueDate());
+        assertEquals(null , job.getFinished());
+        assertEquals(null , job.getDeleted());
+        assertEquals(12 , job.getQuantity());
+        assertEquals("material" , job.getMaterial());
+        assertEquals(null , job.getWorkloadActual());
+        assertEquals("details" , job.getDetails());
+        assertEquals("customer" , job.getCustomer() );
+
         assertThat(job.getWorkloadEstimate(), is(2.0));
-        assertThat(job.getWorkloadActual(), is(equalTo(null)));
-        assertThat(job.getDetails(), is("details"));
-        assertThat(job.getCustomer(), is("customer"));
     }
 
 }

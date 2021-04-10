@@ -72,6 +72,8 @@ public class EditJobDialog extends JobDialog {
         Button markAsDoneButton = new Button("Save changes");
         grid.add(markAsDoneButton, 0, 11);
 
+        // TODO hide button for jobs that are already marked as done, or add logic to revert marking
+
         markAsDoneButton.setOnAction((ActionEvent e) -> {
             try {
                 jobDao.markAsDone(job.getId(), workloadActualSpinner.getValue());
@@ -87,6 +89,8 @@ public class EditJobDialog extends JobDialog {
 
         Button deleteButton = new Button("Save changes");
         grid.add(deleteButton, 0, 13);
+
+        // TODO hide button for jobs that are already deleted or add logic to revert marking
 
         deleteButton.setOnAction((ActionEvent e) -> {
             try {

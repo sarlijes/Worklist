@@ -11,8 +11,7 @@ public class JobDialog {
     Stage s;
     GridPane grid;
 
-    Label customerLabel = new Label("Customer:");
-    TextField customerTextField = new TextField();
+    JobJFXTextField customerTextField = new JobJFXTextField("Customer", "error", true);
 
     Label name = new Label("Name:");
     TextField nameTextField = new TextField();
@@ -38,14 +37,13 @@ public class JobDialog {
         this.s = stage;
         this.grid = grid;
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
+        grid.setVgap(30);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         // Customer
 
-        grid.add(customerLabel, 0, 1);
-        grid.add(customerTextField, 1, 1);
+       // grid.add(customerLabel, 0, 1);
+        grid.add(customerTextField, 0, 1);
 
         // Name
 

@@ -35,15 +35,15 @@ public class CreateNewJobDialog extends JobDialog {
 
         saveButton.setOnAction((ActionEvent e) -> {
 
-            // TODO add validation
-
             Job job = new Job(nameTextField.getText(), dueDatePicker.getValue(), quantitySpinner.getValue(),
                     materialTextField.getText(), workloadEstimateSpinner.getValue(), detailsTextField.getText(),
                     customerTextField.getText());
 
             try {
-                jobDao.create(job);
-                stage.close();
+                if (customerTextField.validate()) {
+                    jobDao.create(job);
+                    stage.close();
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
