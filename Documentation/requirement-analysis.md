@@ -29,7 +29,6 @@ As a user...
   * Save user as "marked as finished by" on a job
 * Allow using the software from multiple computers in the local network
 * Allow undo on marking a job as done
-* Allow undo on marking a job as deleted
 * Hide old finished jobs after a certain period
 * Separate list views for pending and completed jobs
 * Move materials to database (instead of saving them as strings)

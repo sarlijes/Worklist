@@ -16,5 +16,7 @@
 |29.3.2021   | 1  |Bug fixes + format timestamps in a better way, demonstrate app to customer |
 |30.3.2021   | 2  | Implement JobDao.delete to actually delete the job instead or marking it as deleted. Show the completed jobs with a different color in the UI |
 |10.4.2021   | 4  | Refactored tests according to weekly course feedback. Investigate different validation possibilities. Refactored text field to use jfoenix text field. Added custom class to extend JFXTextField. |
+|10.4.2021   | 1  | Implemented logic & UI to unmark jobs as done |
+|10.4.2021   | 4  | Working on multi-locale support. Investigate possible icon libraries. |
 |   |   |   |
 |total   |?   |   |

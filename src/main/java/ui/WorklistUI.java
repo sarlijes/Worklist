@@ -2,6 +2,8 @@ package ui;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import dao.Job;
 import dao.JobDao;
@@ -24,6 +26,8 @@ import javafx.util.Callback;
 public class WorklistUI extends Application {
 
     private JobDao jobDao;
+    private Locale locale = new Locale("fi", "FI");
+    ResourceBundle b = ResourceBundle.getBundle("Label", locale);
 
     private TableView<Job> table = new TableView<>();
     private ObservableList<Job> data = FXCollections.observableArrayList(new ArrayList<>());
@@ -37,6 +41,19 @@ public class WorklistUI extends Application {
 
     @Override
     public void start(Stage stage) throws SQLException {
+
+
+        Stage testing = new Stage();
+
+        LocaleSelectionDialog localeSelectionDialog = new LocaleSelectionDialog();
+
+        testing.setOnHiding(ev -> {
+            System.out.println("ok");
+            notifyAll();
+        });
+
+        localeSelectionDialog.start(testing);
+
 
         stage.setTitle("Worklist App");
         stage.setHeight(600);
@@ -130,6 +147,12 @@ public class WorklistUI extends Application {
         vbox.setSpacing(20);
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(label, addNewJobButton, table);
+
+
+        System.out.println(b.getString("example"));
+
+
+
 
         ((Group) scene.getRoot()).getChildren().addAll(vbox);
 
