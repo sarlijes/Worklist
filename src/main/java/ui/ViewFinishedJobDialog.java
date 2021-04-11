@@ -6,22 +6,22 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class ViewFinishedJobDialog extends JobDialog {
 
     private JobDao jobDao;
     private Job job;
+    private ResourceBundle b;
 
-    public ViewFinishedJobDialog(JobDao jobDao, Stage stage, GridPane grid, Job job) {
-        super(stage, grid);
+    public ViewFinishedJobDialog(JobDao jobDao, Stage stage, GridPane grid, Job job, ResourceBundle b) {
+        super(stage, grid, b);
         this.jobDao = jobDao;
         this.job = job;
+        this.b = b;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ViewFinishedJobDialog extends JobDialog {
         workloadEstimateSpinner.getValueFactory().setValue(job.getWorkloadEstimate());
         workloadEstimateSpinner.setDisable(true);
 
-        Button markAsDoneButton = new Button("Mark job as not done");
+        Button markAsDoneButton = new Button(b.getString("mark_job_as_not_done"));
         grid.add(markAsDoneButton, 0, 8);
 
         markAsDoneButton.setOnAction((ActionEvent e) -> {

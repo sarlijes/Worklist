@@ -31,7 +31,7 @@ public class WorklistUI extends Application {
 
     private TableView<Job> table = new TableView<>();
     private ObservableList<Job> data = FXCollections.observableArrayList(new ArrayList<>());
-    Scene scene = new Scene(new Group());
+    Scene mainScene = new Scene(new Group());
     final VBox vbox = new VBox();
 
     public void refreshTableData() throws SQLException {
@@ -42,20 +42,28 @@ public class WorklistUI extends Application {
     @Override
     public void start(Stage stage) throws SQLException {
 
+        VBox localeSelectionBox = new VBox(10);
+        localeSelectionBox.setPadding(new Insets(50));
 
-        Stage testing = new Stage();
+        final ComboBox comboBox = new ComboBox(FXCollections.observableArrayList("fi", "en"));
+        comboBox.setPromptText(b.getString("select_language"));
 
-        LocaleSelectionDialog localeSelectionDialog = new LocaleSelectionDialog();
-
-        testing.setOnHiding(ev -> {
-            System.out.println("ok");
-            notifyAll();
+        comboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            this.locale = new Locale(newValue.toString(), "FI");
+            b = ResourceBundle.getBundle("Label", this.locale);
+            System.out.println(this.locale);
+            stage.setScene(mainScene);
+            stage.show();
         });
 
-        localeSelectionDialog.start(testing);
+        localeSelectionBox.getChildren().add(comboBox);
 
+        Scene localeSelectionScene = new Scene(localeSelectionBox, 300, 250);
 
-        stage.setTitle("Worklist App");
+        stage.setScene(localeSelectionScene);
+        stage.show();
+
+        stage.setTitle(b.getString("worklist_app"));
         stage.setHeight(600);
         stage.setWidth(1100);
 
@@ -64,7 +72,7 @@ public class WorklistUI extends Application {
 
         table.setEditable(true);
 
-        table.setRowFactory(tv -> new TableRow<Job>() {
+        table.setRowFactory(tv -> new TableRow<>() {
             @Override
             protected void updateItem(Job job, boolean empty) {
                 super.updateItem(job, empty);
@@ -77,14 +85,14 @@ public class WorklistUI extends Application {
             }
         });
 
-        final Label label = new Label("Worklist");
+        final Label label = new Label(b.getString("worklist"));
         label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
-        Button addNewJobButton = new Button("Insert new job");
+        Button addNewJobButton = new Button(b.getString("insert_new_job"));
 
         addNewJobButton.setOnAction((ActionEvent event) -> {
             Stage s = new Stage();
-            CreateNewJobDialog dialog = new CreateNewJobDialog(jobDao, s, new GridPane());
+            CreateNewJobDialog dialog = new CreateNewJobDialog(jobDao, s, new GridPane(), b);
 
             s.setOnHiding(ev -> {
                 try {
@@ -100,35 +108,35 @@ public class WorklistUI extends Application {
         idColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("id"));
         idColumn.setMinWidth(30);
 
-        TableColumn createdColumn = new TableColumn("Created");
+        TableColumn createdColumn = new TableColumn(b.getString("created"));
         createdColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("createdString"));
         createdColumn.setMinWidth(100);
 
-        TableColumn customerColumn = new TableColumn("Customer");
+        TableColumn customerColumn = new TableColumn(b.getString("customer"));
         customerColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("customer"));
         customerColumn.setMinWidth(100);
 
-        TableColumn nameColumn = new TableColumn("Name");
+        TableColumn nameColumn = new TableColumn(b.getString("name"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("name"));
         nameColumn.setMinWidth(100);
 
-        TableColumn materialColumn = new TableColumn("Material");
+        TableColumn materialColumn = new TableColumn(b.getString("material"));
         materialColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("material"));
         materialColumn.setMinWidth(100);
 
-        TableColumn quantityColumn = new TableColumn("Quantity");
+        TableColumn quantityColumn = new TableColumn(b.getString("quantity"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("quantity"));
         quantityColumn.setMinWidth(100);
 
-        TableColumn dueDateColumn = new TableColumn("Due date");
+        TableColumn dueDateColumn = new TableColumn(b.getString("due_date"));
         dueDateColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("dueDate"));
         dueDateColumn.setMinWidth(100);
 
-        TableColumn workLoadEstimateColumn = new TableColumn("Work load estimate");
+        TableColumn workLoadEstimateColumn = new TableColumn(b.getString("work_load_estimate"));
         workLoadEstimateColumn.setCellValueFactory(new PropertyValueFactory<Job, Double>("workloadEstimate"));
         workLoadEstimateColumn.setMinWidth(100);
 
-        TableColumn detailsColumn = new TableColumn("Details");
+        TableColumn detailsColumn = new TableColumn(b.getString("details"));
         detailsColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("details"));
         detailsColumn.setMinWidth(100);
 
@@ -136,7 +144,7 @@ public class WorklistUI extends Application {
         table.getColumns().addAll(idColumn, createdColumn, customerColumn, nameColumn, materialColumn,
                 quantityColumn, dueDateColumn, workLoadEstimateColumn, detailsColumn);
 
-        TableColumn workLoadActualColumn = new TableColumn("Actual work load");
+        TableColumn workLoadActualColumn = new TableColumn(b.getString("actual_work_load"));
         workLoadActualColumn.setCellValueFactory(new PropertyValueFactory<Job, Double>("workloadActual"));
         workLoadActualColumn.setMinWidth(100);
 
@@ -148,16 +156,8 @@ public class WorklistUI extends Application {
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(label, addNewJobButton, table);
 
+        ((Group) mainScene.getRoot()).getChildren().addAll(vbox);
 
-        System.out.println(b.getString("example"));
-
-
-
-
-        ((Group) scene.getRoot()).getChildren().addAll(vbox);
-
-        stage.setScene(scene);
-        stage.show();
     }
 
     private void addButtonToTable() {
@@ -167,7 +167,7 @@ public class WorklistUI extends Application {
             @Override
             public TableCell<Job, Void> call(final TableColumn<Job, Void> param) {
                 final TableCell<Job, Void> cell = new TableCell<>() {
-                    private final Button button = new Button("Open");
+                    private final Button button = new Button(b.getString("open"));
 
                     {
                         button.setOnAction((ActionEvent event) -> {
@@ -176,8 +176,9 @@ public class WorklistUI extends Application {
                             Stage stage = new Stage();
                             JobDialog jobDialog;
 
-                           if (chosenJob.isFinished()) jobDialog = new ViewFinishedJobDialog(jobDao, stage, new GridPane(), chosenJob);
-                           else jobDialog = new EditJobDialog(jobDao, stage, new GridPane(), chosenJob);
+                            if (chosenJob.isFinished())
+                                jobDialog = new ViewFinishedJobDialog(jobDao, stage, new GridPane(), chosenJob, b);
+                            else jobDialog = new EditJobDialog(jobDao, stage, new GridPane(), chosenJob, b);
 
                             stage.setOnHiding(ev -> {
                                 try {

@@ -6,36 +6,45 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public abstract class JobDialog {
 
     public void start(Stage stage) {
         // This will be overridden
     }
 
-    Stage s;
+    Stage stage;
     GridPane grid;
+    private ResourceBundle b = ResourceBundle.getBundle("Label", new Locale("fi", "FI"));
 
-    JobJFXTextField customerTextField = new JobJFXTextField("Customer", "field cannot be empty", true);
+    JobJFXTextField customerTextField = new JobJFXTextField(b.getString("customer"),
+            b.getString("field_cannot_be_empty"), true);
 
-    JobJFXTextField nameTextField = new JobJFXTextField("Name", "field cannot be empty", true);
+    JobJFXTextField nameTextField = new JobJFXTextField(b.getString("name"),
+            b.getString("field_cannot_be_empty"), true);
 
-    JobJFXTextField materialTextField = new JobJFXTextField("Material", "field cannot be empty", true);
+    JobJFXTextField materialTextField = new JobJFXTextField(b.getString("material"),
+            b.getString("field_cannot_be_empty"), true);
 
-    JobJFXTextField detailsTextField = new JobJFXTextField("Details");
+    JobJFXTextField detailsTextField = new JobJFXTextField(b.getString("details"));
 
-    Label dueDateLabel = new Label("Due date:");
+    Label dueDateLabel = new Label(b.getString("due_date"));
     Label dueDateSelection = new Label("");
     DatePicker dueDatePicker = new DatePicker();
 
-    Label quantityLabel = new Label("Quantity:");
+    Label quantityLabel = new Label(b.getString("quantity"));
     Spinner<Integer> quantitySpinner = new Spinner<>(1, 10_000, 1, 1);
 
-    Label workloadEstimateLabel = new Label("Work load estimate");
+    Label workloadEstimateLabel = new Label(b.getString("work_load_estimate"));
     Spinner<Double> workloadEstimateSpinner = new Spinner<>(0.5, 1000.0, 0.5, 0.5);
 
-    public JobDialog(Stage stage, GridPane grid) {
-        this.s = stage;
+
+    public JobDialog(Stage stage, GridPane grid, ResourceBundle b) {
+        this.stage = stage;
         this.grid = grid;
+        this.b = b;
         grid.setAlignment(Pos.CENTER);
         grid.setVgap(30);
         grid.setPadding(new Insets(25, 25, 25, 25));

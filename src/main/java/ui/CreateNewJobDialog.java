@@ -12,25 +12,28 @@ import javafx.stage.Stage;
 import javafx.scene.text.Font;
 
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class CreateNewJobDialog extends JobDialog {
 
     private JobDao jobDao;
+    private ResourceBundle b;
 
-    public CreateNewJobDialog(JobDao jobDao, Stage stage, GridPane grid) {
-        super(stage, grid);
+    public CreateNewJobDialog(JobDao jobDao, Stage stage, GridPane grid, ResourceBundle b) {
+        super(stage, grid, b);
         this.jobDao = jobDao;
+        this.b = b;
     }
 
     public void start(Stage stage) {
 
-        stage.setTitle("Insert new job");
+        stage.setTitle(b.getString("insert_new_job"));
 
-        Text inputLabel = new Text("Insert new job");
+        Text inputLabel = new Text(b.getString("insert_new_job"));
         inputLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(inputLabel, 0, 0);
 
-        Button saveButton = new Button("Save");
+        Button saveButton = new Button(b.getString("save"));
         grid.add(saveButton, 0, 8);
 
         saveButton.setOnAction((ActionEvent e) -> {
