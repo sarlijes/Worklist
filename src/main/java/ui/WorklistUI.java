@@ -25,6 +25,7 @@ import javafx.util.Callback;
 
 public class WorklistUI extends Application {
 
+    Connection connection;
     private JobDao jobDao;
     private Locale locale = new Locale("fi", "FI");
     ResourceBundle b = ResourceBundle.getBundle("Label", locale);
@@ -35,6 +36,7 @@ public class WorklistUI extends Application {
     final VBox vbox = new VBox();
 
     public void refreshTableData() throws SQLException {
+        if (jobDao == null) jobDao = new JobDao(connection);
         data = FXCollections.observableArrayList(jobDao.list());
         table.setItems(data);
     }
@@ -67,7 +69,7 @@ public class WorklistUI extends Application {
         stage.setHeight(600);
         stage.setWidth(1100);
 
-        jobDao = new JobDao();
+        jobDao = new JobDao(connection);
         refreshTableData();
 
         table.setEditable(true);
@@ -206,7 +208,14 @@ public class WorklistUI extends Application {
         table.getColumns().add(editButton);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args, Connection connection) {
+        connection = connection;
         launch(args);
     }
+
+    @Override
+    public void stop() throws SQLException {
+        connection.close();
+    }
+
 }

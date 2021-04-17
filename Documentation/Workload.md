@@ -17,6 +17,7 @@
 |30.3.2021   | 2  | Implement JobDao.delete to actually delete the job instead or marking it as deleted. Show the completed jobs with a different color in the UI |
 |10.4.2021   | 4  | Refactored tests according to weekly course feedback. Investigate different validation possibilities. Refactored text field to use jfoenix text field. Added custom class to extend JFXTextField. |
 |10.4.2021   | 1  | Implemented logic & UI to unmark jobs as done |
-|10.4.2021   | 4  | Working on multi-locale support. Investigate possible icon libraries. |
+|10.4.2021   | 4  | Working on multi-language support. Investigate possible icon libraries. |
+|11.4.2021   | 2  | More work on multi-language support |
 |   |   |   |
-|total   |?   |   |
+|total   | 37   |   |
