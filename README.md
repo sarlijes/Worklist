@@ -25,6 +25,10 @@ Generate test report to target/site/jacoco/index.html:
 ```
 mvn test jacoco:report
 ```
+Generate checkstyle report to target/site/checkstyle.html: 
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
 
 ## Course exercises
 

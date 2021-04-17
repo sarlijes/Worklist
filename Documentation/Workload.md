@@ -17,6 +17,10 @@
 |30.3.2021   | 2  | Implement JobDao.delete to actually delete the job instead or marking it as deleted. Show the completed jobs with a different color in the UI |
 |10.4.2021   | 4  | Refactored tests according to weekly course feedback. Investigate different validation possibilities. Refactored text field to use jfoenix text field. Added custom class to extend JFXTextField. |
 |10.4.2021   | 1  | Implemented logic & UI to unmark jobs as done |
-|10.4.2021   | 4  | Working on multi-locale support. Investigate possible icon libraries. |
+|10.4.2021   | 4  | Working on multi-language support. Investigate possible icon libraries. |
+|11.4.2021   | 2  | More work on multi-language support |
+|17.4.2021   | 3  | Implemented in-memory database. Refectored JobDao to take connection as parameter. Added test for setting job as done. |
+|17.4.2021   | 2  | Finishing touches to refactoring JobDao. Extend tests, test coverage of dao now 96% (instructions) / 83% (branches). Removed some unused getters and setters. |
+|17.4.2021   | 1  | Checkstyle into use. Configure to skip UI files, as instructed at the course material. Fix checkstyle errors. |
 |   |   |   |
-|total   |?   |   |
+|total   | 43   |   |

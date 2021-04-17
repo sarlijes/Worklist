@@ -25,7 +25,8 @@ import javafx.util.Callback;
 
 public class WorklistUI extends Application {
 
-    private JobDao jobDao;
+    Connection connection;
+    private static JobDao jobDao;
     private Locale locale = new Locale("fi", "FI");
     ResourceBundle b = ResourceBundle.getBundle("Label", locale);
 
@@ -67,7 +68,6 @@ public class WorklistUI extends Application {
         stage.setHeight(600);
         stage.setWidth(1100);
 
-        jobDao = new JobDao();
         refreshTableData();
 
         table.setEditable(true);
@@ -206,7 +206,14 @@ public class WorklistUI extends Application {
         table.getColumns().add(editButton);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args, Connection connection) {
+        jobDao = new JobDao(connection);
         launch(args);
     }
+
+    @Override
+    public void stop() throws SQLException {
+        connection.close();
+    }
+
 }
