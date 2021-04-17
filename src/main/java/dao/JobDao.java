@@ -16,8 +16,6 @@ public class JobDao implements Dao<Job, Integer> {
 
     @Override
     public Job create(Job job) throws SQLException {
-
-
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Job"
                 + " (name, created, duedate, quantity, material, workloadestimate, details, customer)"
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -30,18 +28,21 @@ public class JobDao implements Dao<Job, Integer> {
         stmt.setDouble(6, job.getWorkloadEstimate());
         stmt.setString(7, job.getDetails());
         stmt.setString(8, job.getCustomer());
-
         stmt.executeUpdate();
 
+        return read(getGeneratedId(stmt));
+    }
+
+    private int getGeneratedId(PreparedStatement stmt) throws SQLException {
         int id = -1;
         ResultSet generatedKeys = stmt.getGeneratedKeys();
 
-        if (generatedKeys.next()) id = generatedKeys.getInt(1);
-
+        if (generatedKeys.next()) {
+            id = generatedKeys.getInt(1);
+        }
         generatedKeys.close();
-
         stmt.close();
-        return read(id);
+        return id;
     }
 
     @Override
@@ -50,7 +51,9 @@ public class JobDao implements Dao<Job, Integer> {
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
 
-        if (!rs.next()) return null;
+        if (!rs.next()) {
+            return null;
+        }
 
         Job j = parseJobFromResult(rs);
 

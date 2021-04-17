@@ -21,5 +21,6 @@
 |11.4.2021   | 2  | More work on multi-language support |
 |17.4.2021   | 3  | Implemented in-memory database. Refectored JobDao to take connection as parameter. Added test for setting job as done. |
 |17.4.2021   | 2  | Finishing touches to refactoring JobDao. Extend tests, test coverage of dao now 96% (instructions) / 83% (branches). Removed some unused getters and setters. |
+|17.4.2021   | 1  | Checkstyle into use. Configure to skip UI files, as instructed at the course material. Fix checkstyle errors. |
 |   |   |   |
-|total   | 42   |   |
+|total   | 43   |   |

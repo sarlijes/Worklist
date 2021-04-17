@@ -51,7 +51,9 @@ public class JobJFXTextField extends JFXTextField {
 
             getValidators().add(validator);
             focusedProperty().addListener((o, oldValue, newValue) -> {
-                if (!newValue) validate();
+                if (!newValue) {
+                    validate();
+                }
             });
         }
     }
