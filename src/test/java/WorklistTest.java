@@ -59,10 +59,6 @@ public class WorklistTest {
 
     }
 
-    @AfterClass
-    public static void closeTestConnection() throws SQLException {
-        connection.close();
-    }
 
     private Job createTestJob() {
         return new Job("name",
@@ -92,21 +88,7 @@ public class WorklistTest {
         assertEquals("details", job.getDetails());
         assertEquals("customer", job.getCustomer());
         assertThat(job.getWorkloadEstimate(), is(2.0));
-    }
 
-    public static boolean isSameDay(LocalDateTime dateTime1, LocalDateTime dateTime2) {
-        LocalDate localDate1 = dateTime1.toLocalDate();
-        LocalDate localDate2 = dateTime2.toLocalDate();
-        return localDate1.isEqual(localDate2);
-    }
-
-    @Test
-    public void helperMethodIsSameDayWorks() {
-        LocalDateTime dateTime1 = LocalDateTime.parse("2021-02-20T06:30:00");
-        LocalDateTime dateTime2 = LocalDateTime.parse("2021-02-20T08:30:00");
-
-        assertTrue(isSameDay(dateTime1, dateTime2));
-        assertFalse(isSameDay(dateTime1, dateTime1.minusDays(1)));
     }
 
     @Test
@@ -129,9 +111,9 @@ public class WorklistTest {
     }
 
     @Test
-    public void canMarkJobAsDone() throws SQLException {
+    public void canMarkJobAsDoneWithWorkTimeActualSpecified() throws SQLException {
 
-        Job j = dao.list().get(2);
+        Job j = dao.list().get(0);
         assertTrue(j != null);
         assertFalse(j.isFinished());
         int jobId = j.getId();
@@ -139,6 +121,104 @@ public class WorklistTest {
         dao.markAsDone(jobId, 5.0);
         assertTrue(dao.read(j.getId()).isFinished());
 
+    }
+
+    @Test
+    public void canMarkJobAsDoneWithWorktimeActualAsNull() throws SQLException {
+
+        Job j = dao.list().get(2);
+        assertTrue(j != null);
+        assertFalse(j.isFinished());
+        int jobId = j.getId();
+
+        dao.markAsDone(jobId, null);
+        assertTrue(dao.read(j.getId()).isFinished());
+
+    }
+
+    @Test
+    public void canMarkJobAsNotDone() throws SQLException {
+        Job j = dao.list().get(1);
+        assertTrue(j != null);
+        assertFalse(j.isFinished());
+
+        dao.markAsDone(j.getId(), 5.0);
+        dao.markAsNotDone(j.getId());
+        assertFalse(dao.read(j.getId()).isFinished());
+    }
+
+    @Test
+    public void canDeleteJob() throws SQLException {
+        Job j = dao.list().get(1);
+        assertTrue(j != null);
+
+        dao.delete(j.getId());
+
+        assertEquals(0, dao.list().stream()
+                .filter(job -> job.getId() == j.getId())
+                .count());
+    }
+
+
+    @Test
+    public void editingJobWorks() throws SQLException {
+        Job job = dao.create(createTestJob());
+        assertTrue(job != null);
+
+        Job jobToEdit = createTestJob();
+        jobToEdit.setName("Another name");
+        jobToEdit.setDueDate(LocalDate.parse("2021-12-31"));
+        jobToEdit.setQuantity(555);
+        jobToEdit.setMaterial("Test material 2972");
+        jobToEdit.setWorkloadEstimate(12.5);
+        jobToEdit.setDetails("details and more details");
+        jobToEdit.setCustomer("Another customer");
+
+        job = dao.update(jobToEdit, job.getId());
+
+        assertTrue(job.getName().equals("Another name"));
+        assertTrue(job.getDueDate().equals(LocalDate.parse("2021-12-31")));
+        assertTrue(job.getQuantity() == 555);
+        assertTrue(job.getMaterial().equals("Test material 2972"));
+        assertThat(job.getWorkloadEstimate(), is(12.5));
+        assertTrue(job.getDetails().equals("details and more details"));
+        assertTrue(job.getCustomer().equals("Another customer"));
+    }
+
+    @Test
+    public void canParseJobFromResultSetWhenManyAttributesAreNull() throws SQLException {
+
+        Job job = dao.create(new Job("name",
+                null,
+                12,
+                "material",
+                2.0,
+                "details",
+                "customer"));
+        assert(job != null);
+        assertTrue(job.getDueDate() == null);
+        assertTrue(job.getDeleted() == null);
+
+    }
+
+    public static boolean isSameDay(LocalDateTime dateTime1, LocalDateTime dateTime2) {
+        LocalDate localDate1 = dateTime1.toLocalDate();
+        LocalDate localDate2 = dateTime2.toLocalDate();
+        return localDate1.isEqual(localDate2);
+    }
+
+    @Test
+    public void helperMethodIsSameDayWorks() {
+        LocalDateTime dateTime1 = LocalDateTime.parse("2021-02-20T06:30:00");
+        LocalDateTime dateTime2 = LocalDateTime.parse("2021-02-20T08:30:00");
+
+        assertTrue(isSameDay(dateTime1, dateTime2));
+        assertFalse(isSameDay(dateTime1, dateTime1.minusDays(1)));
+    }
+
+    @AfterClass
+    public static void closeTestConnection() throws SQLException {
+        connection.close();
     }
 
 }

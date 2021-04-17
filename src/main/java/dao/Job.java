@@ -65,10 +65,6 @@ public class Job {
         return created;
     }
 
-    public String getCreatedString() {
-        return created.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
-    }
-
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }
@@ -83,10 +79,6 @@ public class Job {
 
     public LocalDate getFinished() {
         return finished;
-    }
-
-    public void setFinished(LocalDate finished) {
-        this.finished = finished;
     }
 
     public boolean isFinished() {
@@ -127,10 +119,6 @@ public class Job {
 
     public Double getWorkloadActual() {
         return workloadActual;
-    }
-
-    public void setWorkloadActual(Double workloadActual) {
-        this.workloadActual = workloadActual;
     }
 
     public String getDetails() {

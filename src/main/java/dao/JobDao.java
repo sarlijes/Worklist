@@ -77,23 +77,22 @@ public class JobDao implements Dao<Job, Integer> {
 
         stmt.executeUpdate();
         stmt.close();
-        connection.close();
 
-        return null;
+        return read(id);
     }
 
     public Job markAsDone(Integer id, Double workloadActual) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement("UPDATE Job set"
                 + " workloadactual = ?, finished = ?"
                 + " where id = ?;");
-        stmt.setDouble(1, workloadActual != null ? workloadActual : null);
+        stmt.setDouble(1, workloadActual != null ? workloadActual : 0.0);
         stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
         stmt.setInt(3, id);
 
         stmt.executeUpdate();
         stmt.close();
 
-        return null;
+        return read(id);
     }
 
     public Job markAsNotDone(Integer id) throws SQLException {
@@ -104,7 +103,7 @@ public class JobDao implements Dao<Job, Integer> {
         stmt.executeUpdate();
         stmt.close();
 
-        return null;
+        return read(id);
     }
 
 
@@ -117,12 +116,11 @@ public class JobDao implements Dao<Job, Integer> {
         stmt.close();
     }
 
-    private Job parseJobFromResult(ResultSet resultSet) throws SQLException {
+    public Job parseJobFromResult(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String name = resultSet.getString("name");
 
-        LocalDateTime created = resultSet.getTimestamp("created") != null ?
-                resultSet.getTimestamp("created").toLocalDateTime() : null;
+        LocalDateTime created = resultSet.getTimestamp("created").toLocalDateTime();
         LocalDate dueDate = resultSet.getTimestamp("dueDate") != null ?
                 resultSet.getTimestamp("dueDate").toLocalDateTime().toLocalDate() : null;
         LocalDate finished = resultSet.getTimestamp("finished") != null ?

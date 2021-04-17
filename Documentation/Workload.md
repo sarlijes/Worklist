@@ -20,5 +20,6 @@
 |10.4.2021   | 4  | Working on multi-language support. Investigate possible icon libraries. |
 |11.4.2021   | 2  | More work on multi-language support |
 |17.4.2021   | 3  | Implemented in-memory database. Refectored JobDao to take connection as parameter. Added test for setting job as done. |
+|17.4.2021   | 2  | Finishing touches to refactoring JobDao. Extend tests, test coverage of dao now 96% (instructions) / 83% (branches). Removed some unused getters and setters. |
 |   |   |   |
-|total   | 40   |   |
+|total   | 42   |   |
