@@ -19,5 +19,6 @@
 |10.4.2021   | 1  | Implemented logic & UI to unmark jobs as done |
 |10.4.2021   | 4  | Working on multi-language support. Investigate possible icon libraries. |
 |11.4.2021   | 2  | More work on multi-language support |
+|17.4.2021   | 3  | Implemented in-memory database. Refectored JobDao to take connection as parameter. Added test for setting job as done. |
 |   |   |   |
-|total   | 37   |   |
+|total   | 40   |   |

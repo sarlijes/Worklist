@@ -42,8 +42,6 @@ public class JobDao implements Dao<Job, Integer> {
 
         stmt.close();
         return read(id);
-
-        //connection.close();
     }
 
     @Override
@@ -58,7 +56,6 @@ public class JobDao implements Dao<Job, Integer> {
 
         stmt.close();
         rs.close();
-        //connection.close();
 
         return j;
     }
@@ -95,7 +92,6 @@ public class JobDao implements Dao<Job, Integer> {
 
         stmt.executeUpdate();
         stmt.close();
-//        connection.close();
 
         return null;
     }
@@ -107,7 +103,6 @@ public class JobDao implements Dao<Job, Integer> {
 
         stmt.executeUpdate();
         stmt.close();
-        //connection.close();
 
         return null;
     }
@@ -120,7 +115,6 @@ public class JobDao implements Dao<Job, Integer> {
 
         stmt.executeUpdate();
         stmt.close();
-//        connection.close();
     }
 
     private Job parseJobFromResult(ResultSet resultSet) throws SQLException {
@@ -147,7 +141,6 @@ public class JobDao implements Dao<Job, Integer> {
                 workloadEstimate, workloadActual, details, customer);
 
         return j;
-
     }
 
     @Override
@@ -159,8 +152,6 @@ public class JobDao implements Dao<Job, Integer> {
         while (resultSet.next()) {
             jobs.add(parseJobFromResult(resultSet));
         }
-
-        //connection.close();
         return jobs;
     }
 
