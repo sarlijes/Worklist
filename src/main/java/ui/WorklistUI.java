@@ -43,43 +43,9 @@ public class WorklistUI extends Application {
     @Override
     public void start(Stage stage) throws SQLException {
 
-        VBox localeSelectionBox = new VBox(10);
-        localeSelectionBox.setPadding(new Insets(50));
-
-        final ComboBox comboBox = new ComboBox(FXCollections.observableArrayList("fi", "en"));
-        comboBox.setPromptText(b.getString("select_language"));
-
-        comboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-            this.locale = new Locale(newValue.toString(), "FI");
-            b = ResourceBundle.getBundle("Label", this.locale);
-            System.out.println(this.locale);
-            stage.setScene(mainScene);
-            stage.show();
-        });
-
-        localeSelectionBox.getChildren().add(comboBox);
-
         stage.setScene(mainScene);
         stage.show();
 
-        Button selectLocaleButton = new Button("Select language");
-
-        selectLocaleButton.setOnAction((ActionEvent event) -> {
-            Stage s = new Stage();
-            LocaleSelectionDialog dialog = new LocaleSelectionDialog(s);
-            s.setOnHiding(ev -> {
-                try {
-                    refreshTableData();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-            dialog.start(s);
-
-
-        });
-
-        stage.setTitle(b.getString("worklist_app"));
         stage.setHeight(600);
         stage.setWidth(1100);
 
@@ -169,7 +135,7 @@ public class WorklistUI extends Application {
 
         vbox.setSpacing(20);
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label, addNewJobButton, table, selectLocaleButton);
+        vbox.getChildren().addAll(label, addNewJobButton, table);
 
         ((Group) mainScene.getRoot()).getChildren().addAll(vbox);
 

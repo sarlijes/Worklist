@@ -6,9 +6,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
-public abstract class JobDialog extends BaseView {
+public abstract class JobDialog {
 
     public void start(Stage stage) {
         // This will be overridden
@@ -16,62 +17,56 @@ public abstract class JobDialog extends BaseView {
 
     Stage stage;
     GridPane grid;
+    private ResourceBundle b = ResourceBundle.getBundle("Label", new Locale("fi", "FI"));
 
-    JobJFXTextField customerTextField = new JobJFXTextField("", "", true);
+    JobJFXTextField customerTextField = new JobJFXTextField(b.getString("customer"),
+            b.getString("field_cannot_be_empty"), true);
 
-    JobJFXTextField nameTextField = new JobJFXTextField("", "", true);
+    JobJFXTextField nameTextField = new JobJFXTextField(b.getString("name"),
+            b.getString("field_cannot_be_empty"), true);
 
-    JobJFXTextField materialTextField = new JobJFXTextField("", "", true);
+    JobJFXTextField materialTextField = new JobJFXTextField(b.getString("material"),
+            b.getString("field_cannot_be_empty"), true);
 
-    JobJFXTextField detailsTextField = new JobJFXTextField("", "", false);
+    JobJFXTextField detailsTextField = new JobJFXTextField(b.getString("details"));
 
-    Label dueDateLabel = new Label("");
+    Label dueDateLabel = new Label(b.getString("due_date"));
     Label dueDateSelection = new Label("");
     DatePicker dueDatePicker = new DatePicker();
 
-    Label quantityLabel = new Label("");
+    Label quantityLabel = new Label(b.getString("quantity"));
     Spinner<Integer> quantitySpinner = new Spinner<>(1, 10_000, 1, 1);
 
-    Label workloadEstimateLabel = new Label("");
+    Label workloadEstimateLabel = new Label(b.getString("work_load_estimate"));
     Spinner<Double> workloadEstimateSpinner = new Spinner<>(0.5, 1000.0, 0.5, 0.5);
 
 
     public JobDialog(Stage stage, GridPane grid, ResourceBundle b) {
         this.stage = stage;
         this.grid = grid;
+        this.b = b;
         grid.setAlignment(Pos.CENTER);
         grid.setVgap(30);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         // Customer
 
-        customerTextField.promptTextProperty().bind(langProperty().bind("customer"));
-        customerTextField.getValidators().get(0).messageProperty()
-                .bind(langProperty().bind("field_cannot_be_empty"));
         grid.add(customerTextField, 0, 1);
 
         // Name
 
-        nameTextField.promptTextProperty().bind(langProperty().bind("name"));
-        nameTextField.getValidators().get(0).messageProperty()
-                .bind(langProperty().bind("field_cannot_be_empty"));
         grid.add(nameTextField, 0, 2);
 
         // Material
 
-        materialTextField.promptTextProperty().bind(langProperty().bind("material"));
-        materialTextField.getValidators().get(0).messageProperty()
-                .bind(langProperty().bind("field_cannot_be_empty"));
         grid.add(materialTextField, 0, 3);
 
         // Details
 
-        detailsTextField.promptTextProperty().bind(langProperty().bind("details"));
         grid.add(detailsTextField, 0, 4);
 
         // Due date
 
-        dueDateLabel.textProperty().bind(langProperty().bind("due_date"));
         grid.add(dueDateLabel, 0, 5);
         dueDatePicker.setShowWeekNumbers(true);
         dueDatePicker.setOnAction(e -> dueDateSelection.setText(String.valueOf(dueDatePicker.getValue())));
@@ -81,7 +76,6 @@ public abstract class JobDialog extends BaseView {
 
         // Quantity
 
-        quantityLabel.textProperty().bind(langProperty().bind("quantity"));
         grid.add(quantityLabel, 0, 6);
         SpinnerValueFactory<Integer> quantityValueFactory = quantitySpinner.getValueFactory();
 
@@ -91,7 +85,6 @@ public abstract class JobDialog extends BaseView {
 
         // Work load estimate
 
-        workloadEstimateLabel.textProperty().bind(langProperty().bind("work_load_estimate"));
         grid.add(workloadEstimateLabel, 0, 7);
 
         SpinnerValueFactory<Double> workloadEstimateValueFactory = workloadEstimateSpinner.getValueFactory();
