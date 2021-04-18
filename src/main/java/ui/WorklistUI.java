@@ -59,10 +59,25 @@ public class WorklistUI extends Application {
 
         localeSelectionBox.getChildren().add(comboBox);
 
-        Scene localeSelectionScene = new Scene(localeSelectionBox, 300, 250);
-
-        stage.setScene(localeSelectionScene);
+        stage.setScene(mainScene);
         stage.show();
+
+        Button selectLocaleButton = new Button("Select language");
+
+        selectLocaleButton.setOnAction((ActionEvent event) -> {
+            Stage s = new Stage();
+            LocaleSelectionDialog dialog = new LocaleSelectionDialog(s);
+            s.setOnHiding(ev -> {
+                try {
+                    refreshTableData();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+            dialog.start(s);
+
+
+        });
 
         stage.setTitle(b.getString("worklist_app"));
         stage.setHeight(600);
@@ -154,7 +169,7 @@ public class WorklistUI extends Application {
 
         vbox.setSpacing(20);
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label, addNewJobButton, table);
+        vbox.getChildren().addAll(label, addNewJobButton, table, selectLocaleButton);
 
         ((Group) mainScene.getRoot()).getChildren().addAll(vbox);
 
@@ -213,7 +228,9 @@ public class WorklistUI extends Application {
 
     @Override
     public void stop() throws SQLException {
-        connection.close();
+        if (connection != null) {
+            connection.close();
+        }
     }
 
 }

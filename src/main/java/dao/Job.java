@@ -65,6 +65,10 @@ public class Job {
         return created;
     }
 
+    public String getCreatedString() {
+        return created.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+    }
+
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }

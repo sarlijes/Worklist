@@ -12,11 +12,11 @@ There is only one user group, so all users have equal user rights.
 
 As a user...
  
-* I can view the list of jobs
-* I can add a new job to the list
-* I can delete a job from the list
-* I can edit the job
-* I can mark the job as done and mark its actual work load hours
+- [x]  I can view the list of jobs
+- [x]  I can add a new job to the list
+- [x]  I can delete a job from the list
+- [x]  I can edit the job
+- [x]  I can mark the job as done and mark its actual work load hours
 
 ## Additional features
 
@@ -28,7 +28,7 @@ As a user...
   * Save user as "deleted by" on a job
   * Save user as "marked as finished by" on a job
 * Allow using the software from multiple computers in the local network
-* Allow undo on marking a job as done
+- [x]  Allow undo on marking a job as done
 * Hide old finished jobs after a certain period
 * Separate list views for pending and completed jobs
 * Move materials to database (instead of saving them as strings)
