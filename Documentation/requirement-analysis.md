@@ -20,22 +20,25 @@ As a user...
 
 ## Additional features
 
-* User login
-  * Add new user
-  * Log in as user
-  * Show error if logging in fails
-  * Save user as "created by" on a job
-  * Save user as "deleted by" on a job
-  * Save user as "marked as finished by" on a job
-* Allow using the software from multiple computers in the local network
-- [x]  Allow undo on marking a job as done
-* Hide old finished jobs after a certain period
-* Separate list views for pending and completed jobs
-* Move materials to database (instead of saving them as strings)
-* Language selection
-* Reports (for example all jobs done during one week)
-* Kanban view with more job states ("to do", "in progress", "waiting to be shipped", "shipped")
-* More states for payments of the jobs ("invoiced", "partially paid", "paid")
+User login
+- [ ] Add new user
+- [x] Log in as user
+- [ ] Show error if logging in fails
+- [ ] Save user as "created by" on a job
+- [ ] Save user as "deleted by" on a job
+- [ ] Save user as "marked as finished by" on a job
+
+Other features
+
+- [ ] Allow using the software from multiple computers in the local network
+- [x] Allow undo on marking a job as done
+- [ ] Hide old finished jobs after a certain period
+- [ ] Separate list views for pending and completed jobs
+- [ ] Move materials to database (instead of saving them as strings)
+- [ ] Language selection
+- [ ] Reports (for example all jobs done during one week)
+- [ ] Kanban view with more job states ("to do", "in progress", "waiting to be shipped", "shipped")
+- [ ] More states for payments of the jobs ("invoiced", "partially paid", "paid")
 
 
 ## Preliminary plan for Job class

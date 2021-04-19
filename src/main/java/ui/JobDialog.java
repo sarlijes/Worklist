@@ -93,6 +93,7 @@ public abstract class JobDialog {
         workloadEstimateSpinner.setEditable(true);
         grid.add(workloadEstimateSpinner, 1, 7);
 
+        }
+
     }
 
-}

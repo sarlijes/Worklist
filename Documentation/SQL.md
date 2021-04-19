@@ -45,3 +45,15 @@ insert into job (name, created, duedate, quantity, material, workloadestimate, d
 insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) values 
 ('Thermalization plates', now(), '2021-02-02T00:00:00.0', 2.0, 'CU-OF', 1.0, '', 'internal');
 ```
+
+```
+CREATE TABLE Employee (id INT PRIMARY KEY AUTO_INCREMENT,
+username VARCHAR(1024),
+password VARCHAR(1024)
+);
+```
+
+```
+insert into employee (username, password) values ('esmeralda', '1234');
+insert into employee (username, password) values ('vlad', '1234');
+```

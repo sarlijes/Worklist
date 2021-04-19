@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import dao.EmployeeDao;
 import dao.Job;
 import dao.JobDao;
 import javafx.application.Application;
@@ -27,6 +28,7 @@ public class WorklistUI extends Application {
 
     Connection connection;
     private static JobDao jobDao;
+    private static EmployeeDao employeeDao;
     private Locale locale = new Locale("fi", "FI");
     ResourceBundle b = ResourceBundle.getBundle("Label", locale);
 
@@ -43,8 +45,24 @@ public class WorklistUI extends Application {
     @Override
     public void start(Stage stage) throws SQLException {
 
-        stage.setScene(mainScene);
-        stage.show();
+        Stage loginStage = new Stage();
+        GridPane loginGrid = new GridPane();
+        LoginDialog loginDialog = new LoginDialog(employeeDao, loginStage, loginGrid, b);
+
+        loginStage.setOnHiding(ev -> {
+            if (loginDialog.authenticated) {
+                stage.setScene(mainScene);
+                stage.show();
+            } else {
+                stage.close();
+            }
+        });
+        loginDialog.start(loginStage);
+
+        Scene loginScene = new Scene(new Group());
+        stage.setScene(loginScene);
+
+        stage.setTitle(b.getString("worklist_app"));
 
         stage.setHeight(600);
         stage.setWidth(1100);
@@ -73,7 +91,7 @@ public class WorklistUI extends Application {
 
         addNewJobButton.setOnAction((ActionEvent event) -> {
             Stage s = new Stage();
-            CreateNewJobDialog dialog = new CreateNewJobDialog(jobDao, s, new GridPane(), b);
+            CreateNewJobDialog createNewJobDialog = new CreateNewJobDialog(jobDao, s, new GridPane(), b);
 
             s.setOnHiding(ev -> {
                 try {
@@ -82,7 +100,7 @@ public class WorklistUI extends Application {
                     e.printStackTrace();
                 }
             });
-            dialog.start(s);
+            createNewJobDialog.start(s);
         });
 
         TableColumn idColumn = new TableColumn("ID");
@@ -189,6 +207,7 @@ public class WorklistUI extends Application {
 
     public static void main(String[] args, Connection connection) {
         jobDao = new JobDao(connection);
+        employeeDao = new EmployeeDao(connection);
         launch(args);
     }
 

@@ -24,5 +24,6 @@
 |17.4.2021   | 1  | Checkstyle into use. Configure to skip UI files, as instructed at the course material. Fix checkstyle errors. |
 |18.4.2021   | 1  | Investigations and experiments on different ways to change app language on runtime |
 |18.4.2021   | 2  | Implementing support to change app language on runtime |
+|18.4.2021   | 2  | Implemented employee entity & employee login |
 |   |   |   |
 |total   | 46   |   |

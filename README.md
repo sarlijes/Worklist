@@ -10,6 +10,11 @@ It is a course project for the [Software Engineering](https://ohjelmistotekniikk
 
 [Project workload](https://github.com/sarlijes/Worklist/blob/master/Documentation/Workload.md)
 
+## User accounts for testing:
+username: esmeralda password: 1234
+
+username: vlad password: 1234
+
 ## Commands:
 
 Run app:
@@ -29,22 +34,4 @@ Generate checkstyle report to target/site/checkstyle.html:
 ```
 mvn jxr:jxr checkstyle:checkstyle
 ```
-
-## Course exercises
-
-### Week 1
-
-[Git log](https://github.com/sarlijes/Worklist/blob/master/Laskarit_Exercises/viikko1_week1/gitlog.txt)
-
-[Command line](https://github.com/sarlijes/Worklist/blob/master/Laskarit_Exercises/viikko1_week1/komentorivi.txt)
-
-
-### Week 2
-
-[Week 2](https://github.com/sarlijes/Worklist/tree/master/Laskarit_Exercises/viikko2_week2)
-
-
-### Week 3
-
-[Week 3](https://github.com/sarlijes/Worklist/tree/master/Laskarit_Exercises/viikko3_week3)
 
