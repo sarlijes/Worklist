@@ -1,7 +1,7 @@
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
-import dao.Job;
+import domain.Job;
 import dao.JobDao;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

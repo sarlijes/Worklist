@@ -8,7 +8,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import dao.EmployeeDao;
-import dao.Job;
+import domain.Job;
 import dao.JobDao;
 import javafx.application.Application;
 import javafx.event.ActionEvent;

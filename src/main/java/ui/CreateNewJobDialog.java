@@ -1,6 +1,6 @@
 package ui;
 
-import dao.Job;
+import domain.Job;
 import dao.JobDao;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;

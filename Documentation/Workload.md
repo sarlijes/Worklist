@@ -25,5 +25,6 @@
 |18.4.2021   | 1  | Investigations and experiments on different ways to change app language on runtime |
 |18.4.2021   | 2  | Implementing support to change app language on runtime |
 |18.4.2021   | 2  | Implemented employee entity & employee login |
+|19.4.2021   | 1  | Added logic to show past due dates with red color & the due dates within one week with orange. Refactored UI code into shorted methods. |
 |   |   |   |
-|total   | 46   |   |
+|total   | 47   |   |

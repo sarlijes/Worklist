@@ -48,8 +48,8 @@ insert into job (name, created, duedate, quantity, material, workloadestimate, d
 
 ```
 CREATE TABLE Employee (id INT PRIMARY KEY AUTO_INCREMENT,
-username VARCHAR(1024),
-password VARCHAR(1024)
+username VARCHAR(32),
+password VARCHAR(32)
 );
 ```
 
