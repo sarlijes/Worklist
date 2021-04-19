@@ -1,1 +1,1 @@
-<img src="https://raw.githubusercontent.com/sarlijes/Worklist/master/Documentation/pictures/class_diagram.png" width="400">
+<img src="https://github.com/sarlijes/Worklist/blob/master/Documentation/pictures/class_diagram.PNG?raw=true">
