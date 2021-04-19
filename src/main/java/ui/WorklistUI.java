@@ -1,6 +1,8 @@
 package ui;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -13,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
@@ -45,6 +48,8 @@ public class WorklistUI extends Application {
     @Override
     public void start(Stage stage) throws SQLException {
 
+        // Login Dialog
+
         Stage loginStage = new Stage();
         GridPane loginGrid = new GridPane();
         LoginDialog loginDialog = new LoginDialog(employeeDao, loginStage, loginGrid, b);
@@ -61,6 +66,8 @@ public class WorklistUI extends Application {
 
         Scene loginScene = new Scene(new Group());
         stage.setScene(loginScene);
+
+        // Main view
 
         stage.setTitle(b.getString("worklist_app"));
 
@@ -87,21 +94,7 @@ public class WorklistUI extends Application {
         final Label label = new Label(b.getString("worklist"));
         label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
-        Button addNewJobButton = new Button(b.getString("insert_new_job"));
-
-        addNewJobButton.setOnAction((ActionEvent event) -> {
-            Stage s = new Stage();
-            CreateNewJobDialog createNewJobDialog = new CreateNewJobDialog(jobDao, s, new GridPane(), b);
-
-            s.setOnHiding(ev -> {
-                try {
-                    refreshTableData();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-            createNewJobDialog.start(s);
-        });
+        Button addNewJobButton = addNewJobButton();
 
         TableColumn idColumn = new TableColumn("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("id"));
@@ -131,6 +124,8 @@ public class WorklistUI extends Application {
         dueDateColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("dueDate"));
         dueDateColumn.setMinWidth(100);
 
+        formatDueDate(dueDateColumn);
+
         TableColumn workLoadEstimateColumn = new TableColumn(b.getString("work_load_estimate"));
         workLoadEstimateColumn.setCellValueFactory(new PropertyValueFactory<Job, Double>("workloadEstimate"));
         workLoadEstimateColumn.setMinWidth(100);
@@ -157,6 +152,49 @@ public class WorklistUI extends Application {
 
         ((Group) mainScene.getRoot()).getChildren().addAll(vbox);
 
+    }
+
+    private Button addNewJobButton() {
+        Button addNewJobButton = new Button(b.getString("insert_new_job"));
+
+        addNewJobButton.setOnAction((ActionEvent event) -> {
+            Stage s = new Stage();
+            CreateNewJobDialog createNewJobDialog = new CreateNewJobDialog(jobDao, s, new GridPane(), b);
+
+            s.setOnHiding(ev -> {
+                try {
+                    refreshTableData();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+            createNewJobDialog.start(s);
+        });
+        return addNewJobButton;
+    }
+
+    private void formatDueDate(TableColumn dueDateColumn) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        dueDateColumn.setCellFactory(column -> new TableCell<Job, LocalDate>() {
+            @Override
+            protected void updateItem(LocalDate localDate, boolean empty) {
+                super.updateItem(localDate, empty);
+
+                if (localDate == null || empty) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(formatter.format(localDate));
+                    if (localDate.isBefore(LocalDate.now())) {
+                        setTextFill(Color.INDIANRED);
+                        setStyle("-fx-font-weight: bold");
+                    } else if (localDate.isBefore(LocalDate.now().plusWeeks(1))) {
+                        setTextFill(Color.DARKORANGE);
+                    }
+                }
+            }
+        });
     }
 
     private void addButtonToTable() {
