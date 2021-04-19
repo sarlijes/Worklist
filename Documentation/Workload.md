@@ -26,6 +26,6 @@
 |18.4.2021   | 2  | Implementing support to change app language on runtime |
 |18.4.2021   | 2  | Implemented employee entity & employee login |
 |19.4.2021   | 1  | Added logic to show past due dates with red color & the due dates within one week with orange. Refactored UI code into shorted methods. |
-|19.4.2021   | 1  | Add class diagram in documentation directory. Update readme. |
+|19.4.2021   | 1  | Add class diagram in documentation directory. Update readme. Test on remote desktop. |
 |   |   |   |
 |total   | 48   |   |

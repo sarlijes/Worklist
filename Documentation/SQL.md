@@ -1,21 +1,8 @@
 
-## Temporary SQL stash for development use
+## Temporary stash for development use
 
-```
-CREATE TABLE Job (id INT PRIMARY KEY AUTO_INCREMENT,
-created TIMESTAMP,
-finished TIMESTAMP,
-deleted TIMESTAMP,
-duedate TIMESTAMP,
-name VARCHAR(1024),
-quantity INTEGER,
-material VARCHAR(1024),
-workloadestimate FLOAT,
-workloadactual FLOAT,
-details VARCHAR(2048),
-customer VARCHAR(1024)
-);
-```
+## SQL
+
 ```
 CREATE TABLE Job (id INT PRIMARY KEY AUTO_INCREMENT,
 created DATETIME,
@@ -56,4 +43,13 @@ password VARCHAR(32)
 ```
 insert into employee (username, password) values ('esmeralda', '1234');
 insert into employee (username, password) values ('vlad', '1234');
+```
+
+## Class diagram backup
+```
+[Job|id : INTEGER; created : TIMESTAMP; finished : TIMESTAMP; deleted : TIMESTAMP; duedate : TIMESTAMP; name : VARCHAR(1024); quantity : INTEGER; material : VARCHAR(1024); workloadestimate : FLOAT; workloadactual : FLOAT; details : VARCHAR(2048); customer : VARCHAR(1024)]
+
+[Employee|id : INTEGER; username VARCHAR(32); password VARCHAR(32)]
+
+[Employee]->[Job]  
 ```
