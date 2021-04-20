@@ -28,5 +28,6 @@
 |19.4.2021   | 1  | Added logic to show past due dates with red color & the due dates within one week with orange. Refactored UI code into shorted methods. |
 |19.4.2021   | 1  | Add class diagram in documentation directory. Update readme. Test on remote desktop. |
 |20.4.2021   | 1  | Now possible to create new user accounts. Created new class SQLUtils for helper methods. |
+|20.4.2021   | 1  | Add db files to gitignore, extend SQLUtils to create tables |
 |   |   |   |
 |total   | 49   |   |

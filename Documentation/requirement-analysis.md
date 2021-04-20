@@ -21,7 +21,7 @@ As a user...
 ## Additional features
 
 User login
-- [ ] Add new user
+- [X] Add new user
 - [x] Log in as user
 - [ ] Show error if logging in fails
 - [ ] Save user as "created by" on a job
