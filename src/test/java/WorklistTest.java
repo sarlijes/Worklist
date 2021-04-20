@@ -18,8 +18,9 @@ public class WorklistTest {
 
     @BeforeClass
     public static void setUp() throws SQLException {
-        dao = new JobDao(connection);
         connection = DriverManager.getConnection("jdbc:h2:mem:");
+
+        dao = new JobDao(connection);
 
         // TODO refactor to use SQLUtils to create tables
 
