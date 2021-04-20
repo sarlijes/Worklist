@@ -11,9 +11,11 @@ import java.util.List;
 public class JobDao implements Dao<Job, Integer> {
 
     private Connection connection;
+    private SQLUtils sqlUtils;
 
     public JobDao(Connection connection) {
         this.connection = connection;
+        this.sqlUtils = new SQLUtils();
     }
 
     @Override
@@ -32,19 +34,7 @@ public class JobDao implements Dao<Job, Integer> {
         stmt.setString(8, job.getCustomer());
         stmt.executeUpdate();
 
-        return read(getGeneratedId(stmt));
-    }
-
-    private int getGeneratedId(PreparedStatement stmt) throws SQLException {
-        int id = -1;
-        ResultSet generatedKeys = stmt.getGeneratedKeys();
-
-        if (generatedKeys.next()) {
-            id = generatedKeys.getInt(1);
-        }
-        generatedKeys.close();
-        stmt.close();
-        return id;
+        return read(sqlUtils.getGeneratedId(stmt));
     }
 
     @Override
