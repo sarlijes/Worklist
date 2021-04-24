@@ -20,6 +20,10 @@ public class EmployeeDao implements Dao<Employee, Integer> {
     @Override
     public Employee create(Employee employee) throws SQLException {
 
+        if (usernameExists(employee.getUsername())) {
+            return null;
+        }
+
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Employee (username, password) " +
                 "VALUES (?, ?)");
         stmt.setString(1, employee.getUsername());
@@ -27,6 +31,14 @@ public class EmployeeDao implements Dao<Employee, Integer> {
         stmt.executeUpdate();
 
         return read(sqlUtils.getGeneratedId(stmt));
+    }
+
+    private boolean usernameExists(String username) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Employee WHERE username = ?");
+        stmt.setString(1, username);
+        ResultSet rs = stmt.executeQuery();
+
+        return rs.next();
     }
 
     @Override

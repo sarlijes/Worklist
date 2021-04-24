@@ -1,6 +1,7 @@
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
+import dao.SQLUtils;
 import domain.Job;
 import dao.JobDao;
 import org.junit.AfterClass;
@@ -15,36 +16,14 @@ public class WorklistTest {
 
     private static JobDao dao;
     private static Connection connection;
+    private static SQLUtils sqlUtils;
 
     @BeforeClass
     public static void setUp() throws SQLException {
         connection = DriverManager.getConnection("jdbc:h2:mem:");
-
         dao = new JobDao(connection);
-
-        // TODO refactor to use SQLUtils to create tables
-
-        PreparedStatement dropTableStatement = connection.prepareStatement("" +
-                "DROP TABLE if exists Job;");
-        dropTableStatement.executeUpdate();
-        dropTableStatement.close();
-
-        PreparedStatement createStatement = connection.prepareStatement("" +
-                "CREATE TABLE if not exists Job (id INT PRIMARY KEY AUTO_INCREMENT,\n" +
-                "created DATETIME,\n" +
-                "finished DATETIME,\n" +
-                "deleted DATETIME,\n" +
-                "duedate DATETIME,\n" +
-                "name VARCHAR(1024),\n" +
-                "quantity INTEGER,\n" +
-                "material VARCHAR(1024),\n" +
-                "workloadestimate FLOAT,\n" +
-                "workloadactual FLOAT,\n" +
-                "details VARCHAR(2048),\n" +
-                "customer VARCHAR(1024)\n" +
-                ");");
-        createStatement.executeUpdate();
-        createStatement.close();
+        sqlUtils = new SQLUtils();
+        sqlUtils.createTables(connection);
 
         PreparedStatement stmt = connection.prepareStatement("" +
                 "insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) values \n" +
@@ -60,7 +39,6 @@ public class WorklistTest {
         stmt.close();
 
     }
-
 
     private Job createTestJob() {
         return new Job("name",
@@ -213,6 +191,8 @@ public class WorklistTest {
     public void helperMethodIsSameDayWorks() {
         LocalDateTime dateTime1 = LocalDateTime.parse("2021-02-20T06:30:00");
         LocalDateTime dateTime2 = LocalDateTime.parse("2021-02-20T08:30:00");
+
+        // TODO extend tests to include corner cases
 
         assertTrue(isSameDay(dateTime1, dateTime2));
         assertFalse(isSameDay(dateTime1, dateTime1.minusDays(1)));

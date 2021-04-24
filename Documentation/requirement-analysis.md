@@ -23,7 +23,7 @@ As a user...
 User login
 - [X] Add new user
 - [x] Log in as user
-- [ ] Show error if logging in fails
+- [x] Show error if logging in fails
 - [ ] Save user as "created by" on a job
 - [ ] Save user as "deleted by" on a job
 - [ ] Save user as "marked as finished by" on a job

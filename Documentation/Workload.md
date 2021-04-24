@@ -29,5 +29,7 @@
 |19.4.2021   | 1  | Add class diagram in documentation directory. Update readme. Test on remote desktop. |
 |20.4.2021   | 1  | Now possible to create new user accounts. Created new class SQLUtils for helper methods. |
 |20.4.2021   | 1  | Add db files to gitignore, extend SQLUtils to create tables |
+|21.4.2021   | 1  | Refactor tests to have SQLUtils create tables |
+|24.4.2021   | 2  | Improvements to user login dialog |
 |   |   |   |
 |total   | 49   |   |
