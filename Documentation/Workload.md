@@ -31,5 +31,6 @@
 |20.4.2021   | 1  | Add db files to gitignore, extend SQLUtils to create tables |
 |21.4.2021   | 1  | Refactor tests to have SQLUtils create tables |
 |24.4.2021   | 2  | Improvements to user login dialog |
+|24.4.2021   | 1  | Add tests to EmployeeDao |
 |   |   |   |
 |total   | 49   |   |

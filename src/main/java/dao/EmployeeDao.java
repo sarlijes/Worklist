@@ -81,7 +81,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
         return employees;
     }
 
-    public boolean authenticate(String username, String password) throws SQLException  {
+    public Employee authenticate(String username, String password) throws SQLException  {
         PreparedStatement statement =
                 connection.prepareStatement("SELECT * FROM Employee where username = ? and password = ?;");
         statement.setString(1, username);
@@ -89,9 +89,12 @@ public class EmployeeDao implements Dao<Employee, Integer> {
 
         ResultSet resultSet = statement.executeQuery();
         if (resultSet.next()) {
-            return true;
+            Employee e = parseEmployeeFromResult(resultSet);
+            statement.close();
+            resultSet.close();
+            return e;
         } else {
-            return false;
+            return null;
         }
     }
 

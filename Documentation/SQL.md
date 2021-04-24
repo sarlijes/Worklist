@@ -15,7 +15,8 @@ material VARCHAR(1024),
 workloadestimate FLOAT,
 workloadactual FLOAT,
 details VARCHAR(2048),
-customer VARCHAR(1024)
+customer VARCHAR(1024),
+creator_id INTEGER;
 );
 ```
 
@@ -38,6 +39,10 @@ CREATE TABLE Employee (id INT PRIMARY KEY AUTO_INCREMENT,
 username VARCHAR(32),
 password VARCHAR(32)
 );
+
+ ALTER TABLE Job
+    ADD FOREIGN KEY (creator_id)
+    REFERENCES Employee(id)
 ```
 
 ```

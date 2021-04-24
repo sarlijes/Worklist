@@ -22,6 +22,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
@@ -29,6 +30,7 @@ public class LoginDialog {
 
     private EmployeeDao employeeDao;
     public boolean authenticated = false;
+    private Employee loggedInEmployee;
 
     public void start(Stage stage) {
     }
@@ -77,21 +79,17 @@ public class LoginDialog {
         newEmployeePasswordTextField.setPromptText(b.getString("password"));
 
         usernameTextField.textProperty().addListener(event -> {
-            System.out.println("Changed");
             if (errorOccured) loginInvalidLabel.setVisible(false);
         });
         passwordTextField.textProperty().addListener(event -> {
-            System.out.println("Changed");
             if (errorOccured)
                 loginInvalidLabel.setVisible(false);
         });
         newEmployeeUsernameTextField.textProperty().addListener(event -> {
-            System.out.println("Changed");
             if (errorOccured)
                 newAccountInfoLabel.setVisible(false);
         });
         newEmployeePasswordTextField.textProperty().addListener(event -> {
-            System.out.println("Changed");
             if (errorOccured)
                 newAccountInfoLabel.setVisible(false);
         });
@@ -112,7 +110,10 @@ public class LoginDialog {
 
         loginButton.setOnAction((ActionEvent event) -> {
             try {
-                if (employeeDao.authenticate(usernameTextField.getText(), passwordTextField.getText())) {
+                Optional<Employee> employee = Optional.ofNullable(employeeDao.authenticate(usernameTextField.getText(),
+                        passwordTextField.getText()));
+                if (employee.isPresent()) {
+                    loggedInEmployee = employee.get();
                     authenticated = true;
                     stage.close();
                 } else {
@@ -159,6 +160,10 @@ public class LoginDialog {
         stage.setScene(scene);
         stage.show();
 
+    }
+
+    public Employee getLoggedInEmployee() {
+        return loggedInEmployee;
     }
 
 }

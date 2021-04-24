@@ -1,5 +1,6 @@
 package ui;
 
+import domain.Employee;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -17,6 +18,8 @@ public abstract class JobDialog {
 
     Stage stage;
     GridPane grid;
+    Employee loggedInEmployee;
+
     private ResourceBundle b = ResourceBundle.getBundle("Label", new Locale("fi", "FI"));
 
     JobJFXTextField customerTextField = new JobJFXTextField(b.getString("customer"),
@@ -41,10 +44,12 @@ public abstract class JobDialog {
     Spinner<Double> workloadEstimateSpinner = new Spinner<>(0.5, 1000.0, 0.5, 0.5);
 
 
-    public JobDialog(Stage stage, GridPane grid, ResourceBundle b) {
+    public JobDialog(Stage stage, GridPane grid, ResourceBundle b, Employee loggedInEmployee) {
         this.stage = stage;
         this.grid = grid;
         this.b = b;
+        this.loggedInEmployee = loggedInEmployee;
+
         grid.setAlignment(Pos.CENTER);
         grid.setVgap(30);
         grid.setPadding(new Insets(25, 25, 25, 25));

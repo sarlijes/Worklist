@@ -8,9 +8,11 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import dao.EmployeeDao;
+import domain.Employee;
 import domain.Job;
 import dao.JobDao;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -34,6 +36,7 @@ public class WorklistUI extends Application {
     private static EmployeeDao employeeDao;
     private Locale locale = new Locale("fi", "FI");
     ResourceBundle b = ResourceBundle.getBundle("Label", locale);
+    Employee loggedInEmployee = null;
 
     private TableView<Job> table = new TableView<>();
     private ObservableList<Job> data = FXCollections.observableArrayList(new ArrayList<>());
@@ -56,6 +59,7 @@ public class WorklistUI extends Application {
 
         loginStage.setOnHiding(ev -> {
             if (loginDialog.authenticated) {
+                loggedInEmployee = loginDialog.getLoggedInEmployee();
                 stage.setScene(mainScene);
                 stage.show();
             } else {
@@ -72,11 +76,13 @@ public class WorklistUI extends Application {
         stage.setTitle(b.getString("worklist_app"));
 
         stage.setHeight(600);
-        stage.setWidth(1100);
+        stage.setWidth(1200);
 
         refreshTableData();
 
         table.setEditable(true);
+
+        table.setPlaceholder(new Label("No visible columns and/or data exist."));
 
         table.setRowFactory(tv -> new TableRow<>() {
             @Override
@@ -103,6 +109,10 @@ public class WorklistUI extends Application {
         TableColumn createdColumn = new TableColumn(b.getString("created"));
         createdColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("createdString"));
         createdColumn.setMinWidth(100);
+
+        TableColumn creatorColumn = new TableColumn(b.getString("creator"));
+        creatorColumn.setCellValueFactory(new PropertyValueFactory("creatorName"));
+        creatorColumn.setMinWidth(100);
 
         TableColumn customerColumn = new TableColumn(b.getString("customer"));
         customerColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("customer"));
@@ -135,7 +145,7 @@ public class WorklistUI extends Application {
         detailsColumn.setMinWidth(100);
 
         table.setItems(data);
-        table.getColumns().addAll(idColumn, createdColumn, customerColumn, nameColumn, materialColumn,
+        table.getColumns().addAll(idColumn, createdColumn, creatorColumn, customerColumn, nameColumn, materialColumn,
                 quantityColumn, dueDateColumn, workLoadEstimateColumn, detailsColumn);
 
         TableColumn workLoadActualColumn = new TableColumn(b.getString("actual_work_load"));
@@ -159,7 +169,7 @@ public class WorklistUI extends Application {
 
         addNewJobButton.setOnAction((ActionEvent event) -> {
             Stage s = new Stage();
-            CreateNewJobDialog createNewJobDialog = new CreateNewJobDialog(jobDao, s, new GridPane(), b);
+            CreateNewJobDialog createNewJobDialog = new CreateNewJobDialog(jobDao, s, new GridPane(), b, loggedInEmployee);
 
             s.setOnHiding(ev -> {
                 try {
@@ -214,8 +224,8 @@ public class WorklistUI extends Application {
                             JobDialog jobDialog;
 
                             if (chosenJob.isFinished())
-                                jobDialog = new ViewFinishedJobDialog(jobDao, stage, new GridPane(), chosenJob, b);
-                            else jobDialog = new EditJobDialog(jobDao, stage, new GridPane(), chosenJob, b);
+                                jobDialog = new ViewFinishedJobDialog(jobDao, stage, new GridPane(), chosenJob, b, loggedInEmployee);
+                            else jobDialog = new EditJobDialog(jobDao, stage, new GridPane(), chosenJob, b, loggedInEmployee);
 
                             stage.setOnHiding(ev -> {
                                 try {

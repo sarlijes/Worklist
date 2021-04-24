@@ -32,7 +32,8 @@ public class SQLUtils {
                 "workloadestimate FLOAT," +
                 "workloadactual FLOAT," +
                 "details VARCHAR(2048)," +
-                "customer VARCHAR(1024)" +
+                "customer VARCHAR(1024)," +
+                "creator_id INTEGER" +
                 ");");
         createJobStatement.executeUpdate();
         createJobStatement.close();
@@ -41,7 +42,10 @@ public class SQLUtils {
                 "CREATE TABLE if not exists Employee (id INT PRIMARY KEY AUTO_INCREMENT, " +
                 "username VARCHAR(32)," +
                 "password VARCHAR(32)" +
-                ");");
+                ");" +
+                " ALTER TABLE Job\n" +
+                "    ADD FOREIGN KEY (creator_id) \n" +
+                "    REFERENCES Employee(id);");
         createEmployeeStatement.executeUpdate();
         createEmployeeStatement.close();
     }

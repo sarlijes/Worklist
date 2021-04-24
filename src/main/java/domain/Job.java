@@ -18,9 +18,10 @@ public class Job {
     private Double workloadActual;
     private String details;
     private String customer;
+    private Employee creator;
 
     public Job(String name, LocalDate dueDate, int quantity, String material,
-               Double workloadEstimate, String details, String customer) {
+               Double workloadEstimate, String details, String customer, Employee creator) {
         this.name = name;
         this.created = LocalDateTime.now();
         this.dueDate = dueDate;
@@ -29,12 +30,12 @@ public class Job {
         this.workloadEstimate = workloadEstimate;
         this.details = details;
         this.customer = customer;
+        this.creator = creator;
     }
-
 
     public Job(int id, String name, LocalDateTime created, LocalDate dueDate, LocalDate finished, LocalDate deleted,
                int quantity, String material, Double workloadEstimate, Double workloadActual,
-               String details, String customer) {
+               String details, String customer, Employee creator) {
         this.id = id;
         this.name = name;
         this.created = created;
@@ -47,6 +48,7 @@ public class Job {
         this.workloadActual = workloadActual;
         this.details = details;
         this.customer = customer;
+        this.creator = creator;
     }
 
     public String getName() {
@@ -139,6 +141,18 @@ public class Job {
 
     public void setCustomer(String customer) {
         this.customer = customer;
+    }
+
+    public Employee getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Employee creator) {
+        this.creator = creator;
+    }
+
+    public String getCreatorName() {
+        return creator != null ? creator.getUsername() : "";
     }
 
 }

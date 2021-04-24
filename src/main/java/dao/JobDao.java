@@ -1,5 +1,6 @@
 package dao;
 
+import domain.Employee;
 import domain.Job;
 
 import java.sql.*;
@@ -8,21 +9,25 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.Types.INTEGER;
+
 public class JobDao implements Dao<Job, Integer> {
 
     private Connection connection;
     private SQLUtils sqlUtils;
+    private EmployeeDao employeeDao;
 
     public JobDao(Connection connection) {
         this.connection = connection;
         this.sqlUtils = new SQLUtils();
+        this.employeeDao = new EmployeeDao(connection);
     }
 
     @Override
     public Job create(Job job) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Job"
-                + " (name, created, duedate, quantity, material, workloadestimate, details, customer)"
-                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                + " (name, created, duedate, quantity, material, workloadestimate, details, customer, creator_id)"
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         stmt.setString(1, job.getName());
         stmt.setTimestamp(2, Timestamp.valueOf(job.getCreated()));
         stmt.setTimestamp(3, job.getDueDate() != null ?
@@ -32,6 +37,13 @@ public class JobDao implements Dao<Job, Integer> {
         stmt.setDouble(6, job.getWorkloadEstimate());
         stmt.setString(7, job.getDetails());
         stmt.setString(8, job.getCustomer());
+
+        if (job.getCreator() == null) {
+            stmt.setNull(9, INTEGER);
+        } else {
+            stmt.setInt(9, job.getCreator().getId());
+        }
+
         stmt.executeUpdate();
 
         return read(sqlUtils.getGeneratedId(stmt));
@@ -129,9 +141,10 @@ public class JobDao implements Dao<Job, Integer> {
         Double workloadActual = resultSet.getDouble("workloadActual");
         String details = resultSet.getString("details");
         String customer = resultSet.getString("customer");
+        int creatorId = resultSet.getInt("creator_id");
 
         Job j = new Job(id, name, created, dueDate, finished, deleted, quantity, material,
-                workloadEstimate, workloadActual, details, customer);
+                workloadEstimate, workloadActual, details, customer, employeeDao.read(creatorId));
 
         return j;
     }

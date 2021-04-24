@@ -1,7 +1,9 @@
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
+import dao.EmployeeDao;
 import dao.SQLUtils;
+import domain.Employee;
 import domain.Job;
 import dao.JobDao;
 import org.junit.AfterClass;
@@ -11,17 +13,21 @@ import org.junit.Test;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Random;
 
 public class WorklistTest {
 
-    private static JobDao dao;
+    private static JobDao jobDao;
+    private static EmployeeDao employeeDao;
     private static Connection connection;
     private static SQLUtils sqlUtils;
 
     @BeforeClass
     public static void setUp() throws SQLException {
         connection = DriverManager.getConnection("jdbc:h2:mem:");
-        dao = new JobDao(connection);
+        jobDao = new JobDao(connection);
+        employeeDao = new EmployeeDao(connection);
         sqlUtils = new SQLUtils();
         sqlUtils.createTables(connection);
 
@@ -38,24 +44,44 @@ public class WorklistTest {
         stmt.executeUpdate();
         stmt.close();
 
+        addTestEmployees();
+
     }
 
-    private Job createTestJob() {
+    private static void addTestEmployees() throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement(
+                "insert into employee (username, password) " +
+                        "values ('svenSvensson', 'superSecretPassword1');" +
+                        "insert into employee (username, password) " +
+                        "values ('ragnar', 'superSecretPassword2')" +
+                        ";");
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
+    private Employee randomEmployeeFromDatabase() throws SQLException {
+        List<Employee> employees = employeeDao.list();
+        Random random = new Random();
+        return employees.get(random.nextInt(employees.size()));
+    }
+
+    private Job createTestJob() throws SQLException {
         return new Job("name",
                 LocalDate.parse("2021-08-20"),
                 12,
                 "material",
                 2.0,
                 "details",
-                "customer");
+                "customer",
+                randomEmployeeFromDatabase());
     }
 
     @Test
-    public void jobConstructorWorks() {
+    public void jobConstructorWorks() throws SQLException {
 
         Job job = createTestJob();
 
-        assert (job != null);
+        assert(job != null);
         assertEquals("name", job.getName());
         assertTrue(isSameDay(LocalDateTime.now(), job.getCreated()));
         assertEquals(LocalDate.parse("2021-08-20"), job.getDueDate());
@@ -74,7 +100,7 @@ public class WorklistTest {
     @Test
     public void createdJobHasTheAttributesItWasCreatedWith() throws SQLException {
         Job job = createTestJob();
-        Job jobInDatabase = dao.create(job);
+        Job jobInDatabase = jobDao.create(job);
 
         assertEquals("name", jobInDatabase.getName());
         assertTrue(isSameDay(LocalDateTime.now(), job.getCreated()));
@@ -93,48 +119,48 @@ public class WorklistTest {
     @Test
     public void canMarkJobAsDoneWithWorkTimeActualSpecified() throws SQLException {
 
-        Job j = dao.list().get(0);
+        Job j = jobDao.list().get(0);
         assertTrue(j != null);
         assertFalse(j.isFinished());
         int jobId = j.getId();
 
-        dao.markAsDone(jobId, 5.0);
-        assertTrue(dao.read(j.getId()).isFinished());
+        jobDao.markAsDone(jobId, 5.0);
+        assertTrue(jobDao.read(j.getId()).isFinished());
 
     }
 
     @Test
     public void canMarkJobAsDoneWithWorktimeActualAsNull() throws SQLException {
 
-        Job j = dao.list().get(2);
+        Job j = jobDao.list().get(2);
         assertTrue(j != null);
         assertFalse(j.isFinished());
         int jobId = j.getId();
 
-        dao.markAsDone(jobId, null);
-        assertTrue(dao.read(j.getId()).isFinished());
+        jobDao.markAsDone(jobId, null);
+        assertTrue(jobDao.read(j.getId()).isFinished());
 
     }
 
     @Test
     public void canMarkJobAsNotDone() throws SQLException {
-        Job j = dao.list().get(1);
+        Job j = jobDao.list().get(1);
         assertTrue(j != null);
         assertFalse(j.isFinished());
 
-        dao.markAsDone(j.getId(), 5.0);
-        dao.markAsNotDone(j.getId());
-        assertFalse(dao.read(j.getId()).isFinished());
+        jobDao.markAsDone(j.getId(), 5.0);
+        jobDao.markAsNotDone(j.getId());
+        assertFalse(jobDao.read(j.getId()).isFinished());
     }
 
     @Test
     public void canDeleteJob() throws SQLException {
-        Job j = dao.list().get(1);
+        Job j = jobDao.list().get(1);
         assertTrue(j != null);
 
-        dao.delete(j.getId());
+        jobDao.delete(j.getId());
 
-        assertEquals(0, dao.list().stream()
+        assertEquals(0, jobDao.list().stream()
                 .filter(job -> job.getId() == j.getId())
                 .count());
     }
@@ -142,7 +168,7 @@ public class WorklistTest {
 
     @Test
     public void editingJobWorks() throws SQLException {
-        Job job = dao.create(createTestJob());
+        Job job = jobDao.create(createTestJob());
         assertTrue(job != null);
 
         Job jobToEdit = createTestJob();
@@ -154,7 +180,7 @@ public class WorklistTest {
         jobToEdit.setDetails("details and more details");
         jobToEdit.setCustomer("Another customer");
 
-        job = dao.update(jobToEdit, job.getId());
+        job = jobDao.update(jobToEdit, job.getId());
 
         assertTrue(job.getName().equals("Another name"));
         assertTrue(job.getDueDate().equals(LocalDate.parse("2021-12-31")));
@@ -168,16 +194,18 @@ public class WorklistTest {
     @Test
     public void canParseJobFromResultSetWhenManyAttributesAreNull() throws SQLException {
 
-        Job job = dao.create(new Job("name",
+        Job job = jobDao.create(new Job("name",
                 null,
                 12,
                 "material",
                 2.0,
                 "details",
-                "customer"));
+                "customer",
+                null));
         assert(job != null);
         assertTrue(job.getDueDate() == null);
         assertTrue(job.getDeleted() == null);
+        assertTrue(job.getCreator() == null);
 
     }
 

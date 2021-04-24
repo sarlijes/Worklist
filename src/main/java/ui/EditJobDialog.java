@@ -1,5 +1,6 @@
 package ui;
 
+import domain.Employee;
 import domain.Job;
 import dao.JobDao;
 import javafx.event.ActionEvent;
@@ -20,8 +21,9 @@ public class EditJobDialog extends JobDialog {
     private Job job;
     private ResourceBundle b;
 
-    public EditJobDialog(JobDao jobDao, Stage stage, GridPane grid, Job job, ResourceBundle b) {
-        super(stage, grid, b);
+    public EditJobDialog(JobDao jobDao, Stage stage, GridPane grid, Job job, ResourceBundle b,
+                         Employee loggedInEmployee) {
+        super(stage, grid, b, loggedInEmployee);
         this.jobDao = jobDao;
         this.job = job;
         this.b = b;
@@ -51,7 +53,7 @@ public class EditJobDialog extends JobDialog {
 
             Job newJob = new Job(nameTextField.getText(), dueDatePicker.getValue(), quantitySpinner.getValue(),
                     materialTextField.getText(), workloadEstimateSpinner.getValue(), detailsTextField.getText(),
-                    customerTextField.getText());
+                    customerTextField.getText(), job.getCreator());
 
             try {
                 if (customerTextField.validate() && nameTextField.validate() && materialTextField.validate()) {

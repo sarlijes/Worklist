@@ -1,5 +1,6 @@
 package ui;
 
+import domain.Employee;
 import domain.Job;
 import dao.JobDao;
 import javafx.event.ActionEvent;
@@ -17,8 +18,9 @@ public class ViewFinishedJobDialog extends JobDialog {
     private Job job;
     private ResourceBundle b;
 
-    public ViewFinishedJobDialog(JobDao jobDao, Stage stage, GridPane grid, Job job, ResourceBundle b) {
-        super(stage, grid, b);
+    public ViewFinishedJobDialog(JobDao jobDao, Stage stage, GridPane grid, Job job, ResourceBundle b,
+                                 Employee loggedInEmployee) {
+        super(stage, grid, b, loggedInEmployee);
         this.jobDao = jobDao;
         this.job = job;
         this.b = b;
