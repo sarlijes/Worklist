@@ -66,6 +66,10 @@ public class WorklistTest {
     }
 
     private Job createTestJob() throws SQLException {
+        return createTestJob(randomEmployeeFromDatabase());
+    }
+
+    private Job createTestJob(Employee creator) throws SQLException {
         return new Job("name",
                 LocalDate.parse("2021-08-20"),
                 12,
@@ -73,7 +77,7 @@ public class WorklistTest {
                 2.0,
                 "details",
                 "customer",
-                randomEmployeeFromDatabase());
+                creator);
     }
 
     @Test
@@ -206,6 +210,20 @@ public class WorklistTest {
         assertTrue(job.getDueDate() == null);
         assertTrue(job.getDeleted() == null);
         assertTrue(job.getCreator() == null);
+
+    }
+
+    @Test
+    public void creatorEmployeeIsSavedCorrectly() throws SQLException {
+
+        Employee randomEmployee = randomEmployeeFromDatabase();
+        assert(randomEmployee != null);
+
+        Job j = createTestJob(randomEmployee);
+        assert(j != null);
+
+        assertEquals(randomEmployee.getUsername(), j.getCreatorName());
+        assertEquals(randomEmployee.getUsername(), j.getCreator().getUsername());
 
     }
 

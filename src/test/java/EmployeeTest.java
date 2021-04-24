@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import dao.EmployeeDao;
 import dao.SQLUtils;
 import domain.Employee;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -99,6 +100,10 @@ public class EmployeeTest {
         assert(employeeDao.authenticate("pentti", "11166") == null);
     }
 
+    @AfterClass
+    public static void closeTestConnection() throws SQLException {
+        connection.close();
+    }
 
 }
 

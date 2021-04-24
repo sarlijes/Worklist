@@ -30,7 +30,7 @@
 |20.4.2021   | 1  | Now possible to create new user accounts. Created new class SQLUtils for helper methods. |
 |20.4.2021   | 1  | Add db files to gitignore, extend SQLUtils to create tables |
 |21.4.2021   | 1  | Refactor tests to have SQLUtils create tables |
-|24.4.2021   | 2  | Improvements to user login dialog |
-|24.4.2021   | 1  | Add tests to EmployeeDao |
+|24.4.2021   | 2  | Improvements to user login dialog, validation + ensure unique user names |
+|24.4.2021   | 2  | Add tests to EmployeeDao. Extend Job to include Employee entity as creator. Show creator's username in table view. |
 |   |   |   |
 |total   | 49   |   |

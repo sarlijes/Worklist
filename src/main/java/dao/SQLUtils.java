@@ -20,7 +20,14 @@ public class SQLUtils {
     }
 
     public void createTables(Connection connection) throws SQLException {
-        PreparedStatement createJobStatement = connection.prepareStatement("" +
+
+        createJobTable(connection);
+        createEmployeeTable(connection);
+        addConstraints(connection);
+    }
+
+    private void createJobTable(Connection connection) throws SQLException  {
+        PreparedStatement stmt = connection.prepareStatement("" +
                 "CREATE TABLE if not exists Job (id INT PRIMARY KEY AUTO_INCREMENT,\n" +
                 "created DATETIME," +
                 "finished DATETIME," +
@@ -35,18 +42,33 @@ public class SQLUtils {
                 "customer VARCHAR(1024)," +
                 "creator_id INTEGER" +
                 ");");
-        createJobStatement.executeUpdate();
-        createJobStatement.close();
+        stmt.executeUpdate();
+        stmt.close();
+    }
 
-        PreparedStatement createEmployeeStatement = connection.prepareStatement("" +
+    private void createEmployeeTable(Connection connection) throws SQLException  {
+
+        PreparedStatement stmt = connection.prepareStatement("" +
                 "CREATE TABLE if not exists Employee (id INT PRIMARY KEY AUTO_INCREMENT, " +
                 "username VARCHAR(32)," +
-                "password VARCHAR(32)" +
-                ");" +
-                " ALTER TABLE Job\n" +
-                "    ADD FOREIGN KEY (creator_id) \n" +
-                "    REFERENCES Employee(id);");
-        createEmployeeStatement.executeUpdate();
-        createEmployeeStatement.close();
+                "password VARCHAR(32));");
+
+        stmt.executeUpdate();
+        stmt.close();
+
+    }
+
+    private void addConstraints(Connection connection) throws SQLException  {
+
+        PreparedStatement stmt = connection.prepareStatement(
+                "ALTER TABLE Job ADD FOREIGN KEY (creator_id) REFERENCES Employee(id);" +
+                "ALTER TABLE Employee ADD CONSTRAINT employee_unique_username UNIQUE(username);");
+
+        // TODO add constraints to username and password length
+        // TODO save password as encrypted
+
+        stmt.executeUpdate();
+        stmt.close();
+
     }
 }
