@@ -32,5 +32,6 @@
 |21.4.2021   | 1  | Refactor tests to have SQLUtils create tables |
 |24.4.2021   | 2  | Improvements to user login dialog, validation + ensure unique user names |
 |24.4.2021   | 2  | Add tests to EmployeeDao. Extend Job to include Employee entity as creator. Show creator's username in table view. |
+|27.4.2021   | 1  | Small bug fixes. Update documentation. Now possible to create executable jar file. |
 |   |   |   |
-|total   | 49   |   |
+|total   | 58   |   |
