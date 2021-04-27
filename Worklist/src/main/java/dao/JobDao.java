@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.sql.Types.INTEGER;
+import static java.sql.Types.TIMESTAMP;
 
 public class JobDao implements Dao<Job, Integer> {
 
@@ -69,7 +70,13 @@ public class JobDao implements Dao<Job, Integer> {
                 + " name = ?, duedate = ?, quantity = ?, material = ?, workloadestimate = ?, details = ?, customer = ?"
                 + " where id = ?;");
         stmt.setString(1, job.getName());
-        stmt.setTimestamp(2, Timestamp.valueOf(job.getDueDate().atTime(23, 59)));
+
+        if (job.getDueDate() == null) {
+            stmt.setNull(2, TIMESTAMP);
+        } else {
+            stmt.setTimestamp(2, Timestamp.valueOf(job.getDueDate().atTime(23, 59)));
+        }
+
         stmt.setInt(3, job.getQuantity());
         stmt.setString(4, job.getMaterial());
         stmt.setDouble(5, job.getWorkloadEstimate());

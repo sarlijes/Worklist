@@ -39,4 +39,9 @@ Generate checkstyle report to target/site/checkstyle.html:
 ```
 mvn jxr:jxr checkstyle:checkstyle
 ```
-
+Generate executable jar file: 
+```
+mvn compile exec:java -Dexec.mainClass=Main
+```
+## Releases:
+Week 5

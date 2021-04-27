@@ -83,3 +83,20 @@ main->bussi244 : ostaLippu(artonKortti, 2)
 bussi244->artonKortti  : getArvo()
 artonKortti->bussi244 : 1.5
 ratikka6->main : false
+
+::::::::::::::::::::::::::::::::
+
+: : : Week 5 exercise: sequence graph
+
+::::::::::::::::::::::::::::::::
+
+title Employee login Sequence
+
+Employee->UI : click loginButton
+UI->EmployeeDao : authenticate(password, username);
+EmployeeDao-->UI : employee
+
+UI->UI: stage.setScene(mainScene);
+UI->UI: loggedInEmployee = employee;
+UI-->Employee:
+

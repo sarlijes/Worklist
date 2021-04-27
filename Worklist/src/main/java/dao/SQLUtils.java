@@ -62,7 +62,7 @@ public class SQLUtils {
 
         PreparedStatement stmt = connection.prepareStatement(
                 "ALTER TABLE Job ADD FOREIGN KEY (creator_id) REFERENCES Employee(id);" +
-                "ALTER TABLE Employee ADD CONSTRAINT employee_unique_username UNIQUE(username);");
+                "ALTER TABLE Employee ADD CONSTRAINT if not exists employee_unique_username UNIQUE(username);");
 
         // TODO add constraints to username and password length
         // TODO save password as encrypted
