@@ -18,6 +18,10 @@ username: vlad password: 1234
 
 ## Commands:
 
+Navigate to project folder:
+```
+cd Worklist/
+```
 Run app:
 ```
 mvn compile exec:java -Dexec.mainClass=Main
