@@ -41,7 +41,7 @@ mvn jxr:jxr checkstyle:checkstyle
 ```
 Generate executable jar file: 
 ```
-mvn compile exec:java -Dexec.mainClass=Main
+mvn package
 ```
 ## Releases:
 Week 5
