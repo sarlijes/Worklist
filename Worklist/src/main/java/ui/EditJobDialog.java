@@ -1,8 +1,11 @@
 package ui;
 
+import com.jfoenix.controls.JFXComboBox;
+import dao.MaterialDao;
 import domain.Employee;
 import domain.Job;
 import dao.JobDao;
+import domain.Material;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,9 +24,9 @@ public class EditJobDialog extends JobDialog {
     private Job job;
     private ResourceBundle b;
 
-    public EditJobDialog(JobDao jobDao, Stage stage, GridPane grid, Job job, ResourceBundle b,
+    public EditJobDialog(JobDao jobDao, MaterialDao materialDao, Stage stage, GridPane grid, Job job, ResourceBundle b,
                          Employee loggedInEmployee) {
-        super(stage, grid, b, loggedInEmployee);
+        super(stage, grid, b, loggedInEmployee, materialDao);
         this.jobDao = jobDao;
         this.job = job;
         this.b = b;
@@ -40,7 +43,8 @@ public class EditJobDialog extends JobDialog {
 
         customerTextField.setText(job.getCustomer());
         nameTextField.setText(job.getName());
-        materialTextField.setText(job.getMaterial());
+        materialComboBox.getSelectionModel().select(job.getMaterial().getName());
+
         detailsTextField.setText(job.getDetails());
         dueDatePicker.setValue(job.getDueDate());
         quantitySpinner.getValueFactory().setValue(job.getQuantity());
@@ -51,12 +55,17 @@ public class EditJobDialog extends JobDialog {
 
         saveButton.setOnAction((ActionEvent e) -> {
 
-            Job newJob = new Job(nameTextField.getText(), dueDatePicker.getValue(), quantitySpinner.getValue(),
-                    materialTextField.getText(), workloadEstimateSpinner.getValue(), detailsTextField.getText(),
-                    customerTextField.getText(), job.getCreator());
+            Job newJob = null;
+            try {
+                newJob = new Job(nameTextField.getText(), dueDatePicker.getValue(), quantitySpinner.getValue(),
+                        materialDao.readByName(materialComboBox.getValue().toString()), workloadEstimateSpinner.getValue(),
+                        detailsTextField.getText(), customerTextField.getText(), job.getCreator());
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
 
             try {
-                if (customerTextField.validate() && nameTextField.validate() && materialTextField.validate()) {
+                if (customerTextField.validate() && nameTextField.validate()) {
                     jobDao.update(newJob, job.getId());
                     stage.close();
                 }

@@ -5,14 +5,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import dao.EmployeeDao;
+import dao.MaterialDao;
 import domain.Employee;
 import domain.Job;
 import dao.JobDao;
+import domain.Material;
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -25,7 +27,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
 
@@ -34,18 +35,32 @@ public class WorklistUI extends Application {
     Connection connection;
     private static JobDao jobDao;
     private static EmployeeDao employeeDao;
+    private static MaterialDao materialDao;
     private Locale locale = new Locale("fi", "FI");
     ResourceBundle b = ResourceBundle.getBundle("Label", locale);
     Employee loggedInEmployee = null;
 
-    private TableView<Job> table = new TableView<>();
-    private ObservableList<Job> data = FXCollections.observableArrayList(new ArrayList<>());
-    Scene mainScene = new Scene(new Group());
-    final VBox vbox = new VBox();
+    private TableView<Job> jobTableView = new TableView<>();
+    private TableView<Material> materialTableView = new TableView<>();
+    private ObservableList<Job> jobData = FXCollections.observableArrayList(new ArrayList<>());
+    private ObservableList<Material> materialData = FXCollections.observableArrayList(new ArrayList<>());
 
-    public void refreshTableData() throws SQLException {
-        data = FXCollections.observableArrayList(jobDao.list());
-        table.setItems(data);
+    Scene mainScene = new Scene(new Group());
+    final GridPane grid = new GridPane();
+
+    JobJFXTextField newMaterialNameTextField = newMaterialNameTextField();
+    JobJFXTextField newMaterialDetailsTextField = newMaterialDetailsTextField();
+
+    // TODO change relevant variables to private
+
+    public void refreshJobTableData() throws SQLException {
+        jobData = FXCollections.observableArrayList(jobDao.list());
+        jobTableView.setItems(jobData);
+    }
+
+    public void refreshMaterialTableData() throws SQLException {
+        materialData = FXCollections.observableArrayList(materialDao.list());
+        materialTableView.setItems(materialData);
     }
 
     @Override
@@ -61,6 +76,7 @@ public class WorklistUI extends Application {
             if (loginDialog.authenticated) {
                 loggedInEmployee = loginDialog.getLoggedInEmployee();
                 stage.setScene(mainScene);
+                stage.setMaximized(true);
                 stage.show();
             } else {
                 stage.close();
@@ -75,16 +91,79 @@ public class WorklistUI extends Application {
 
         stage.setTitle(b.getString("worklist_app"));
 
-        stage.setHeight(600);
-        stage.setWidth(1200);
+        refreshJobTableData();
+        refreshMaterialTableData();
+        initializeJobTableView();
+        initializeMaterialTableView();
 
-        refreshTableData();
+        final Label label = new Label(b.getString("worklist"));
+        label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        Button addNewJobButton = addNewJobButton();
 
-        table.setEditable(true);
+//        newMaterialNameTextField = newMaterialNameTextField();
+//        newMaterialDetailsTextField = newMaterialDetailsTextField();
+        Button addNewMaterialButton = newMaterialButton();
 
-        table.setPlaceholder(new Label("No visible columns and/or data exist."));
+        grid.setVgap(30);
+        grid.setHgap(30);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 
-        table.setRowFactory(tv -> new TableRow<>() {
+        grid.add(label, 0, 0);
+        grid.add(addNewJobButton, 0, 1);
+        grid.add(jobTableView, 0, 2);
+        grid.add(materialTableView, 1, 2);
+        grid.add(newMaterialNameTextField, 1, 3);
+        grid.add(newMaterialDetailsTextField, 1, 4);
+        grid.add(addNewMaterialButton, 1, 5);
+
+        ((Group) mainScene.getRoot()).getChildren().addAll(grid);
+
+    }
+
+    private void initializeMaterialTableView() {
+        materialTableView.setEditable(true);
+
+        TableColumn nameColumn = new TableColumn(b.getString("material_name"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Material, String>("name"));
+        nameColumn.setMinWidth(100);
+
+        TableColumn detailsColumn = new TableColumn(b.getString("details"));
+        detailsColumn.setCellValueFactory(new PropertyValueFactory<Material, String>("details"));
+        detailsColumn.setMinWidth(100);
+
+        materialTableView.setItems(materialData);
+        materialTableView.getColumns().addAll(nameColumn, detailsColumn);
+
+    }
+
+    private JobJFXTextField newMaterialNameTextField() {
+        return new JobJFXTextField(b.getString("material"), b.getString("field_cannot_be_empty"), true);
+    }
+
+    private JobJFXTextField newMaterialDetailsTextField() {
+        return new JobJFXTextField(b.getString("details"));
+    }
+
+    private Button newMaterialButton() {
+        Button loginButton = new Button(b.getString("add_new_material"));
+        loginButton.setOnAction((ActionEvent event) -> {
+            try {
+
+                // TODO add validation to avoid duplicate material names
+
+                Material m = new Material(newMaterialNameTextField.getText(), newMaterialDetailsTextField.getText());
+                materialDao.create(m);
+                refreshMaterialTableData();
+            } catch (SQLException exception) {
+            }
+        });
+        return loginButton;
+    }
+
+    private void initializeJobTableView() {
+        jobTableView.setEditable(true);
+
+        jobTableView.setRowFactory(tv -> new TableRow<>() {
             @Override
             protected void updateItem(Job job, boolean empty) {
                 super.updateItem(job, empty);
@@ -96,11 +175,6 @@ public class WorklistUI extends Application {
                     setStyle("");
             }
         });
-
-        final Label label = new Label(b.getString("worklist"));
-        label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-
-        Button addNewJobButton = addNewJobButton();
 
         TableColumn idColumn = new TableColumn("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("id"));
@@ -144,8 +218,8 @@ public class WorklistUI extends Application {
         detailsColumn.setCellValueFactory(new PropertyValueFactory<Job, String>("details"));
         detailsColumn.setMinWidth(100);
 
-        table.setItems(data);
-        table.getColumns().addAll(idColumn, createdColumn, creatorColumn, customerColumn, nameColumn, materialColumn,
+        jobTableView.setItems(jobData);
+        jobTableView.getColumns().addAll(idColumn, createdColumn, creatorColumn, customerColumn, nameColumn, materialColumn,
                 quantityColumn, dueDateColumn, workLoadEstimateColumn, detailsColumn);
 
         TableColumn workLoadActualColumn = new TableColumn(b.getString("actual_work_load"));
@@ -154,14 +228,7 @@ public class WorklistUI extends Application {
 
         addButtonToTable();
 
-        table.getColumns().add(workLoadActualColumn);
-
-        vbox.setSpacing(20);
-        vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label, addNewJobButton, table);
-
-        ((Group) mainScene.getRoot()).getChildren().addAll(vbox);
-
+        jobTableView.getColumns().add(workLoadActualColumn);
     }
 
     private Button addNewJobButton() {
@@ -169,11 +236,11 @@ public class WorklistUI extends Application {
 
         addNewJobButton.setOnAction((ActionEvent event) -> {
             Stage s = new Stage();
-            CreateNewJobDialog createNewJobDialog = new CreateNewJobDialog(jobDao, s, new GridPane(), b, loggedInEmployee);
+            CreateNewJobDialog createNewJobDialog = new CreateNewJobDialog(jobDao, materialDao, s, new GridPane(), b, loggedInEmployee);
 
             s.setOnHiding(ev -> {
                 try {
-                    refreshTableData();
+                    refreshJobTableData();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -223,13 +290,17 @@ public class WorklistUI extends Application {
                             Stage stage = new Stage();
                             JobDialog jobDialog;
 
-                            if (chosenJob.isFinished())
-                                jobDialog = new ViewFinishedJobDialog(jobDao, stage, new GridPane(), chosenJob, b, loggedInEmployee);
-                            else jobDialog = new EditJobDialog(jobDao, stage, new GridPane(), chosenJob, b, loggedInEmployee);
+                            if (chosenJob.isFinished()) {
+                                jobDialog = new ViewFinishedJobDialog(jobDao, materialDao, stage, new GridPane(), chosenJob, b,
+                                        loggedInEmployee);
+                            } else {
+                                jobDialog = new EditJobDialog(jobDao, materialDao, stage, new GridPane(), chosenJob, b,
+                                        loggedInEmployee);
+                            }
 
                             stage.setOnHiding(ev -> {
                                 try {
-                                    refreshTableData();
+                                    refreshJobTableData();
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
@@ -250,12 +321,13 @@ public class WorklistUI extends Application {
         };
 
         editButton.setCellFactory(cellFactory);
-        table.getColumns().add(editButton);
+        jobTableView.getColumns().add(editButton);
     }
 
     public static void main(String[] args, Connection connection) {
         jobDao = new JobDao(connection);
         employeeDao = new EmployeeDao(connection);
+        materialDao = new MaterialDao(connection);
         launch(args);
     }
 

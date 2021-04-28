@@ -23,10 +23,11 @@ public class SQLUtils {
 
         createJobTable(connection);
         createEmployeeTable(connection);
+        createMaterialTable(connection);
         addConstraints(connection);
     }
 
-    private void createJobTable(Connection connection) throws SQLException  {
+    private void createJobTable(Connection connection) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement("" +
                 "CREATE TABLE if not exists Job (id INT PRIMARY KEY AUTO_INCREMENT,\n" +
                 "created DATETIME," +
@@ -40,13 +41,14 @@ public class SQLUtils {
                 "workloadactual FLOAT," +
                 "details VARCHAR(2048)," +
                 "customer VARCHAR(1024)," +
-                "creator_id INTEGER" +
+                "creator_id INTEGER," +
+                "material_id INTEGER" +
                 ");");
         stmt.executeUpdate();
         stmt.close();
     }
 
-    private void createEmployeeTable(Connection connection) throws SQLException  {
+    private void createEmployeeTable(Connection connection) throws SQLException {
 
         PreparedStatement stmt = connection.prepareStatement("" +
                 "CREATE TABLE if not exists Employee (id INT PRIMARY KEY AUTO_INCREMENT, " +
@@ -58,11 +60,24 @@ public class SQLUtils {
 
     }
 
-    private void addConstraints(Connection connection) throws SQLException  {
+    private void createMaterialTable(Connection connection) throws SQLException {
+
+        PreparedStatement stmt = connection.prepareStatement("" +
+                "CREATE TABLE if not exists Material (id INT PRIMARY KEY AUTO_INCREMENT, " +
+                "name VARCHAR(32)," +
+                "details VARCHAR(1024));");
+
+        stmt.executeUpdate();
+        stmt.close();
+
+    }
+
+    private void addConstraints(Connection connection) throws SQLException {
 
         PreparedStatement stmt = connection.prepareStatement(
                 "ALTER TABLE Job ADD FOREIGN KEY (creator_id) REFERENCES Employee(id);" +
-                "ALTER TABLE Employee ADD CONSTRAINT if not exists employee_unique_username UNIQUE(username);");
+                        "ALTER TABLE Job ADD FOREIGN KEY (material_id) REFERENCES Material(id);" +
+                        "ALTER TABLE Employee ADD CONSTRAINT if not exists employee_unique_username UNIQUE(username);");
 
         // TODO add constraints to username and password length
         // TODO save password as encrypted

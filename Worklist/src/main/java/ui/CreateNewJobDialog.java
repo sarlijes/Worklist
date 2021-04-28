@@ -1,8 +1,10 @@
 package ui;
 
+import dao.MaterialDao;
 import domain.Employee;
 import domain.Job;
 import dao.JobDao;
+import domain.Material;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,8 +22,9 @@ public class CreateNewJobDialog extends JobDialog {
     private JobDao jobDao;
     private ResourceBundle b;
 
-    public CreateNewJobDialog(JobDao jobDao, Stage stage, GridPane grid, ResourceBundle b, Employee loggedInEmployee) {
-        super(stage, grid, b, loggedInEmployee);
+    public CreateNewJobDialog(JobDao jobDao, MaterialDao materialDao, Stage stage, GridPane grid, ResourceBundle b,
+                              Employee loggedInEmployee) {
+        super(stage, grid, b, loggedInEmployee, materialDao);
         this.jobDao = jobDao;
         this.b = b;
     }
@@ -37,14 +40,23 @@ public class CreateNewJobDialog extends JobDialog {
         Button saveButton = new Button(b.getString("save"));
         grid.add(saveButton, 0, 8);
 
+        //Material m = materialComboBox.getValue();
+
         saveButton.setOnAction((ActionEvent e) -> {
 
-            Job job = new Job(nameTextField.getText(), dueDatePicker.getValue(), quantitySpinner.getValue(),
-                    materialTextField.getText(), workloadEstimateSpinner.getValue(), detailsTextField.getText(),
-                    customerTextField.getText(), loggedInEmployee);
+            Job job = null;
 
             try {
-                if (customerTextField.validate() && nameTextField.validate() && materialTextField.validate()) {
+                job = new Job(nameTextField.getText(), dueDatePicker.getValue(), quantitySpinner.getValue(),
+                        materialDao.readByName(materialComboBox.getValue().toString()),
+                        workloadEstimateSpinner.getValue(), detailsTextField.getText(),
+                        customerTextField.getText(), loggedInEmployee);
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
+
+            try {
+                if (customerTextField.validate() && nameTextField.validate()) {
                     jobDao.create(job);
                     stage.close();
                 }

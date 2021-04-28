@@ -16,23 +16,25 @@ public class JobDao implements Dao<Job, Integer> {
     private Connection connection;
     private SQLUtils sqlUtils;
     private EmployeeDao employeeDao;
+    private MaterialDao materialDao;
 
     public JobDao(Connection connection) {
         this.connection = connection;
         this.sqlUtils = new SQLUtils();
         this.employeeDao = new EmployeeDao(connection);
+        this.materialDao = new MaterialDao(connection);
     }
 
     @Override
     public Job create(Job job) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Job (name, created, duedate, quantity, " +
-                "material, workloadestimate, details, customer, creator_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                "material_id, workloadestimate, details, customer, creator_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         stmt.setString(1, job.getName());
         stmt.setTimestamp(2, Timestamp.valueOf(job.getCreated()));
         stmt.setTimestamp(3, job.getDueDate() != null ?
                 Timestamp.valueOf(job.getDueDate().atTime(23, 59)) : null);
         stmt.setInt(4, job.getQuantity());
-        stmt.setString(5, job.getMaterial());
+        stmt.setInt(5, job.getMaterial().getId());
         stmt.setDouble(6, job.getWorkloadEstimate());
         stmt.setString(7, job.getDetails());
         stmt.setString(8, job.getCustomer());
@@ -67,7 +69,7 @@ public class JobDao implements Dao<Job, Integer> {
     @Override
     public Job update(Job job, Integer id) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement("UPDATE Job set"
-                + " name = ?, duedate = ?, quantity = ?, material = ?, workloadestimate = ?, details = ?, customer = ?"
+                + " name = ?, duedate = ?, quantity = ?, material_id = ?, workloadestimate = ?, details = ?, customer = ?"
                 + " where id = ?;");
         stmt.setString(1, job.getName());
 
@@ -78,7 +80,7 @@ public class JobDao implements Dao<Job, Integer> {
         }
 
         stmt.setInt(3, job.getQuantity());
-        stmt.setString(4, job.getMaterial());
+        stmt.setInt(4, job.getMaterial().getId());
         stmt.setDouble(5, job.getWorkloadEstimate());
         stmt.setString(6, job.getDetails());
         stmt.setString(7, job.getCustomer());
@@ -139,14 +141,14 @@ public class JobDao implements Dao<Job, Integer> {
                 resultSet.getTimestamp("deleted").toLocalDateTime().toLocalDate() : null;
 
         int quantity = resultSet.getInt("quantity");
-        String material = resultSet.getString("material");
+        int materialId = resultSet.getInt("material_id");
         Double workloadEstimate = resultSet.getDouble("workloadEstimate");
         Double workloadActual = resultSet.getDouble("workloadActual");
         String details = resultSet.getString("details");
         String customer = resultSet.getString("customer");
         int creatorId = resultSet.getInt("creator_id");
 
-        return new Job(id, name, created, dueDate, finished, deleted, quantity, material,
+        return new Job(id, name, created, dueDate, finished, deleted, quantity, materialDao.read(materialId),
                 workloadEstimate, workloadActual, details, customer, employeeDao.read(creatorId));
     }
 

@@ -13,14 +13,14 @@ public class Job {
     private LocalDate finished;
     private LocalDate deleted;
     private int quantity;
-    private String material;
+    private Material material;
     private Double workloadEstimate;
     private Double workloadActual;
     private String details;
     private String customer;
     private Employee creator;
 
-    public Job(String name, LocalDate dueDate, int quantity, String material,
+    public Job(String name, LocalDate dueDate, int quantity, Material material,
                Double workloadEstimate, String details, String customer, Employee creator) {
         this.name = name;
         this.created = LocalDateTime.now();
@@ -34,7 +34,7 @@ public class Job {
     }
 
     public Job(int id, String name, LocalDateTime created, LocalDate dueDate, LocalDate finished, LocalDate deleted,
-               int quantity, String material, Double workloadEstimate, Double workloadActual,
+               int quantity, Material material, Double workloadEstimate, Double workloadActual,
                String details, String customer, Employee creator) {
         this.id = id;
         this.name = name;
@@ -107,11 +107,11 @@ public class Job {
         this.quantity = quantity;
     }
 
-    public String getMaterial() {
+    public Material getMaterial() {
         return material;
     }
 
-    public void setMaterial(String material) {
+    public void setMaterial(Material material) {
         this.material = material;
     }
 

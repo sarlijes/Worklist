@@ -1,16 +1,22 @@
 package ui;
 
+import com.jfoenix.controls.JFXComboBox;
+import dao.MaterialDao;
 import domain.Employee;
+import domain.Material;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public abstract class JobDialog {
+
+    MaterialDao materialDao;
 
     public void start(Stage stage) {
         // This will be overridden
@@ -28,8 +34,7 @@ public abstract class JobDialog {
     JobJFXTextField nameTextField = new JobJFXTextField(b.getString("name"),
             b.getString("field_cannot_be_empty"), true);
 
-    JobJFXTextField materialTextField = new JobJFXTextField(b.getString("material"),
-            b.getString("field_cannot_be_empty"), true);
+    JFXComboBox materialComboBox  = new JFXComboBox<Material>();
 
     JobJFXTextField detailsTextField = new JobJFXTextField(b.getString("details"));
 
@@ -44,11 +49,12 @@ public abstract class JobDialog {
     Spinner<Double> workloadEstimateSpinner = new Spinner<>(0.5, 1000.0, 0.5, 0.5);
 
 
-    public JobDialog(Stage stage, GridPane grid, ResourceBundle b, Employee loggedInEmployee) {
+    public JobDialog(Stage stage, GridPane grid, ResourceBundle b, Employee loggedInEmployee, MaterialDao materialDao) {
         this.stage = stage;
         this.grid = grid;
         this.b = b;
         this.loggedInEmployee = loggedInEmployee;
+        this.materialDao = materialDao;
 
         grid.setAlignment(Pos.CENTER);
         grid.setVgap(30);
@@ -64,7 +70,18 @@ public abstract class JobDialog {
 
         // Material
 
-        grid.add(materialTextField, 0, 3);
+        materialComboBox.setPromptText(b.getString("material"));
+
+        try {
+            for (Material m : materialDao.list()) {
+                materialComboBox.getItems().add(m.getName());
+            }
+        } catch (SQLException exception) {
+            materialComboBox.getItems().add("?");
+            exception.printStackTrace();
+        }
+
+        grid.add(materialComboBox, 0, 3);
 
         // Details
 

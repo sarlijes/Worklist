@@ -2,10 +2,12 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 import dao.EmployeeDao;
+import dao.MaterialDao;
 import dao.SQLUtils;
 import domain.Employee;
 import domain.Job;
 import dao.JobDao;
+import domain.Material;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,6 +22,7 @@ public class WorklistTest {
 
     private static JobDao jobDao;
     private static EmployeeDao employeeDao;
+    private static MaterialDao materialDao;
     private static Connection connection;
     private static SQLUtils sqlUtils;
 
@@ -28,6 +31,7 @@ public class WorklistTest {
         connection = DriverManager.getConnection("jdbc:h2:mem:");
         jobDao = new JobDao(connection);
         employeeDao = new EmployeeDao(connection);
+        materialDao = new MaterialDao(connection);
         sqlUtils = new SQLUtils();
         sqlUtils.createTables(connection);
 
@@ -36,10 +40,14 @@ public class WorklistTest {
                 "('Test data 1', '2021-02-23T00:00:00.0', '2021-04-04T00:00:00.0', 5.0, 'Test data material X', 4.0, 'details', 'Customer X');\n" +
                 "\n" +
                 "insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) values \n" +
-                "('Test data 2', now(), '2021-08-08T00:00:00.0', 45.0, 'AlNiCo', 2.0, 'Test data material Z', 'Customer Y');\n" +
+                "('Test data 2', now(), '2021-08-08T00:00:00.0', 45.0, 'AlNiCo', 2.0, 'Test data material Z', 'Customer Y');" +
                 "\n" +
                 "insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) values \n" +
-                "('Test data 2', now(), '2021-02-02T00:00:00.0', 2.0, 'CU-OF', 1.0, 'Test data material Y', 'internal');");
+                "('Test data 2', now(), '2021-02-02T00:00:00.0', 2.0, 'CU-OF', 1.0, 'Test data material Y', 'internal');" +
+
+                "insert into material (name, details) values ('test material name 1', 'test material details');" +
+                "insert into material (name, details) values ('test material name 2', 'test material details');" +
+                "insert into material (name, details) values ('test material name 3', 'test material details');");
 
         stmt.executeUpdate();
         stmt.close();
@@ -73,7 +81,7 @@ public class WorklistTest {
         return new Job("name",
                 LocalDate.parse("2021-08-20"),
                 12,
-                "material",
+                materialDao.readByName("test material name 1"),
                 2.0,
                 "details",
                 "customer",
@@ -85,7 +93,7 @@ public class WorklistTest {
 
         Job job = createTestJob();
 
-        assert(job != null);
+        assert (job != null);
         assertEquals("name", job.getName());
         assertTrue(isSameDay(LocalDateTime.now(), job.getCreated()));
         assertEquals(LocalDate.parse("2021-08-20"), job.getDueDate());
@@ -93,7 +101,7 @@ public class WorklistTest {
         assertFalse(job.isFinished());
         assertEquals(null, job.getDeleted());
         assertEquals(12, job.getQuantity());
-        assertEquals("material", job.getMaterial());
+        assertEquals("test material name 1", job.getMaterial().getName());
         assertEquals(null, job.getWorkloadActual());
         assertEquals("details", job.getDetails());
         assertEquals("customer", job.getCustomer());
@@ -113,7 +121,7 @@ public class WorklistTest {
         assertFalse(jobInDatabase.isFinished());
         assertEquals(null, jobInDatabase.getDeleted());
         assertEquals(12, jobInDatabase.getQuantity());
-        assertEquals("material", jobInDatabase.getMaterial());
+        assertEquals("test material name 1", jobInDatabase.getMaterial().getName());
         assertEquals("details", jobInDatabase.getDetails());
         assertEquals("customer", jobInDatabase.getCustomer());
 
@@ -179,7 +187,7 @@ public class WorklistTest {
         jobToEdit.setName("Another name");
         jobToEdit.setDueDate(LocalDate.parse("2021-12-31"));
         jobToEdit.setQuantity(555);
-        jobToEdit.setMaterial("Test material 2972");
+        jobToEdit.setMaterial(materialDao.readByName("test material name 1"));
         jobToEdit.setWorkloadEstimate(12.5);
         jobToEdit.setDetails("details and more details");
         jobToEdit.setCustomer("Another customer");
@@ -189,7 +197,7 @@ public class WorklistTest {
         assertTrue(job.getName().equals("Another name"));
         assertTrue(job.getDueDate().equals(LocalDate.parse("2021-12-31")));
         assertTrue(job.getQuantity() == 555);
-        assertTrue(job.getMaterial().equals("Test material 2972"));
+        assertTrue(job.getMaterial().getName().equals("test material name 1"));
         assertThat(job.getWorkloadEstimate(), is(12.5));
         assertTrue(job.getDetails().equals("details and more details"));
         assertTrue(job.getCustomer().equals("Another customer"));
@@ -201,12 +209,12 @@ public class WorklistTest {
         Job job = jobDao.create(new Job("name",
                 null,
                 12,
-                "material",
+                materialDao.readByName("test material name 1"),
                 2.0,
                 "details",
                 "customer",
                 null));
-        assert(job != null);
+        assert (job != null);
         assertTrue(job.getDueDate() == null);
         assertTrue(job.getDeleted() == null);
         assertTrue(job.getCreator() == null);
@@ -217,10 +225,10 @@ public class WorklistTest {
     public void creatorEmployeeIsSavedCorrectly() throws SQLException {
 
         Employee randomEmployee = randomEmployeeFromDatabase();
-        assert(randomEmployee != null);
+        assert (randomEmployee != null);
 
         Job j = createTestJob(randomEmployee);
-        assert(j != null);
+        assert (j != null);
 
         assertEquals(randomEmployee.getUsername(), j.getCreatorName());
         assertEquals(randomEmployee.getUsername(), j.getCreator().getUsername());

@@ -1,5 +1,6 @@
 package ui;
 
+import dao.MaterialDao;
 import domain.Employee;
 import domain.Job;
 import dao.JobDao;
@@ -18,9 +19,9 @@ public class ViewFinishedJobDialog extends JobDialog {
     private Job job;
     private ResourceBundle b;
 
-    public ViewFinishedJobDialog(JobDao jobDao, Stage stage, GridPane grid, Job job, ResourceBundle b,
-                                 Employee loggedInEmployee) {
-        super(stage, grid, b, loggedInEmployee);
+    public ViewFinishedJobDialog(JobDao jobDao, MaterialDao materialDao, Stage stage, GridPane grid, Job job,
+                                 ResourceBundle b, Employee loggedInEmployee) {
+        super(stage, grid, b, loggedInEmployee, materialDao);
         this.jobDao = jobDao;
         this.job = job;
         this.b = b;
@@ -37,8 +38,8 @@ public class ViewFinishedJobDialog extends JobDialog {
         nameTextField.setText(job.getName());
         nameTextField.setDisable(true);
 
-        materialTextField.setText(job.getMaterial());
-        materialTextField.setDisable(true);
+        materialComboBox.getSelectionModel().select(job.getMaterial().getName());
+        materialComboBox.setDisable(true);
 
         detailsTextField.setText(job.getDetails());
         detailsTextField.setDisable(true);
