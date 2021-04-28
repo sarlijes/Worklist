@@ -12,10 +12,6 @@ It is a course project for the [Software Engineering](https://ohjelmistotekniikk
 
 [Architecture](https://github.com/sarlijes/Worklist/blob/master/Documentation/Architecture.md)
 
-## User accounts for testing:
-username: esmeralda password: 1234
-username: vlad password: 1234
-
 ## Commands:
 
 Navigate to project folder:
