@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import worklist.dao.EmployeeDao;
 import worklist.dao.SQLUtils;
-import worklist.domain.Employee;
+import worklist.entity.Employee;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

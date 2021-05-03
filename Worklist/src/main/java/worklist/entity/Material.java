@@ -1,4 +1,4 @@
-package worklist.domain;
+package worklist.entity;
 
 public class Material {
 

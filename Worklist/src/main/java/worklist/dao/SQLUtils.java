@@ -1,3 +1,8 @@
+/**
+ * Utility class to provide useful methods to allow access to database. Used for both persistant H2 database and
+ * the in-memomry database used in testing.
+ */
+
 package worklist.dao;
 
 import java.sql.Connection;
@@ -7,25 +12,63 @@ import java.sql.SQLException;
 
 public class SQLUtils {
 
-    public int getGeneratedId(PreparedStatement stmt) throws SQLException {
+    /**
+     *
+     * @param statement         <code>PreparedStatement</code> that has been just run
+     * @return                  the id of the database entry that was created by running the statement
+     * @throws SQLException     Indicates that an <code>SQLException</code> has occurred during transaction
+     */
+
+    public int getGeneratedId(PreparedStatement statement) throws SQLException {
         int id = -1;
-        ResultSet generatedKeys = stmt.getGeneratedKeys();
+        ResultSet generatedKeys = statement.getGeneratedKeys();
 
         if (generatedKeys.next()) {
             id = generatedKeys.getInt(1);
         }
         generatedKeys.close();
-        stmt.close();
+        statement.close();
         return id;
     }
 
-    public void createTables(Connection connection) throws SQLException {
+    /**
+     * Method that calls various other methods to create database tables
+     *
+     * @param   connection      The <code>Connection</code> used to create the tables
+     * @throws  SQLException    Indicates that an <code>SQLException</code> has occurred during transaction
+     */
 
+    public void createTables(Connection connection) throws SQLException {
         createJobTable(connection);
         createEmployeeTable(connection);
         createMaterialTable(connection);
+        addDefaultMaterials(connection);
         addConstraints(connection);
     }
+
+    /**
+     * Creates some default Materials to database
+     *
+     * @param   connection      The <code>Connection</code> used to create the tables
+     * @throws  SQLException    Indicates that an <code>SQLException</code> has occurred during transaction
+     */
+
+    private void addDefaultMaterials(Connection connection) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement(
+                "insert into material (name, details) " +
+                        "values ('Alumiini 7075T6', '');" +
+                        "insert into material (name, details) " +
+                        "values ('Alumiiniputki 30mm', 'Hyllytavaran pituus 6 m')");
+        stmt.executeUpdate();
+        stmt.close();
+    }
+
+    /**
+     * Creates a table to store <code>Job</code> entries in database, if it doesn't exist already
+     *
+     * @param   connection      The <code>Connection</code> used to create the table
+     * @throws SQLException     Indicates that an <code>SQLException</code> has occurred during transaction
+     */
 
     private void createJobTable(Connection connection) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement("" +
@@ -48,6 +91,13 @@ public class SQLUtils {
         stmt.close();
     }
 
+    /**
+     * Creates a table to store <code>Employee</code> entries in database, if it doesn't exist already
+     *
+     * @param   connection      The <code>Connection</code> used to create the table
+     * @throws SQLException     Indicates that an <code>SQLException</code> has occurred during transaction
+     */
+
     private void createEmployeeTable(Connection connection) throws SQLException {
 
         PreparedStatement stmt = connection.prepareStatement("" +
@@ -60,6 +110,13 @@ public class SQLUtils {
 
     }
 
+    /**
+     * Creates a table to store <code>Material</code> entries in database, if it doesn't exist already
+     *
+     * @param   connection      The <code>Connection</code> used to create the table
+     * @throws SQLException     Indicates that an <code>SQLException</code> has occurred during transaction
+     */
+
     private void createMaterialTable(Connection connection) throws SQLException {
 
         PreparedStatement stmt = connection.prepareStatement("" +
@@ -71,6 +128,14 @@ public class SQLUtils {
         stmt.close();
 
     }
+
+    /**
+     * Adds constraints to the database (links between tables and restrictions such as "employee username must be
+     * unique")
+     *
+     * @param   connection      The <code>Connection</code> used to create the constraints
+     * @throws SQLException     Indicates that an <code>SQLException</code> has occurred during transaction
+     */
 
     private void addConstraints(Connection connection) throws SQLException {
 

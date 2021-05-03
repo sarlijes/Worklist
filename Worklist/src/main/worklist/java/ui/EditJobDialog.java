@@ -2,10 +2,10 @@ package worklist.ui;
 
 import com.jfoenix.controls.JFXComboBox;
 import worklist.dao.MaterialDao;
-import worklist.domain.Employee;
-import worklist.domain.Job;
+import worklist.entity.Employee;
+import worklist.entity.Job;
 import worklist.dao.JobDao;
-import worklist.domain.Material;
+import worklist.entity.Material;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;

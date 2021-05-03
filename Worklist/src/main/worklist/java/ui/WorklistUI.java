@@ -10,10 +10,10 @@ import java.util.ResourceBundle;
 
 import worklist.dao.EmployeeDao;
 import worklist.dao.MaterialDao;
-import worklist.domain.Employee;
-import worklist.domain.Job;
+import worklist.entity.Employee;
+import worklist.entity.Job;
 import worklist.dao.JobDao;
-import worklist.domain.Material;
+import worklist.entity.Material;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;

@@ -1,4 +1,4 @@
-package worklist.domain;
+package worklist.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -109,6 +109,10 @@ public class Job {
 
     public Material getMaterial() {
         return material;
+    }
+
+    public String getMaterialName() {
+        return material != null ? material.getName() : "";
     }
 
     public void setMaterial(Material material) {

@@ -2,7 +2,7 @@ package worklist.ui;
 
 import com.jfoenix.controls.JFXPasswordField;
 import worklist.dao.EmployeeDao;
-import worklist.domain.Employee;
+import worklist.entity.Employee;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

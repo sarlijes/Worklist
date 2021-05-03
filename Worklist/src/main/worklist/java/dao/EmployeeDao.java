@@ -1,7 +1,7 @@
 package worklist.dao;
 
-import worklist.domain.Employee;
-import worklist.domain.Job;
+import worklist.entity.Employee;
+import worklist.entity.Job;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package worklist.dao;
 
-import worklist.domain.Job;
+import worklist.entity.Job;
 
 import java.sql.*;
 import java.time.LocalDate;

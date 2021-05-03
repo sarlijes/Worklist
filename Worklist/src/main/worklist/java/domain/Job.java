@@ -1,4 +1,4 @@
-package worklist.domain;
+package worklist.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

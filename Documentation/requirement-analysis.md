@@ -31,7 +31,7 @@ User login features:
 Other features
 
 - [x] Allow undo on marking a job as done
-- [x] Move materials to database
+- [x] Move materials to database 
 
 Further development ideas:
 

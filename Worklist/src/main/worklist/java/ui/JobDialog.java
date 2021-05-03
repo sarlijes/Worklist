@@ -2,8 +2,8 @@ package worklist.ui;
 
 import com.jfoenix.controls.JFXComboBox;
 import worklist.dao.MaterialDao;
-import worklist.domain.Employee;
-import worklist.domain.Material;
+import worklist.entity.Employee;
+import worklist.entity.Material;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;

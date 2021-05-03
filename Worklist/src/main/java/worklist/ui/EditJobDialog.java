@@ -1,8 +1,8 @@
 package worklist.ui;
 
 import worklist.dao.MaterialDao;
-import worklist.domain.Employee;
-import worklist.domain.Job;
+import worklist.entity.Employee;
+import worklist.entity.Job;
 import worklist.dao.JobDao;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;

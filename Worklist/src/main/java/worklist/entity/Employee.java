@@ -1,4 +1,8 @@
-package worklist.domain;
+package worklist.entity;
+
+/**
+ * Class represents the users of the app (employees of a company).
+ */
 
 public class Employee {
 

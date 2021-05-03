@@ -1,6 +1,6 @@
 package worklist.dao;
 
-import worklist.domain.Material;
+import worklist.entity.Material;
 
 import java.sql.*;
 import java.util.ArrayList;

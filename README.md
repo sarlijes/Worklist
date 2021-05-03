@@ -12,6 +12,8 @@ It is a course project for the [Software Engineering](https://ohjelmistotekniikk
 
 [Architecture](https://github.com/sarlijes/Worklist/blob/master/Documentation/Architecture.md)
 
+[User guide](https://github.com/sarlijes/Worklist/blob/master/Documentation/Userguide.md)
+
 ## Commands:
 
 Navigate to project folder:
@@ -38,6 +40,10 @@ mvn jxr:jxr checkstyle:checkstyle
 Generate executable jar file: 
 ```
 mvn package
+```
+Generate javadoc to target/site/apidocs/
+```
+mvn javadoc:javadoc
 ```
 ## Releases:
 Week 5

@@ -34,5 +34,6 @@
 |24.4.2021   | 2  | Add tests to EmployeeDao. Extend Job to include Employee entity as creator. Show creator's username in table view. |
 |27.4.2021   | 1  | Small bug fixes. Update documentation. Now possible to create executable jar file. |
 |28.4.2021   | 3  | Move materials to database and save material id on Job. Implement MaterialDao. Refactor UI to shorted methods. Extend UI to contain materials and a form to add more materials. Refactor relevant tests.|
+|3.5.2021   | 3  | Refactor package structure to meet requirements. Implement first test to Materials. Write JavaDoc for 5 classes. Extend architecture documentation and user guide. |
 |   |   |   |
-|total   | 61   |   |
+|total   | 64   |   |
