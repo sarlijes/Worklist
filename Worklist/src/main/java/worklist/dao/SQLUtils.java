@@ -13,6 +13,7 @@ import java.sql.SQLException;
 public class SQLUtils {
 
     /**
+     * Returns the id of a generated database entry
      *
      * @param statement         <code>PreparedStatement</code> that has been just run
      * @return                  the id of the database entry that was created by running the statement

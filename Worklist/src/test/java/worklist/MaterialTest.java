@@ -39,7 +39,9 @@ public class MaterialTest {
         stmt.executeUpdate();
         stmt.close();
 
-        assertEquals(4, materialDao.list().size());
+        // The database has 2 default materials
+
+        assertEquals(6, materialDao.list().size());
     }
 
     @Test
