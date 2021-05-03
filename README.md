@@ -45,5 +45,10 @@ Generate javadoc to target/site/apidocs/
 ```
 mvn javadoc:javadoc
 ```
+Combined command to remove target folder, generate ececutable jar file, test report (target/site/jacoco/index.htm), checkstyle report (target/site/checkstyle.html) and Javadoc (target/site/apidocs/)
+```
+mvn clean package && mvn test jacoco:report && mvn jxr:jxr checkstyle:checkstyle && mvn javadoc:javadoc
+```
+
 ## Releases:
 Week 5
