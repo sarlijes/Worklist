@@ -1,0 +1,8 @@
+/target
+target/
+.idea/
+/.idea
+Laskarit_Exercises/viikko2_week2/Unicafe/target/
+db.h2.db
+db.trace.db
+
