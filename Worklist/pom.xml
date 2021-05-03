@@ -52,7 +52,7 @@
                 <version>0.8.3</version>
                 <configuration>
                     <excludes>
-                        <exclude>ui/*</exclude>
+                        <exclude>worklist.ui/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
