@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
-public class WorklistTest {
+public class JobTest {
 
     private static JobDao jobDao;
     private static EmployeeDao employeeDao;
@@ -123,6 +123,7 @@ public class WorklistTest {
         assertEquals(null, jobInDatabase.getDeleted());
         assertEquals(12, jobInDatabase.getQuantity());
         assertEquals("test material name 1", jobInDatabase.getMaterial().getName());
+        assertEquals("test material name 1", jobInDatabase.getMaterialName());
         assertEquals("details", jobInDatabase.getDetails());
         assertEquals("customer", jobInDatabase.getCustomer());
 
@@ -231,6 +232,7 @@ public class WorklistTest {
         Job j = createTestJob(randomEmployee);
         assert (j != null);
 
+        j.setCreator(randomEmployee);
         assertEquals(randomEmployee.getUsername(), j.getCreatorName());
         assertEquals(randomEmployee.getUsername(), j.getCreator().getUsername());
 

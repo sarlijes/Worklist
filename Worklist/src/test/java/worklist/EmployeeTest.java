@@ -44,7 +44,7 @@ public class EmployeeTest {
     }
 
     @Test
-    public void canNotReadNonexistingEmployee() throws SQLException {
+    public void canNotReadNonExistingEmployee() throws SQLException {
         Employee e = employeeDao.read(985);
         assert (e == null);
     }
