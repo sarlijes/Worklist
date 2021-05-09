@@ -1,5 +1,5 @@
 /**
- * A dialog that allows users to manage a job by editing it, marking it as done or deleting it.
+ * A dialog that allows users to manage a job by editing it, marking it as finished or deleting it.
  */
 
 package worklist.ui;
@@ -63,7 +63,6 @@ public class ManageJobDialog extends JobDialog {
                         materialDao.readByName(materialComboBox.getValue().toString()), workloadEstimateSpinner.getValue(),
                         detailsTextField.getText(), customerTextField.getText(), job.getCreator());
             } catch (SQLException exception) {
-                exception.printStackTrace();
             }
 
             try {
@@ -72,13 +71,12 @@ public class ManageJobDialog extends JobDialog {
                     stage.close();
                 }
             } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         });
 
-        Text markAsDoneLabel = new Text(b.getString("mark_job_as_done"));
-        markAsDoneLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(markAsDoneLabel, 0, 9);
+        Text markAsFinishedLabel = new Text(b.getString("mark_job_as_finished"));
+        markAsFinishedLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(markAsFinishedLabel, 0, 9);
 
         Label workloadActualLabel = new Label(b.getString("actual_work_load"));
         Spinner<Double> workloadActualSpinner = new Spinner<>(job.getWorkloadEstimate(), 1000.0, 0.5, 0.5);
@@ -86,15 +84,14 @@ public class ManageJobDialog extends JobDialog {
         grid.add(workloadActualLabel, 0, 10);
         grid.add(workloadActualSpinner, 1, 10);
 
-        Button markAsDoneButton = new Button(b.getString("mark_as_done"));
-        grid.add(markAsDoneButton, 0, 11);
+        Button markAsFinishedButton = new Button(b.getString("mark_as_finished"));
+        grid.add(markAsFinishedButton, 0, 11);
 
-        markAsDoneButton.setOnAction((ActionEvent e) -> {
+        markAsFinishedButton.setOnAction((ActionEvent e) -> {
             try {
                 jobDao.markAsFinished(job.getId(), workloadActualSpinner.getValue());
                 stage.close();
             } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         });
 
@@ -110,7 +107,6 @@ public class ManageJobDialog extends JobDialog {
                 jobDao.delete(job.getId());
                 stage.close();
             } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         });
 

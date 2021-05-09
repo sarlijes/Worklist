@@ -57,15 +57,14 @@ public class ViewFinishedJobDialog extends JobDialog {
         workloadEstimateSpinner.getValueFactory().setValue(job.getWorkloadEstimate());
         workloadEstimateSpinner.setDisable(true);
 
-        Button markAsNotDoneButton = new Button(b.getString("mark_job_as_not_done"));
-        grid.add(markAsNotDoneButton, 0, 8);
+        Button markAsNotFinishedButton = new Button(b.getString("mark_job_as_not_finished"));
+        grid.add(markAsNotFinishedButton, 0, 8);
 
-        markAsNotDoneButton.setOnAction((ActionEvent e) -> {
+        markAsNotFinishedButton.setOnAction((ActionEvent e) -> {
             try {
                 jobDao.markAsNotFinished(job.getId());
                 stage.close();
             } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         });
 

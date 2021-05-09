@@ -82,7 +82,6 @@ public abstract class JobDialog {
             }
         } catch (SQLException exception) {
             materialComboBox.getItems().add("?");
-            exception.printStackTrace();
         }
 
         grid.add(materialComboBox, 0, 3);

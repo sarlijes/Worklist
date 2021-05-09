@@ -245,7 +245,6 @@ public class WorklistUI extends Application {
                 try {
                     refreshJobTableData();
                 } catch (SQLException e) {
-                    e.printStackTrace();
                 }
             });
             createNewJobDialog.start(stage);
@@ -305,7 +304,6 @@ public class WorklistUI extends Application {
                                 try {
                                     refreshJobTableData();
                                 } catch (SQLException e) {
-                                    e.printStackTrace();
                                 }
                             });
                             jobDialog.start(stage);

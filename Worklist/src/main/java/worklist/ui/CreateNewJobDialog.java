@@ -53,7 +53,6 @@ public class CreateNewJobDialog extends JobDialog {
                         workloadEstimateSpinner.getValue(), detailsTextField.getText(),
                         customerTextField.getText(), loggedInEmployee);
             } catch (SQLException exception) {
-                exception.printStackTrace();
             }
 
             try {
@@ -62,7 +61,6 @@ public class CreateNewJobDialog extends JobDialog {
                     stage.close();
                 }
             } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         });
 

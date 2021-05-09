@@ -1,5 +1,13 @@
 # Käyttöopas
 
+1. Lataa tiedosto Worklist.jar [täältä](https://github.com/sarlijes/Worklist/releases/tag/final)
+2. Siirrä tiedosto sopivaan kansioon
+3. Avaa ohjelma ajamalla koemento:
+
+```$ java -jar Worklist.jar```
+
+Ohjelma luo tietokantatiedoston samaan kansiioon, jossa jar-tiedosto on. 
+
 Aluksi käyttäjän tulee joko kirjautua sisään tai luoda uusi käyttäjätunnus (sekä käyttäjänimen että salasanan nimimipituus on 5 merkkiä):
 
 <img src="https://github.com/sarlijes/Worklist/blob/master/Documentation/pictures/user_guide_login.PNG?raw=true">

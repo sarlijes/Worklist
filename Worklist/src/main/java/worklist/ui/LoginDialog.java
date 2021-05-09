@@ -158,7 +158,6 @@ public class LoginDialog {
                     newAccountInfoLabel.setVisible(true);
                 }
             } catch (SQLException exception) {
-                exception.printStackTrace();
                 newAccountInfoLabel.setText(b.getString("creating_new_account_failed"));
             }
         });

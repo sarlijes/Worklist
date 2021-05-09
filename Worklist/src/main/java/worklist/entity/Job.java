@@ -1,5 +1,5 @@
 /**
- * Class represents the jobs that the users can create, edit and mark as done in the app app.
+ * Class represents the jobs that the users can create, edit and mark as finished in the app app.
  */
 
 package worklist.entity;

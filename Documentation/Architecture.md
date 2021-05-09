@@ -1,6 +1,6 @@
 # Arkkitehtuurikuvaus
 
-## Toiminallisuus
+## Toiminnallisuus
 
 Toiminnallisuus on kuvattu [vaatimusmäärittelyssä](https://github.com/sarlijes/Worklist/blob/master/Documentation/requirement-analysis.md)
 
