@@ -60,6 +60,7 @@ public class JobTest {
 
     }
 
+
     private static void addTestEmployees() throws SQLException {
         PreparedStatement stmt = connection.prepareStatement(
                 "insert into employee (username, password) " +
@@ -134,39 +135,39 @@ public class JobTest {
     }
 
     @Test
-    public void canMarkJobAsDoneWithWorkTimeActualSpecified() throws SQLException {
+    public void canMarkJobAsFinishedWithWorkTimeActualSpecified() throws SQLException {
 
         Job j = jobDao.list().get(0);
         assertTrue(j != null);
         assertFalse(j.isFinished());
         int jobId = j.getId();
 
-        jobDao.markAsDone(jobId, 5.0);
+        jobDao.markAsFinished(jobId, 5.0);
         assertTrue(jobDao.read(j.getId()).isFinished());
 
     }
 
     @Test
-    public void canMarkJobAsDoneWithWorktimeActualAsNull() throws SQLException {
+    public void canMarkJobAsFinishedWithWorktimeActualAsNull() throws SQLException {
 
         Job j = jobDao.list().get(2);
         assertTrue(j != null);
         assertFalse(j.isFinished());
         int jobId = j.getId();
 
-        jobDao.markAsDone(jobId, null);
+        jobDao.markAsFinished(jobId, null);
         assertTrue(jobDao.read(j.getId()).isFinished());
 
     }
 
     @Test
-    public void canMarkJobAsNotDone() throws SQLException {
+    public void canMarkJobAsNotFinished() throws SQLException {
         Job j = jobDao.list().get(1);
         assertTrue(j != null);
         assertFalse(j.isFinished());
 
-        jobDao.markAsDone(j.getId(), 5.0);
-        jobDao.markAsNotDone(j.getId());
+        jobDao.markAsFinished(j.getId(), 5.0);
+        jobDao.markAsNotFinished(j.getId());
         assertFalse(jobDao.read(j.getId()).isFinished());
     }
 
@@ -261,7 +262,12 @@ public class JobTest {
         assertTrue(isSameDay(earliest, latest));
         LocalDateTime midnight = LocalDateTime.parse("2021-02-20T00:00:00");
         assertTrue(isSameDay(earliest, midnight));
+    }
 
+    @Test
+    public void canNotReadNonExistingJob() throws SQLException {
+        Job j = jobDao.read(88888);
+        assert (j == null);
     }
 
     @AfterClass

@@ -28,7 +28,6 @@ public class SQLUtils {
             id = generatedKeys.getInt(1);
         }
         generatedKeys.close();
-        statement.close();
         return id;
     }
 

@@ -8,41 +8,34 @@ The purpose of the app is to provide a simple tool for a machinery workshop to k
 
 There is only one user group, so all users have equal user rights.
 
-## Basic features
+## Implemented features
 
 As a user...
+
+- [x]  I can create a user account
+- [x]  I log in with my user account
  
 - [x]  I can view a list of jobs
 - [x]  I can add a new job to the list
 - [x]  I can delete a job from the list
 - [x]  I can edit the job
 - [x]  I can mark the job as done and mark its actual work load hours
+- [x]  I can mark undo marking the job as done
 
 - [x]  I can add new materials to a list
-- [x]  I can select one of those materials on the jobs
+- [x]  I can select one of those materials when creating or editing jobs
 
-User login features:
+- [x] I can see which user created a certain job 
 
-- [X] Add new user
-- [x] Log in as user
-- [x] Show error if logging in fails
-- [x] Save user as "created by" on a job
+## Further development ideas
 
-Other features
-
-- [x] Allow undo on marking a job as done
-- [x] Move materials to database 
-
-Further development ideas:
-
+- [ ] Language selection
+- [ ] Mark jobs as deleted instead of deleting them
 - [ ] Save user as "deleted by" on a job
 - [ ] Save user as "marked as finished by" on a job
 - [ ] Allow using the software from multiple computers in the local network
 - [ ] Hide old finished jobs after a certain period
-- [ ] Mark jobs as deleted instead of deleting them
 - [ ] Separate list views for pending and completed jobs
-- [ ] Language selection
 - [ ] Reports (for example all jobs done during one week)
-- [ ] Kanban view with more job states ("to do", "in progress", "waiting to be shipped", "shipped")
-- [ ] More states for payments of the jobs ("invoiced", "partially paid", "paid")
-
+- [ ] Kanban view with more job states (for example "to do", "in progress", "waiting to be shipped", "shipped")
+- [ ] More states for payments of the jobs (for example "invoiced", "partially paid", "paid")

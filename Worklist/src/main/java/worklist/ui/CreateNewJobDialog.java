@@ -1,3 +1,7 @@
+/**
+ * A dialog that allows users to add new jobs.
+ */
+
 package worklist.ui;
 
 import worklist.dao.MaterialDao;

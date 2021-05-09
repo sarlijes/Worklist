@@ -1,3 +1,7 @@
+/**
+ * Dialog that allows users to view finished jobs and mark them as unfinished if necessary.
+ */
+
 package worklist.ui;
 
 import worklist.dao.MaterialDao;
@@ -53,12 +57,12 @@ public class ViewFinishedJobDialog extends JobDialog {
         workloadEstimateSpinner.getValueFactory().setValue(job.getWorkloadEstimate());
         workloadEstimateSpinner.setDisable(true);
 
-        Button markAsDoneButton = new Button(b.getString("mark_job_as_not_done"));
-        grid.add(markAsDoneButton, 0, 8);
+        Button markAsNotDoneButton = new Button(b.getString("mark_job_as_not_done"));
+        grid.add(markAsNotDoneButton, 0, 8);
 
-        markAsDoneButton.setOnAction((ActionEvent e) -> {
+        markAsNotDoneButton.setOnAction((ActionEvent e) -> {
             try {
-                jobDao.markAsNotDone(job.getId());
+                jobDao.markAsNotFinished(job.getId());
                 stage.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();

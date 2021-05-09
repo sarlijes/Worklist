@@ -1,3 +1,7 @@
+/**
+ * Class represents materials that users can add to the database and mark them as the material on the jobs.
+ */
+
 package worklist.entity;
 
 public class Material {

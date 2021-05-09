@@ -25,6 +25,16 @@ public class JobDao implements Dao<Job, Integer> {
         this.materialDao = new MaterialDao(connection);
     }
 
+    /**
+     * Adds a new <code>Job</code> into the database
+     *
+     * @param   job          <code>Job</code> created with the info provided by an user
+     *
+     * @return the newly created Job
+     *
+     * @throws  SQLException      Indicates that an <code>SQLException</code> has occurred during transaction
+     */
+
     @Override
     public Job create(Job job) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Job (name, created, duedate, quantity, " +
@@ -48,6 +58,16 @@ public class JobDao implements Dao<Job, Integer> {
         return read(sqlUtils.getGeneratedId(stmt));
     }
 
+    /**
+     * Reads a <code>Job</code> from the database by their id and returns that <code>Job</code>
+     *
+     * @param   id              job's id
+     *
+     * @return the <code>Job</code> found with that id, or null if no job is found
+     *
+     * @throws SQLException     Indicates that an <code>SQLException</code> has occurred during transaction
+     */
+
     @Override
     public Job read(Integer id) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Job WHERE id = ?");
@@ -65,6 +85,17 @@ public class JobDao implements Dao<Job, Integer> {
 
         return j;
     }
+
+    /**
+     * Updates a <code>Job</code>
+     *
+     * @param       job     the new info of the job provided by an user
+     * @param       id      id of the job to be updated
+     *
+     * @return      Job     the same job with the updated info
+     *
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
+     */
 
     @Override
     public Job update(Job job, Integer id) throws SQLException {
@@ -93,7 +124,18 @@ public class JobDao implements Dao<Job, Integer> {
         return read(id);
     }
 
-    public Job markAsDone(Integer id, Double workloadActual) throws SQLException {
+    /**
+     * Marks a job as finished with the current timestamp
+     *
+     * @param       id                  the id of the job
+     * @param       workloadActual      the actual workload
+     *
+     * @return      Job                 the same job with the updated info
+     *
+     * @throws      SQLException        Indicates that an <code>SQLException</code> has occurred during transaction
+     */
+
+    public Job markAsFinished(Integer id, Double workloadActual) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement("UPDATE Job set"
                 + " workloadactual = ?, finished = ?"
                 + " where id = ?;");
@@ -107,7 +149,15 @@ public class JobDao implements Dao<Job, Integer> {
         return read(id);
     }
 
-    public Job markAsNotDone(Integer id) throws SQLException {
+    /**
+     * Marks a job as not finished
+     *
+     * @param       id                  the id of the job
+     * @return      Job                 the same job with the updated info
+     * @throws SQLException             Indicates that an <code>SQLException</code> has occurred during transaction
+     */
+
+    public Job markAsNotFinished(Integer id) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement("UPDATE Job set finished = null, workloadactual = null"
                 + " where id = ?;");
         stmt.setInt(1, id);
@@ -118,6 +168,12 @@ public class JobDao implements Dao<Job, Integer> {
         return read(id);
     }
 
+    /**
+     * Deletes a job from the database
+     *
+     * @param       id              The id of the job to be deleted
+     * @throws      SQLException    Indicates that an <code>SQLException</code> has occurred during transaction
+     */
 
     @Override
     public void delete(Integer id) throws SQLException {
@@ -127,6 +183,16 @@ public class JobDao implements Dao<Job, Integer> {
         stmt.executeUpdate();
         stmt.close();
     }
+
+    /**
+     * Parses an <code>Job</code> from a <code>ResultSet</code>
+     *
+     * @param resultSet              <code>ResultSet</code> returned from the database
+     *
+     * @return                       <code>Job</code> object
+     *
+     * @throws SQLException          Indicates that an <code>SQLException</code> has occurred during transaction
+     */
 
     public Job parseJobFromResult(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
@@ -151,6 +217,14 @@ public class JobDao implements Dao<Job, Integer> {
         return new Job(id, name, created, dueDate, finished, deleted, quantity, materialDao.read(materialId),
                 workloadEstimate, workloadActual, details, customer, employeeDao.read(creatorId));
     }
+
+    /**
+     * Lists all the <code>Job</code> objects from the database
+     *
+     * @return                          all the <code>Job</code> objects as an arraylist
+     *
+     * @throws SQLException             Indicates that an <code>SQLException</code> has occurred during transaction
+     */
 
     @Override
     public List<Job> list() throws SQLException {

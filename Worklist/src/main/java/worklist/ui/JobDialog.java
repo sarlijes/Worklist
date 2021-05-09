@@ -1,3 +1,7 @@
+/**
+ * Abstract dialog class that is extended by different <code>Job</code>-related dialogs.
+ */
+
 package worklist.ui;
 
 import com.jfoenix.controls.JFXComboBox;

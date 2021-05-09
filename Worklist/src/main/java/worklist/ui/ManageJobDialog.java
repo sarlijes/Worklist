@@ -1,3 +1,7 @@
+/**
+ * A dialog that allows users to manage a job by editing it, marking it as done or deleting it.
+ */
+
 package worklist.ui;
 
 import worklist.dao.MaterialDao;
@@ -16,14 +20,14 @@ import javafx.scene.text.Font;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class EditJobDialog extends JobDialog {
+public class ManageJobDialog extends JobDialog {
 
     private JobDao jobDao;
     private Job job;
     private ResourceBundle b;
 
-    public EditJobDialog(JobDao jobDao, MaterialDao materialDao, Stage stage, GridPane grid, Job job, ResourceBundle b,
-                         Employee loggedInEmployee) {
+    public ManageJobDialog(JobDao jobDao, MaterialDao materialDao, Stage stage, GridPane grid, Job job, ResourceBundle b,
+                           Employee loggedInEmployee) {
         super(stage, grid, b, loggedInEmployee, materialDao);
         this.jobDao = jobDao;
         this.job = job;
@@ -87,7 +91,7 @@ public class EditJobDialog extends JobDialog {
 
         markAsDoneButton.setOnAction((ActionEvent e) -> {
             try {
-                jobDao.markAsDone(job.getId(), workloadActualSpinner.getValue());
+                jobDao.markAsFinished(job.getId(), workloadActualSpinner.getValue());
                 stage.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();

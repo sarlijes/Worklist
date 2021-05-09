@@ -297,7 +297,7 @@ public class WorklistUI extends Application {
                                 jobDialog = new ViewFinishedJobDialog(jobDao, materialDao, stage, new GridPane(), chosenJob, b,
                                         loggedInEmployee);
                             } else {
-                                jobDialog = new EditJobDialog(jobDao, materialDao, stage, new GridPane(), chosenJob, b,
+                                jobDialog = new ManageJobDialog(jobDao, materialDao, stage, new GridPane(), chosenJob, b,
                                         loggedInEmployee);
                             }
 

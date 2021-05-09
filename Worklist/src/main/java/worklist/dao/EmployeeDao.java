@@ -43,7 +43,6 @@ public class EmployeeDao implements Dao<Employee, Integer> {
     }
 
     /**
-     *
      * Checks whether an employee with the given username already exists to avoid duplicates.
      *
      * @param   username        username given by an user when creating an account
@@ -119,6 +118,7 @@ public class EmployeeDao implements Dao<Employee, Integer> {
 
     /**
      * Lists all the <code>Employee</code> objects from the database
+     *
      * @return all the <code>Employee</code> objects as an arraylist
      * @throws SQLException              Indicates that an <code>SQLException</code> has occurred during transaction
      */
@@ -162,7 +162,8 @@ public class EmployeeDao implements Dao<Employee, Integer> {
     }
 
     /**
-     * Parses an <code>Employee</code> from a <code>resultSet</code>
+     * Parses an <code>Employee</code> from a <code>ResultSet</code>
+     *
      * @param resultSet              <code>ResultSet</code> returned from the database
      * @return                       <code>Employee</code> object
      * @throws SQLException          Indicates that an <code>SQLException</code> has occurred during transaction

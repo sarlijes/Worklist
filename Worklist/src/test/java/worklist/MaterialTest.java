@@ -49,6 +49,9 @@ public class MaterialTest {
     public void cannotReadNonExistingMaterial() throws SQLException {
         Material m = materialDao.read(7798);
         assert (m == null);
+
+        m = materialDao.readByName("aadssdasds");
+        assert (m == null);
     }
 
     @Test
