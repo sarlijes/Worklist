@@ -61,11 +61,10 @@ public class LoginDialog {
     boolean errorOccurred = false;
 
     /**
-     *
-     * @param employeeDao   <code>EmployeeDao</code> to allow database connections
-     * @param stage         <code>Stage</code> represents the window if the dialog
-     * @param grid          <code>GridPane</code> used to position buttons an other components to the view
-     * @param b             <code>ResourceBundle</code> to allow localizing texts
+     * @param employeeDao <code>EmployeeDao</code> to allow database connections
+     * @param stage       <code>Stage</code> represents the window if the dialog
+     * @param grid        <code>GridPane</code> used to position buttons an other components to the view
+     * @param b           <code>ResourceBundle</code> to allow localizing texts
      */
 
     public LoginDialog(EmployeeDao employeeDao, Stage stage, GridPane grid, ResourceBundle b) {
@@ -172,7 +171,8 @@ public class LoginDialog {
 
     /**
      * Returns an <code>Emploee</code> that has been successfully authenticates and is thus logged into the app
-     * @return          An authenticated <code>Employee</code> or null
+     *
+     * @return An authenticated <code>Employee</code> or null
      */
 
     public Employee getLoggedInEmployee() {

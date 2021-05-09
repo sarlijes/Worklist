@@ -52,4 +52,7 @@ mvn clean package && mvn test jacoco:report && mvn jxr:jxr checkstyle:checkstyle
 
 ## Releases:
 [Week 5](https://github.com/sarlijes/Worklist/releases/tag/week5)
+
 [Week 6](https://github.com/sarlijes/Worklist/releases/tag/week6)
+
+[Final](https://github.com/sarlijes/Worklist/releases/tag/final)

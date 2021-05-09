@@ -28,9 +28,10 @@ public class JobJFXTextField extends JFXTextField {
 
     /**
      * Creates a new <code>JobJFXTextField</code>
-     * @param label         The label for the input field (for example "Name" in an input field in which a name is typed)
-     * @param error         An error message shown in case the field is empty
-     * @param required      Indicates whether the input is required or not to submit the form successfully
+     *
+     * @param label    The label for the input field (for example "Name" in an input field in which a name is typed)
+     * @param error    An error message shown in case the field is empty
+     * @param required Indicates whether the input is required or not to submit the form successfully
      */
 
     public JobJFXTextField(String label, String error, boolean required) {

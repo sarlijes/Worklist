@@ -17,15 +17,18 @@ public class MaterialDao implements Dao<Material, Integer> {
     }
 
     /**
-     * Adds a new material into the database
+     * Adds a new material into the database, unless a material with the same name already exists
      *
-     * @param       material            The new material with the info provided by an user
-     * @return                          the newly created material
-     * @throws      SQLException        Indicates that an <code>SQLException</code> has occurred during transaction
+     * @param material The new material with the info provided by an user
+     * @return the newly created material, or null if a material with that name already exists
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     @Override
     public Material create(Material material) throws SQLException {
+        if (readByName(material.getName()) != null) {
+            return null;
+        }
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Material (name, details) " +
                 "VALUES (?, ?)");
         stmt.setString(1, material.getName());
@@ -33,14 +36,14 @@ public class MaterialDao implements Dao<Material, Integer> {
         stmt.executeUpdate();
 
         return read(sqlUtils.getGeneratedId(stmt));
+
     }
 
     /**
      * Reads a material from the database by its id
      *
-     * @param       id      The id of the material
-     * @return              The found material or null, if no material was found with the id
-     *
+     * @param id The id of the material
+     * @return The found material or null, if no material was found with the id
      * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
@@ -65,11 +68,9 @@ public class MaterialDao implements Dao<Material, Integer> {
     /**
      * Reads a material from the database by its name
      *
-     * @param       name        The name of the material
-     *
-     * @return                  The found material or null, if no material was found with the name
-     *
-     * @throws SQLException     Indicates that an <code>SQLException</code> has occurred during transaction
+     * @param name The name of the material
+     * @return The found material or null, if no material was found with the name
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     public Material readByName(String name) throws SQLException {
@@ -90,14 +91,12 @@ public class MaterialDao implements Dao<Material, Integer> {
     }
 
     /**
-     *
      * !! Not yet implemented, not used (not in the scope of this course project)
      *
-     * @param   material            a material object with the new info
-     * @param   id                  the id of the material to edit
-     *
-     * @return  the given material without editing it
-     * @throws SQLException          Indicates that an <code>SQLException</code> has occurred during transaction
+     * @param material a material object with the new info
+     * @param id       the id of the material to edit
+     * @return the given material without editing it
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     @Override
@@ -109,8 +108,8 @@ public class MaterialDao implements Dao<Material, Integer> {
     /**
      * Deletes a material from the database
      *
-     * @param       id              The id of the material to be deleted
-     * @throws      SQLException    Indicates that an <code>SQLException</code> has occurred during transaction
+     * @param id The id of the material to be deleted
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     @Override
@@ -121,9 +120,8 @@ public class MaterialDao implements Dao<Material, Integer> {
     /**
      * Lists all the <code>Material</code> objects from the database
      *
-     * @return                          all the <code>Material</code> objects as an arraylist
-     *
-     * @throws SQLException             Indicates that an <code>SQLException</code> has occurred during transaction
+     * @return all the <code>Material</code> objects as an arraylist
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     @Override
@@ -141,11 +139,9 @@ public class MaterialDao implements Dao<Material, Integer> {
     /**
      * Parses an <code>Material</code> from a <code>ResultSet</code>
      *
-     * @param resultSet              <code>ResultSet</code> returned from the database
-     *
-     * @return                       <code>Material</code> object
-     *
-     * @throws SQLException          Indicates that an <code>SQLException</code> has occurred during transaction
+     * @param resultSet <code>ResultSet</code> returned from the database
+     * @return <code>Material</code> object
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     public Material parseMaterialFromResult(ResultSet resultSet) throws SQLException {

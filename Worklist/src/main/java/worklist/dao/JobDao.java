@@ -28,11 +28,9 @@ public class JobDao implements Dao<Job, Integer> {
     /**
      * Adds a new <code>Job</code> into the database
      *
-     * @param   job          <code>Job</code> created with the info provided by an user
-     *
+     * @param job <code>Job</code> created with the info provided by an user
      * @return the newly created Job
-     *
-     * @throws  SQLException      Indicates that an <code>SQLException</code> has occurred during transaction
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     @Override
@@ -61,11 +59,9 @@ public class JobDao implements Dao<Job, Integer> {
     /**
      * Reads a <code>Job</code> from the database by their id and returns that <code>Job</code>
      *
-     * @param   id              job's id
-     *
+     * @param id job's id
      * @return the <code>Job</code> found with that id, or null if no job is found
-     *
-     * @throws SQLException     Indicates that an <code>SQLException</code> has occurred during transaction
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     @Override
@@ -89,11 +85,9 @@ public class JobDao implements Dao<Job, Integer> {
     /**
      * Updates a <code>Job</code>
      *
-     * @param       job     the new info of the job provided by an user
-     * @param       id      id of the job to be updated
-     *
-     * @return      Job     the same job with the updated info
-     *
+     * @param job the new info of the job provided by an user
+     * @param id  id of the job to be updated
+     * @return Job     the same job with the updated info
      * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
@@ -127,12 +121,10 @@ public class JobDao implements Dao<Job, Integer> {
     /**
      * Marks a job as finished with the current timestamp
      *
-     * @param       id                  the id of the job
-     * @param       workloadActual      the actual workload
-     *
-     * @return      Job                 the same job with the updated info
-     *
-     * @throws      SQLException        Indicates that an <code>SQLException</code> has occurred during transaction
+     * @param id             the id of the job
+     * @param workloadActual the actual workload
+     * @return Job                 the same job with the updated info
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     public Job markAsFinished(Integer id, Double workloadActual) throws SQLException {
@@ -152,9 +144,9 @@ public class JobDao implements Dao<Job, Integer> {
     /**
      * Marks a job as not finished
      *
-     * @param       id                  the id of the job
-     * @return      Job                 the same job with the updated info
-     * @throws SQLException             Indicates that an <code>SQLException</code> has occurred during transaction
+     * @param id the id of the job
+     * @return Job                 the same job with the updated info
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     public Job markAsNotFinished(Integer id) throws SQLException {
@@ -171,8 +163,8 @@ public class JobDao implements Dao<Job, Integer> {
     /**
      * Deletes a job from the database
      *
-     * @param       id              The id of the job to be deleted
-     * @throws      SQLException    Indicates that an <code>SQLException</code> has occurred during transaction
+     * @param id The id of the job to be deleted
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     @Override
@@ -187,11 +179,9 @@ public class JobDao implements Dao<Job, Integer> {
     /**
      * Parses an <code>Job</code> from a <code>ResultSet</code>
      *
-     * @param resultSet              <code>ResultSet</code> returned from the database
-     *
-     * @return                       <code>Job</code> object
-     *
-     * @throws SQLException          Indicates that an <code>SQLException</code> has occurred during transaction
+     * @param resultSet <code>ResultSet</code> returned from the database
+     * @return <code>Job</code> object
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     public Job parseJobFromResult(ResultSet resultSet) throws SQLException {
@@ -221,9 +211,8 @@ public class JobDao implements Dao<Job, Integer> {
     /**
      * Lists all the <code>Job</code> objects from the database
      *
-     * @return                          all the <code>Job</code> objects as an arraylist
-     *
-     * @throws SQLException             Indicates that an <code>SQLException</code> has occurred during transaction
+     * @return all the <code>Job</code> objects as an arraylist
+     * @throws SQLException Indicates that an <code>SQLException</code> has occurred during transaction
      */
 
     @Override

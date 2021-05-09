@@ -90,7 +90,7 @@ public class EmployeeTest {
         Employee e = new Employee("daemu", "secret");
         e = employeeDao.create(e);
 
-        assert(employeeDao.authenticate("daemu", "secret") != null);
+        assert (employeeDao.authenticate("daemu", "secret") != null);
     }
 
     @Test
@@ -98,8 +98,8 @@ public class EmployeeTest {
         Employee e = new Employee("pentti", "111666");
         e = employeeDao.create(e);
 
-        assert(employeeDao.authenticate("pertti", "111666") == null);
-        assert(employeeDao.authenticate("pentti", "11166") == null);
+        assert (employeeDao.authenticate("pertti", "111666") == null);
+        assert (employeeDao.authenticate("pentti", "11166") == null);
     }
 
     @AfterClass

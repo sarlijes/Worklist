@@ -38,7 +38,7 @@ public abstract class JobDialog {
     JobJFXTextField nameTextField = new JobJFXTextField(b.getString("name"),
             b.getString("field_cannot_be_empty"), true);
 
-    JFXComboBox materialComboBox  = new JFXComboBox<Material>();
+    JFXComboBox materialComboBox = new JFXComboBox<Material>();
 
     JobJFXTextField detailsTextField = new JobJFXTextField(b.getString("details"));
 
@@ -119,7 +119,7 @@ public abstract class JobDialog {
         workloadEstimateSpinner.setEditable(true);
         grid.add(workloadEstimateSpinner, 1, 7);
 
-        }
-
     }
+
+}
 
