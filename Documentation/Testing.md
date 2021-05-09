@@ -21,8 +21,4 @@ The app has been tested manually by downloading the jar file from the [Final](ht
 
 ```$ java -jar Worklist.jar```
 
-The features of the [Requirement Analysis](https://github.com/sarlijes/Worklist/blob/master/Documentation/requirement-analysis.md) have been tested manually, also with invalid input such as empty values. 
-
-## Known bugs / challanges
-
-- In the list view, some empty rows are shown with a grey background (which should only be used for the finished jobs) 
+The features of the [Requirement Analysis](https://github.com/sarlijes/Worklist/blob/master/Documentation/requirement-analysis.md) have been tested manually, also with invalid input such as empty values.

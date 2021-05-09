@@ -170,7 +170,7 @@ public class WorklistUI extends Application {
             protected void updateItem(Job job, boolean empty) {
                 super.updateItem(job, empty);
                 if (job == null)
-                    return;
+                    setStyle("");
                 else if (job.isFinished())
                     setStyle("-fx-background-color: rgba(146,146,146,0.4);");
                 else

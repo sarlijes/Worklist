@@ -48,15 +48,17 @@ public class CreateNewJobDialog extends JobDialog {
             Job job = null;
 
             try {
-                job = new Job(nameTextField.getText(), dueDatePicker.getValue(), quantitySpinner.getValue(),
-                        materialDao.readByName(materialComboBox.getValue().toString()),
-                        workloadEstimateSpinner.getValue(), detailsTextField.getText(),
-                        customerTextField.getText(), loggedInEmployee);
+                if (materialComboBox.getValue() != null) {
+                    job = new Job(nameTextField.getText(), dueDatePicker.getValue(), quantitySpinner.getValue(),
+                            materialDao.readByName(materialComboBox.getValue().toString()),
+                            workloadEstimateSpinner.getValue(), detailsTextField.getText(),
+                            customerTextField.getText(), loggedInEmployee);
+                }
             } catch (SQLException exception) {
             }
 
             try {
-                if (customerTextField.validate() && nameTextField.validate()) {
+                if (customerTextField.validate() && nameTextField.validate() && materialComboBox.validate()) {
                     jobDao.create(job);
                     stage.close();
                 }

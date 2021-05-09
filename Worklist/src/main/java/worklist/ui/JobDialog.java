@@ -5,6 +5,8 @@
 package worklist.ui;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.validation.RequiredFieldValidator;
+import com.jfoenix.validation.ValidationFacade;
 import worklist.dao.MaterialDao;
 import worklist.entity.Employee;
 import worklist.entity.Material;
@@ -75,6 +77,8 @@ public abstract class JobDialog {
         // Material
 
         materialComboBox.setPromptText(b.getString("material"));
+        RequiredFieldValidator requiredFieldValidator = new RequiredFieldValidator();
+        materialComboBox.setValidators(requiredFieldValidator);
 
         try {
             for (Material m : materialDao.list()) {
