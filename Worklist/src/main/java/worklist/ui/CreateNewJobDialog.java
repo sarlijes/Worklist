@@ -39,8 +39,6 @@ public class CreateNewJobDialog extends JobDialog {
         Button saveButton = new Button(b.getString("save"));
         grid.add(saveButton, 0, 8);
 
-        //Material m = materialComboBox.getValue();
-
         saveButton.setOnAction((ActionEvent e) -> {
 
             Job job = null;

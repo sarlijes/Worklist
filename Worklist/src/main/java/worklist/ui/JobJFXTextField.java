@@ -1,5 +1,5 @@
 /**
- * Custom textfield to allow label texts and validation
+ * Custom text field to allow label texts and validation
  */
 
 package worklist.ui;

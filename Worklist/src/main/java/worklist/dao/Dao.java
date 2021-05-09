@@ -10,16 +10,4 @@ public interface Dao<T, K> {
     void delete(K id) throws SQLException;
     List<T> list() throws SQLException;
 
-    private int getGeneratedId(PreparedStatement stmt) throws SQLException {
-        int id = -1;
-        ResultSet generatedKeys = stmt.getGeneratedKeys();
-
-        if (generatedKeys.next()) {
-            id = generatedKeys.getInt(1);
-        }
-        generatedKeys.close();
-        stmt.close();
-        return id;
-    }
-
 }

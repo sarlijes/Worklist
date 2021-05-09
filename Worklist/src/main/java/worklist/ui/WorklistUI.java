@@ -50,8 +50,7 @@ public class WorklistUI extends Application {
 
     JobJFXTextField newMaterialNameTextField = newMaterialNameTextField();
     JobJFXTextField newMaterialDetailsTextField = newMaterialDetailsTextField();
-
-    // TODO change relevant variables to private
+    Label newMaterialErrorLabel = new Label(b.getString("material_already_exists"));
 
     public void refreshJobTableData() throws SQLException {
         jobData = FXCollections.observableArrayList(jobDao.list());
@@ -99,10 +98,8 @@ public class WorklistUI extends Application {
         final Label label = new Label(b.getString("worklist"));
         label.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         Button addNewJobButton = addNewJobButton();
-
-//        newMaterialNameTextField = newMaterialNameTextField();
-//        newMaterialDetailsTextField = newMaterialDetailsTextField();
         Button addNewMaterialButton = newMaterialButton();
+        newMaterialErrorLabel.setVisible(false);
 
         grid.setVgap(30);
         grid.setHgap(30);
@@ -115,6 +112,7 @@ public class WorklistUI extends Application {
         grid.add(newMaterialNameTextField, 1, 3);
         grid.add(newMaterialDetailsTextField, 1, 4);
         grid.add(addNewMaterialButton, 1, 5);
+        grid.add(newMaterialErrorLabel, 1, 6);
 
         ((Group) mainScene.getRoot()).getChildren().addAll(grid);
 
@@ -129,7 +127,7 @@ public class WorklistUI extends Application {
 
         TableColumn detailsColumn = new TableColumn(b.getString("details"));
         detailsColumn.setCellValueFactory(new PropertyValueFactory<Material, String>("details"));
-        detailsColumn.setMinWidth(100);
+        detailsColumn.setMinWidth(280);
 
         materialTableView.setItems(materialData);
         materialTableView.getColumns().addAll(nameColumn, detailsColumn);
@@ -148,12 +146,16 @@ public class WorklistUI extends Application {
         Button loginButton = new Button(b.getString("add_new_material"));
         loginButton.setOnAction((ActionEvent event) -> {
             try {
-
-                // TODO add validation to avoid duplicate material names
-
-                Material m = new Material(newMaterialNameTextField.getText(), newMaterialDetailsTextField.getText());
-                materialDao.create(m);
-                refreshMaterialTableData();
+                if (materialDao.readByName(newMaterialNameTextField.getText()) != null) {
+                    newMaterialErrorLabel.setVisible(true);
+                } else {
+                    newMaterialErrorLabel.setVisible(false);
+                    Material m = new Material(newMaterialNameTextField.getText(), newMaterialDetailsTextField.getText());
+                    materialDao.create(m);
+                    newMaterialNameTextField.clear();
+                    newMaterialDetailsTextField.clear();
+                    refreshMaterialTableData();
+                }
             } catch (SQLException exception) {
             }
         });
@@ -219,8 +221,8 @@ public class WorklistUI extends Application {
         detailsColumn.setMinWidth(100);
 
         jobTableView.setItems(jobData);
-        jobTableView.getColumns().addAll(idColumn, createdColumn, creatorColumn, customerColumn, nameColumn, materialColumn,
-                quantityColumn, dueDateColumn, workLoadEstimateColumn, detailsColumn);
+        jobTableView.getColumns().addAll(idColumn, createdColumn, creatorColumn, customerColumn, nameColumn,
+                materialColumn, quantityColumn, dueDateColumn, workLoadEstimateColumn, detailsColumn);
 
         TableColumn workLoadActualColumn = new TableColumn(b.getString("actual_work_load"));
         workLoadActualColumn.setCellValueFactory(new PropertyValueFactory<Job, Double>("workloadActual"));
@@ -235,17 +237,18 @@ public class WorklistUI extends Application {
         Button addNewJobButton = new Button(b.getString("insert_new_job"));
 
         addNewJobButton.setOnAction((ActionEvent event) -> {
-            Stage s = new Stage();
-            CreateNewJobDialog createNewJobDialog = new CreateNewJobDialog(jobDao, materialDao, s, new GridPane(), b, loggedInEmployee);
+            Stage stage = new Stage();
+            CreateNewJobDialog createNewJobDialog = new CreateNewJobDialog(jobDao, materialDao, stage, new GridPane(),
+                    b, loggedInEmployee);
 
-            s.setOnHiding(ev -> {
+            stage.setOnHiding(ev -> {
                 try {
                     refreshJobTableData();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             });
-            createNewJobDialog.start(s);
+            createNewJobDialog.start(stage);
         });
         return addNewJobButton;
     }

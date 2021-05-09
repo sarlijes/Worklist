@@ -37,14 +37,17 @@ public class JobTest {
         sqlUtils.createTables(connection);
 
         PreparedStatement stmt = connection.prepareStatement("" +
-                "insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) values \n" +
-                "('Test data 1', '2021-02-23T00:00:00.0', '2021-04-04T00:00:00.0', 5.0, 'Test data material X', 4.0, 'details', 'Customer X');\n" +
+                "insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) " +
+                "values ('Test data 1', '2021-02-23T00:00:00.0', '2021-04-04T00:00:00.0', 5.0, 'Test data material X', " +
+                "4.0, 'details', 'Customer X');\n" +
                 "\n" +
-                "insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) values \n" +
-                "('Test data 2', now(), '2021-08-08T00:00:00.0', 45.0, 'AlNiCo', 2.0, 'Test data material Z', 'Customer Y');" +
+                "insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) " +
+                "values ('Test data 2', now(), '2021-08-08T00:00:00.0', 45.0, 'AlNiCo', 2.0, 'Test data material Z', " +
+                "'Customer Y');\n" +
                 "\n" +
-                "insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) values \n" +
-                "('Test data 2', now(), '2021-02-02T00:00:00.0', 2.0, 'CU-OF', 1.0, 'Test data material Y', 'internal');" +
+                "insert into job (name, created, duedate, quantity, material, workloadestimate, details, customer) " +
+                "values ('Test data 2', now(), '2021-02-02T00:00:00.0', 2.0, 'CU-OF', 1.0, 'Test data material Y', " +
+                "'internal');" +
 
                 "insert into material (name, details) values ('test material name 1', 'test material details');" +
                 "insert into material (name, details) values ('test material name 2', 'test material details');" +
@@ -249,10 +252,16 @@ public class JobTest {
         LocalDateTime dateTime1 = LocalDateTime.parse("2021-02-20T06:30:00");
         LocalDateTime dateTime2 = LocalDateTime.parse("2021-02-20T08:30:00");
 
-        // TODO extend tests to include corner cases
-
         assertTrue(isSameDay(dateTime1, dateTime2));
         assertFalse(isSameDay(dateTime1, dateTime1.minusDays(1)));
+
+        LocalDateTime earliest = LocalDateTime.parse("2021-02-20T00:00:01");
+        LocalDateTime latest = LocalDateTime.parse("2021-02-20T23:59:59");
+
+        assertTrue(isSameDay(earliest, latest));
+        LocalDateTime midnight = LocalDateTime.parse("2021-02-20T00:00:00");
+        assertTrue(isSameDay(earliest, midnight));
+
     }
 
     @AfterClass

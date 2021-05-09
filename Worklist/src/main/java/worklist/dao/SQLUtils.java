@@ -1,6 +1,6 @@
 /**
  * Utility class to provide useful methods to allow access to database. Used for both persistant H2 database and
- * the in-memomry database used in testing.
+ * the in-memory database used in testing.
  */
 
 package worklist.dao;
