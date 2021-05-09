@@ -31,6 +31,7 @@ import javafx.util.Callback;
 
 public class WorklistUI extends Application {
 
+
     Connection connection;
     private static JobDao jobDao;
     private static EmployeeDao employeeDao;
