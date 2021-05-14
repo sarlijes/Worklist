@@ -2,7 +2,7 @@
 
 1. Lataa tiedosto Worklist.jar [täältä](https://github.com/sarlijes/Worklist/releases/tag/final)
 2. Siirrä tiedosto sopivaan kansioon
-3. Avaa ohjelma ajamalla koemento:
+3. Avaa ohjelma ajamalla komentorivillä:
 
 ```$ java -jar Worklist.jar```
 

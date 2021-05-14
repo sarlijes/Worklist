@@ -17,7 +17,7 @@ The untested code includes methods that aren't implemented yet - for example edi
 
 ## System testing
 
-The app has been tested manually by downloading the jar file from the [Final](https://github.com/sarlijes/Worklist/releases/tag/final). The testing was done both with Windows 10 by running:
+The app has been tested manually by downloading the jar file from the [Final release](https://github.com/sarlijes/Worklist/releases/tag/final). The testing was done both with Windows 10 by running:
 
 ```$ java -jar Worklist.jar```
 

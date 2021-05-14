@@ -34,7 +34,7 @@ public class ViewFinishedJobDialog extends JobDialog {
     @Override
     public void start(Stage stage) {
 
-        stage.setTitle("View finished job " + job.getId() + " (" + job.getName() + ")");
+        stage.setTitle(b.getString("view_finished_job"));
 
         customerTextField.setText(job.getCustomer());
         customerTextField.setDisable(true);

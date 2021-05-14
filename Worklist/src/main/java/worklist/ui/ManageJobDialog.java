@@ -37,7 +37,7 @@ public class ManageJobDialog extends JobDialog {
     @Override
     public void start(Stage stage) {
 
-        stage.setTitle(b.getString("edit_job") + "(" + job.getId() + " ," + job.getName() + ")");
+        stage.setTitle(b.getString("edit_job") + " (" + job.getId() + " ," + job.getName() + ")");
 
         Text inputLabel = new Text(b.getString("edit_job"));
         inputLabel.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));

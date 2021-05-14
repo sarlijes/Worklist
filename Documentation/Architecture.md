@@ -1,30 +1,34 @@
-# Arkkitehtuurikuvaus
+# Architecture documentation
 
-## Toiminnallisuus
+## Functionality
 
-Toiminnallisuus on kuvattu [vaatimusmäärittelyssä](https://github.com/sarlijes/Worklist/blob/master/Documentation/requirement-analysis.md)
+The functionality of the app has is described in [requirement analysis](https://github.com/sarlijes/Worklist/blob/master/Documentation/requirement-analysis.md)
 
-## Rakenne
+## Package structure
 
-Ohjelman pakkausrakenne on seuraava:
+The package structure of the app is as follows:
 
-- pakkaus ```entity``` sisältää tietokantatauluja kuvaavat luokat
-- pakkaus ```dao``` sisältää tietokantayhteyksiin ja liittyvän logiikan ja apuluokat
-- pakkaus ```ui``` sisältää käyttöliittymätoiminnallisuudet
+- package ```entity``` contains the classes that represent database table entries
+- package ```dao``` contains the database logics and a utility class
+- package ```ui``` contains the user interface components and functionality
 
-## Tiedon pysyväistallennus
+## Database
 
-- tiedot tallennetaan H2-tietokantaan
-- yksikkötesteissä käytössä ajonaikainen "in-memory"-H2-tietokanta
+The app uses a H2 database, which is created locally on the user's computer when running the app for the first time. The unit tests use an "in-memory" version of the H2 database.
 
-## Alustava kuvaus sovelluslogiikasta
-
-Sovelluksen loogisen datamallin muodostavat luokat Job, Employee ja Material, jotka kuvaavat sovellukseen kirjattavia työtilauksia, sovelluksen käyttäjiä sekä työtilausten materiaaleja:
+The logical data model is constructed by three main classes: Job, Employee and Material, which model the jobs that are added to the work list, the users of the app and the different materials of the jobs:
 
 <img src="https://github.com/sarlijes/Worklist/blob/master/Documentation/pictures/class_diagram.PNG?raw=true">
-
-UI-luokat huolehtivat käyttöliittymäkomponenttien sijoittelusta ja logiikasta. Ne kutsuvat tarvittaessa DAO (suunnittelumalli [Data Access Object](https://en.wikipedia.org/wiki/Data_access_object))-luokkia, jotka huolehtivat tietojen pysyväistallennuksesta, tietokannasta lukemisesta ja muista tietokantaoperaatioista. DAO-luokat saavat tietokantayhteyden ```Connection```-olion parametrinään, joten samoja DAO-luokkia hyödynnetään myös automaattisissa yksikkötesteissä.
-
-Esimerkki käyttäjän kirjautumisesta sekvenssikaaviona:
-
+\s\s
+UI (user interface)-classes handle the the positioning and the logics of the UI components. They make requests to DAO ([Data Access Object](https://en.wikipedia.org/wiki/Data_access_object))-classes, which are in charge of the CRUD (create, read, update, delete) operations. The DAO-classes are given the ```Connection``` object as a parameter, which allows thorough unit testing using an in-memory database.
+\s\s
+## Example: user login:
+\s\s
 <img src="https://github.com/sarlijes/Worklist/blob/master/Documentation/pictures/employee_login_sequence.PNG?raw=true">
+
+1. User has ran the app and written their username and password on the form on ```LoginDialog```
+2. User clicks ```loginButton```
+3. ```loginButton```'s actionlistener makes a request to ```EmployeeDao``` to authenticate the employee
+4. If authentication is successful (an user was found with the username and password), employeeDao returns an ```Employee``` object
+5. The ```LoginDialog``` is closed and the main view is shown to the user
+6. The ```Employee``` object is kept in the ```loggedInEmployee``` variable for future reference
