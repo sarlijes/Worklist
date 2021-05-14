@@ -36,7 +36,8 @@
 |28.4.2021   | 3  | Move materials to database and save material id on Job. Implement MaterialDao. Refactor UI to shorted methods. Extend UI to contain materials and a form to add more materials. Refactor relevant tests.|
 |3.5.2021   | 3  | Refactor package structure to meet requirements. Implement first test to Materials. Write JavaDoc for 5 classes. Extend architecture documentation and user guide. |
 |8.5.2021   | 1  | Extend tests for Material |
-|18.5.2021   | 6  | Added logic to avoid duplicate material names. Refectored code: removed commented code, made lines match the 120 char limit, fixed some typos. Removed duplicate files. Extend documentation. Bug fixes. |
-|14.5.2021   | 1  | Extend documentation |
+|9.5.2021   | 6  | Added logic to avoid duplicate material names. Refectored code: removed commented code, made lines match the 120 char limit, fixed some typos. Removed duplicate files. Extend documentation. Bug fixes. |
+|14.5.2021   | 2  | Extend documentation |
+|14.5.2021   | 1  | Testing |
 |   |   |   |
-|total   | 72   |   |
+|total   | 75   |   |

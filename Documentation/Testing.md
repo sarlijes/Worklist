@@ -9,11 +9,11 @@ The UI classes are excluded from automatic testing as testing those is not in th
 
 ## Test coverage
 
-The line coverate of the automatic tests is 92% and the branch coverage 88%:
+The line coverate of the automatic tests is 92% and the branch coverage 90%:
 
 <img src="https://github.com/sarlijes/Worklist/blob/master/Documentation/pictures/test_coverage.PNG?raw=true" style="margin-top: 20px; margin-bottom: 20px;">
 
-The untested code includes methods that aren't implemented yet - for example editing and deleting employees.
+The untested code includes mostly methods that aren't implemented yet - for example editing and deleting employees.
 
 ## System testing
 
