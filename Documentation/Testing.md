@@ -9,9 +9,9 @@ The UI classes are excluded from automatic testing as testing those is not in th
 
 ## Test coverage
 
-The line coverate of the automatic tests is 98% and the branch coverage 97%:
+The line coverate of the automatic tests is 92% and the branch coverage 88%:
 
-<img src="https://github.com/sarlijes/Worklist/blob/master/Documentation/pictures/test_coverage.PNG?raw=true">
+<img src="https://github.com/sarlijes/Worklist/blob/master/Documentation/pictures/test_coverage.PNG?raw=true" style="margin-top: 20px; margin-bottom: 20px;">
 
 The untested code includes methods that aren't implemented yet - for example editing and deleting employees.
 
@@ -22,3 +22,7 @@ The app has been tested manually by downloading the jar file from the [Final rel
 ```$ java -jar Worklist.jar```
 
 The features of the [Requirement Analysis](https://github.com/sarlijes/Worklist/blob/master/Documentation/requirement-analysis.md) have been tested manually, also with invalid input such as empty values.
+
+## Unit test diagram
+
+<img src="https://github.com/sarlijes/Worklist/blob/master/Documentation/pictures/unit_tests_diagram.PNG?raw=true" style="margin-top: 20px; margin-bottom: 20px;">

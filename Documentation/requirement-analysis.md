@@ -30,6 +30,8 @@ As a user...
 ## Further development ideas
 
 - [ ] Language selection
+- [ ] Save passwords encrypted
+- [ ] Implement complexity requirements for passwords
 - [ ] Mark jobs as deleted instead of deleting them
 - [ ] Save user as "deleted by" on a job
 - [ ] Save user as "marked as finished by" on a job

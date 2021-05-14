@@ -1,8 +1,6 @@
 # Worklist
 
-This project is a JavaFX app, which allows a user to keep track of and manage their work list. The app has been developed for a machinery shop called [Monikoneistus](https://www.monikoneistus.fi/)
-
-It is a course project for the [Software Engineering](https://ohjelmistotekniikka-hy.github.io/) course at University or Helsinki. 
+This project is a JavaFX desktop app, which allows a user to keep track of and manage their work list. The app has been developed for a machinery shop called [Monikoneistus](https://www.monikoneistus.fi/). It is a course project for the [Software Engineering](https://ohjelmistotekniikka-hy.github.io/) course at University or Helsinki. 
 
 ## Documentation
 
@@ -12,9 +10,11 @@ It is a course project for the [Software Engineering](https://ohjelmistotekniikk
 
 [Architecture](https://github.com/sarlijes/Worklist/blob/master/Documentation/Architecture.md)
 
-[User guide](https://github.com/sarlijes/Worklist/blob/master/Documentation/Userguide.md)
+[User guide in Finnish](https://github.com/sarlijes/Worklist/blob/master/Documentation/Userguide-FI.md)
 
-## Commands:
+[Testing documentation](https://github.com/sarlijes/Worklist/blob/master/Documentation/Testing.md)
+
+## Commands
 
 Navigate to project folder:
 ```

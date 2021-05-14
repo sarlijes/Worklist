@@ -1,3 +1,7 @@
+/**
+ * Handles the DB functionality of <code>Job</code> class
+ */
+
 package worklist.dao;
 
 import worklist.entity.Job;

@@ -1,3 +1,7 @@
+/**
+ * Handles the DB functionality of <code>Material</code> class
+ */
+
 package worklist.dao;
 
 import worklist.entity.Material;
